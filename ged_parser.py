@@ -311,6 +311,10 @@ class Builder:
         elif True in (self._creating_birth, self._creating_death, self._creating_marr, self._creating_div) and (tag != 'DATE' or not valid):
             self._creating_birth, self._creating_death, self._creating_marr, self._creating_div = False, False, False, False
 
+        # Nothing being created
+        if not valid:
+            return
+
         # Basic cases for each tag
         if tag == 'INDI':
             self._creating_indi = True
@@ -370,6 +374,7 @@ def main(args):
             level, tag, args, valid = parse(line)
             builder.evaluate(tree, level, tag, args, valid)
         
+    print('Individuals')
     print(tree.create_indi_table())
     pass
 
