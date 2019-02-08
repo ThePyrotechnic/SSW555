@@ -230,6 +230,9 @@ def parse(line: str) -> Tuple[int, str, str, bool]:
 
 def main(args):
     filename = args.file
+    # Define flags
+    indi_creation, fam_creation = False, False
+    
     with open(filename) as gedcom_file:
         for n, line in enumerate(gedcom_file):
             line = line.strip('\n')
@@ -239,7 +242,66 @@ def main(args):
             level, tag, args, valid = parse(line)
             print(f'<-- {level}|{tag}|{"Y" if valid else "N"}|{args if args else ""}')
 
-
+            if tag == 'INDI' and not indi_creation:
+                # This is the normal case, but how do we handle case of trying to create an indi while we are already in the process of making one???
+                indi_creation = True
+                current_indi = Individual()
+                # Not sure if this is what we're looking to do
+                # Or should I be leveraging the attr module?
+                current_indi.id = args
+            # Already checked line validity. Now should just 
+            elif tag == 'NAME' and indi_creation:
+                current_indi.name = args
+            elif tag == 'SEX' and indi_creation:
+                current_indi.gender = args
+            elif (tag == 'BIRT' or tag == 'DEAT') and indi_creation:
+                # Maybe we should store a this as a "prev_tag" to check when we're looking at the DATE tag
+                prev_tag = tag
+                continue
+            elif tag == 'DATE' and indi_creation:
+                if prev_tag == 'BIRT':
+                    current_indi.birthday = args
+                else:
+                    # Entering else means prev_tag was 'DEAT'
+                    current_indi.death = args
+                    # Should set alive to True by default and then handle death here
+                    current_indi.alive = False
+                # Need to handle age somewhere, but not sure how we're using the age property without finishing instantiation
+            elif tag == 'FAMC' and indi_creation:
+                current_indi.child = args
+            elif tag == 'FAMS' and indi_creation:
+                current_indi.spouse = args
+            elif tag == 'FAM' and not fam_creation:
+                # This is the normal case, but how do we handle case of trying to create a fam while we are already in the process of making one???
+                fam_creation = True
+                curr_fam = Family()
+                curr_fam.id = args
+            elif (tag == 'MARR' or tag == 'DIV') and fam_creation:
+                prev_tag = tag
+                continue
+            elif tag == 'DATE' and fam_creation:
+                if prev_tag == 'MARR':
+                    curr_fam.married = args
+                else:
+                    # Entering else means prev_tag was 'DIV'
+                    curr_fam.divorced = args
+            elif tag == 'HUSB' and fam_creation:
+                curr_fam.husband_id = args
+            elif tag == 'WIFE' and fam_creation:
+                curr_fam.wife_id = args
+            elif tag == 'CHIL' and fam_creation:
+                # add the string representing a single child to the children list
+                curr_fam.children.append(args)
+            elif tag == 'HEAD':
+                continue
+            elif tag == 'TRLR':
+                continue
+            elif tag == 'NOTE':
+                continue
+            
+            # NEED TO FIGURE OUT WHERE TO RESET indi_creation and fam_creation TAGS!
+                     
+            
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('file', help='The GEDCOM file to parse')
