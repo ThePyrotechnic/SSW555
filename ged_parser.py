@@ -3,11 +3,126 @@ Michael Manis
 I pledge my honor that I have abided by the Stevens Honor system
 """
 import argparse
-from typing import Tuple
+from datetime import datetime, timedelta
+from typing import Tuple, List
+
+import attr
 
 
 class InvalidLineException(Exception):
+    """A line in the GEDCOM file is invalid"""
     pass
+
+
+class InvalidEntryException(Exception):
+    """A Family or Individual record in the GEDCOM file is incomplete"""
+    pass
+
+
+class DuplicateIndividualException(Exception):
+    """A Tree already contains an Individual with the ID of the Individual being added"""
+    pass
+
+
+class DuplicateFamilyException(Exception):
+    """A Tree already contains an Family with the ID of the Family being added"""
+    pass
+
+
+class ChildException(Exception):
+    """There was an error adding a child to a Tree"""
+    pass
+
+
+class SpouseException(Exception):
+    """There was an error adding a spouse to a Tree"""
+    pass
+
+
+@attr.s
+class Individual:
+    """
+    :param id: The individual's ID
+    :param name: The individual's name
+    :param gender: The individual's gender
+    :param birthday: The individual's birthday
+    :param death: Optional; the individual's date of death
+    :param child: Optional; the family ID that this individual is a child of
+    :param spouse: Optional; the family ID that this individual is a spouse of
+    """
+    id: str = attr.ib()
+    name: str = attr.ib()
+    gender: str = attr.ib()
+    birthday: datetime = attr.ib()
+
+    death: datetime = attr.ib(default=None)
+    child: str = attr.ib(default=None)
+    spouse: str = attr.ib(default=None)
+
+    @property
+    def alive(self) -> bool:
+        return False if self.death else True
+
+    @property
+    def age(self) -> timedelta:
+        if self.alive:
+            return datetime.now() - self.birthday
+        else:
+            return self.death - self.birthday
+
+
+@attr.s
+class Family:
+    """
+    :param id: The ID of this family
+    :param married: The date that this family was married
+    :param husband_id: The ID of the husband of this family
+    :param wife_id: The ID of the wife of this family
+    :param children: A list of IDs of children in this family
+    :param divorced: Optional; the date that the parents of this family divorced
+    """
+    id: str = attr.ib()
+    married: datetime = attr.ib()
+    husband_id: str = attr.ib()
+    wife_id: str = attr.ib()
+    children: List[str] = attr.ib
+    divorced: datetime = attr.ib(default=None)
+
+
+@attr.s
+class Tree:
+    _families = attr.ib(init=False, default=dict)
+    _individuals = attr.ib(init=False, default=dict)
+
+    def add_individual(self, individual: Individual):
+        """Add an individual to the current tree"""
+        if self._individuals[individual.id]:
+            raise DuplicateIndividualException(f'Individual ID{individual.id} already exists')
+        self._families[individual.id] = individual
+
+    def add_family(self, family: Family):
+        """Add a family to the current tree"""
+        if self._families[family.id]:
+            raise DuplicateFamilyException(f'Family ID{family.id} already exists')
+
+    def valid_tree(self) -> bool:
+        """Check that all Family object properties line up with all Individual object properties"""
+        # TODO
+        # Must check that the spouse and child records for each individual line up with all family records
+        raise NotImplemented
+
+    def __str__(self):
+        """Print individuals and families in a nice table"""
+        # TODO
+        raise NotImplemented
+
+    def _individuals_str(self) -> List[str]:
+        """Return a list of all individuals in string form"""
+        return [i.__str__() for i in self._individuals]
+
+    def _families_str(self) -> List[str]:
+        """Return a list of all families in string form"""
+        return [f.__str__() for f in self._families]
 
 
 def parse(line: str) -> Tuple[int, str, str, bool]:
@@ -119,6 +234,7 @@ def main(args):
         for n, line in enumerate(gedcom_file):
             line = line.strip('\n')
 
+            # TODO replace printing with logic for building an Individual or Family
             print(f'--> {line}')
             level, tag, args, valid = parse(line)
             print(f'<-- {level}|{tag}|{"Y" if valid else "N"}|{args if args else ""}')
