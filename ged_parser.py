@@ -5,7 +5,7 @@ I pledge my honor that I have abided by the Stevens Honor system
 import argparse
 from datetime import datetime, timedelta
 from typing import Tuple, List
-
+from prettytable import PrettyTable
 import attr
 
 
@@ -72,9 +72,15 @@ class Individual:
         or their death date and birth date if they are dead
         """
         if self.alive:
-            return datetime.now() - self.birthday
+            return int((datetime.now() - self.birthday).days / 365.25)
         else:
-            return self.death - self.birthday
+            return int((self.death - self.birthday).days / 365.25)
+        
+    def indi_to_list(self) -> list:
+        indi_attributes = [self.id, self.name, self.sex, self.birthday.strftime('%d-%b-%Y'), self.age,
+                           self.alive, self.death.strftime('%d-%b-%Y') if self.death else 'NA', self.child or 'NA', self.spouse or 'NA']
+        return indi_attributes
+        
 
 
 # noinspection PyUnresolvedReferences
@@ -123,14 +129,29 @@ class Tree:
         """Print individuals and families in a nice table"""
         # TODO
         raise NotImplemented
-
-    def _individuals_str(self) -> List[str]:
-        """Return a list of all individuals in string form"""
-        return [i.__str__() for i in self._individuals]
-
-    def _families_str(self) -> List[str]:
-        """Return a list of all families in string form"""
-        return [f.__str__() for f in self._families]
+    
+    def create_indi_table(self):
+#         print("Begin Table Creation")
+        indi_table = PrettyTable()
+#         print("Table Object Created")
+        indi_table.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age',
+                                  'Alive', 'Death', 'Child', 'Spouse']
+        
+        for indi_id in self._individuals:
+#             print("Adding an Individual")
+            indi_table.add_row(self._individuals[indi_id].indi_to_list())
+#             print("Individual Added")
+        
+        indi_table.sortby = 'ID'
+        return indi_table
+        
+#     def _individuals_str(self) -> List[str]:
+#         """Return a list of all individuals in string form"""
+#         return [i.__str__() for i in self._individuals]
+# 
+#     def _families_str(self) -> List[str]:
+#         """Return a list of all families in string form"""
+#         return [f.__str__() for f in self._families]
 
 
 def parse(line: str) -> Tuple[int, str, str, bool]:
@@ -275,7 +296,7 @@ class Builder:
 
             self._current_indi_data = {}
 
-        # If we are creating a family and the next tag is invalid for an individual
+        # If we are creating a family and the next tag is invalid for an family
         elif self._creating_fam and (tag in Builder.INDIVIDUAL_TAGS or tag in Builder.TOP_LEVEL_TAGS or not valid):
             self._creating_fam = False
             # Try to add the family
@@ -348,6 +369,8 @@ def main(args):
 
             level, tag, args, valid = parse(line)
             builder.evaluate(tree, level, tag, args, valid)
+        
+    print(tree.create_indi_table())
     pass
 
 
