@@ -313,18 +313,17 @@ class Builder:
         self._current_indi_data: dict = {}
         self._current_fam_data = {'children': []}
 
-    def evaluate(self, tree: Tree, level: int, tag: str, args: str, valid: bool):
+    def evaluate(self, tree: Tree, level: int, tag: str, args: str):
         """
-        Evaluate a line and add information to the tree if necessary
+        Evaluate a valid line and add information to the tree if necessary
         :param tree: The Tree currently being built
         :param level: (unused) The level of the line to evaluate
         :param tag: The tag of the line to evaluate
         :param args: The args of the line to evaluate
-        :param valid: Whether the line to evaluate is valid or not
         :return: None
         """
         # If we are creating an individual and the next tag is invalid for an individual
-        if self._creating_indi and (tag in Builder.FAMILY_TAGS or tag in Builder.TOP_LEVEL_TAGS or not valid):
+        if self._creating_indi and (tag in Builder.FAMILY_TAGS or tag in Builder.TOP_LEVEL_TAGS):
             self._creating_indi = False
             # Try to add the individual
             try:
@@ -334,8 +333,8 @@ class Builder:
 
             self._current_indi_data = {}
 
-        # If we are creating a family and the next tag is invalid for an family
-        elif self._creating_fam and (tag in Builder.INDIVIDUAL_TAGS or tag in Builder.TOP_LEVEL_TAGS or not valid):
+        # If we are creating a family and the next tag is invalid for a family
+        elif self._creating_fam and (tag in Builder.INDIVIDUAL_TAGS or tag in Builder.TOP_LEVEL_TAGS):
             self._creating_fam = False
             # Try to add the family
             try:
@@ -346,12 +345,8 @@ class Builder:
             self._current_fam_data = {'children': []}
 
         # If we are creating some kind of date and the next tag is not 'DATE' or is invalid
-        elif True in (self._creating_birth, self._creating_death, self._creating_marr, self._creating_div) and (tag != 'DATE' or not valid):
+        elif True in (self._creating_birth, self._creating_death, self._creating_marr, self._creating_div) and (tag != 'DATE'):
             self._creating_birth, self._creating_death, self._creating_marr, self._creating_div = False, False, False, False
-
-        # Nothing being created
-        if not valid:
-            return
 
         # Basic cases for each tag
         if tag == 'INDI':
@@ -360,17 +355,17 @@ class Builder:
         elif tag == 'FAM':
             self._creating_fam = True
             self._current_fam_data['id'] = args
-        elif tag == 'NAME':
+        elif tag == 'NAME' and self._creating_indi:
             self._current_indi_data['name'] = args
-        elif tag == 'SEX':
+        elif tag == 'SEX' and self._creating_indi:
             self._current_indi_data['sex'] = args
-        elif tag == 'BIRT':
+        elif tag == 'BIRT' and self._creating_indi:
             self._creating_birth = True
-        elif tag == 'DEAT':
+        elif tag == 'DEAT' and self._creating_indi:
             self._creating_death = True
-        elif tag == 'MARR':
+        elif tag == 'MARR' and self._creating_fam:
             self._creating_marr = True
-        elif tag == 'DIV':
+        elif tag == 'DIV' and self._creating_fam:
             self._creating_div = True
         elif tag == 'DATE':
             timestamp = datetime.strptime(args, '%d %b %Y')
@@ -382,15 +377,15 @@ class Builder:
                 self._current_fam_data['married'] = timestamp
             elif self._creating_div:
                 self._current_fam_data['divorced'] = timestamp
-        elif tag == 'FAMC':
+        elif tag == 'FAMC' and self._creating_indi:
             self._current_indi_data['child'] = args
-        elif tag == 'FAMS':
+        elif tag == 'FAMS' and self._creating_indi:
             self._current_indi_data['spouse'] = args
-        elif tag == 'HUSB':
+        elif tag == 'HUSB' and self._creating_fam:
             self._current_fam_data['husband_id'] = args
-        elif tag == 'WIFE':
+        elif tag == 'WIFE' and self._creating_fam:
             self._current_fam_data['wife_id'] = args
-        elif tag == 'CHIL':
+        elif tag == 'CHIL' and self._creating_fam:
             self._current_fam_data['children'].append(args)
         elif tag == 'HEAD':
             pass
@@ -414,7 +409,8 @@ def main(args):
             line = line.strip('\n')
 
             level, tag, args, valid = parse(line)
-            builder.evaluate(tree, level, tag, args, valid)
+            if valid:
+                builder.evaluate(tree, level, tag, args, valid)
 
     print('Individuals')
     print(tree.create_indi_table())
