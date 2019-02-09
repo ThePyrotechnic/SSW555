@@ -77,8 +77,8 @@ class Individual:
             return int((self.death - self.birthday).days / 365.25)
         
     def indi_to_list(self) -> list:
-        indi_attributes = [self.id, self.name, self.sex, self.birthday.strftime('%d-%b-%Y'), self.age,
-                           self.alive, self.death.strftime('%d-%b-%Y') if self.death else 'NA', self.child or 'NA', self.spouse or 'NA']
+        indi_attributes = [self.id, self.name, self.sex, self.birthday.strftime("%Y-%m-%d"), self.age,
+                           self.alive, self.death.strftime("%Y-%m-%d") if self.death else 'NA', self.child or 'NA', self.spouse or 'NA']
         return indi_attributes
         
 
@@ -368,7 +368,7 @@ def main(args):
     tree = Tree()
     builder = Builder()
     with open(filename) as gedcom_file:
-        for n, line in enumerate(gedcom_file):
+        for _, line in enumerate(gedcom_file):
             line = line.strip('\n')
 
             level, tag, args, valid = parse(line)
