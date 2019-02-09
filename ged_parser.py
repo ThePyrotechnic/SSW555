@@ -100,6 +100,10 @@ class Family:
     children: List[str] = attr.ib()
     married: datetime = attr.ib(default=None)
     divorced: datetime = attr.ib(default=None)
+    
+    def fam_to_list(self, tree) -> list:
+        familyList = [self.id, self.married.strftime('%d-%m-%Y') if self.married else 'NA', self.divorced.strftime('%d-%m-%Y') if self.divorced else 'NA', self.husband_id, tree.get_indi(self.husband_id).name, self.wife_id, tree.get_indi(self.husband_id).name , self.children]
+        return familyList
 
 
 @attr.s
@@ -144,6 +148,20 @@ class Tree:
         
         indi_table.sortby = 'ID'
         return indi_table
+    
+    def get_indi(self, id:str) -> Individual:
+        return self._individuals[id]
+    
+    def create_family_table(self):
+        """make a table for families"""
+        fam_table = PrettyTable()
+        fam_table.field_names = ["ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"]
+        
+        for fam_id in self._families:
+            fam_table.add_row(self._families[fam_id].fam_to_list(self))
+            
+        fam_table.sortby = 'ID'
+        return fam_table
         
 #     def _individuals_str(self) -> List[str]:
 #         """Return a list of all individuals in string form"""
@@ -376,6 +394,9 @@ def main(args):
         
     print('Individuals')
     print(tree.create_indi_table())
+    print()
+    print('Families')
+    print(tree.create_family_table())
     pass
 
 
