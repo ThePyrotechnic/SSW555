@@ -410,7 +410,7 @@ def main(args):
 
             level, tag, args, valid = parse(line)
             if valid:
-                builder.evaluate(tree, level, tag, args, valid)
+                builder.evaluate(tree, level, tag, args)
 
     print('Individuals')
     print(tree.create_indi_table())
