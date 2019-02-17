@@ -1,6 +1,6 @@
 import datetime
 
-from lib.GedObjects import Individual, Family, Tree
+from GedcomParser.SSW555.lib.GedObjects import Individual, Family, Tree
 
 _individuals = [
     Individual(id='@I1@', name='Kristen /Tan/', sex='F', birthday=datetime.datetime(1998, 9, 29, 0, 0), death=None, child='@F1@', spouse=None),

@@ -146,6 +146,32 @@ class Tree:
 
         siblings.sort(key=lambda s: s.age)
         return [s.indi_to_list() for s in siblings]
+    
+    # US16
+    def male_last_names(self) -> bool:
+        """Check that all males in the same family have the same last name."""
+        bool_results = []
+        for family in self._families.values:
+            husb_last_name = self.get_indi(family.husband_id)
+            for indi_id in self._individuals:  # Iterate over the keys of the dict of individuals
+                if self.get_indi(indi_id).sex in ["M", "m"] and self.get_indi(indi_id).child == family.id:
+                    first, last = self.get_indi(indi_id).name.split()
+                    if (last != husb_last_name):
+                        print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
+                        bool_results + False
+        return False in bool_results
+    
+    #US21
+    def correct_gender_for_role(self) -> bool:
+        bool_result = True
+        for family in self._families.values():
+            if self.get_indi(family.husband_id).sex not in ["M", "m"]:
+                #print(f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
+                bool_result = False
+            if self.get_indi(family.wife_id).sex not in ["F", "f"]:
+                #print(f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
+                bool_result = False
+        return bool_result
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""

@@ -8,8 +8,8 @@ from typing import List
 
 from prettytable import PrettyTable
 
-from lib.GedBuilder import Builder, parse
-from lib.GedObjects import Tree
+from GedcomParser.SSW555.lib.GedBuilder import Builder, parse # Delete GedcomParser.SSW555. before "lib"
+from GedcomParser.SSW555.lib.GedObjects import Tree # Delete GedcomParser.SSW555. before "lib"
 
 
 def create_prettytable(l: List, field_names: List[str]):

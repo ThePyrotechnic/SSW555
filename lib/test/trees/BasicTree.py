@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from lib.GedObjects import Individual, Family, Tree
+from GedcomParser.SSW555.lib.GedObjects import Individual, Family, Tree
 
 _individuals = [
     Individual('1', name='Michael /Manis/', sex='M', birthday=datetime(day=23, month=3, year=1998)),
