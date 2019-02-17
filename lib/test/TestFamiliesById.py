@@ -1,0 +1,24 @@
+import unittest
+
+from lib.test.trees.KristenTree import kristen_tree
+from lib.test.trees.BasicTree import basic_tree
+
+
+def _generic_test(tree):
+    """
+    Family information must conform to a predefined order
+    Refer to Family.fam_to_list for the order
+    """
+    families_by_id = tree.individuals()
+    prev_family = families_by_id[0]
+    for family in families_by_id[1:]:
+        assert family[0] >= prev_family[0]
+        prev_family = family
+
+
+class TestFamiliesById(unittest.TestCase):
+    def test_basic_tree(self):
+        _generic_test(basic_tree)
+
+    def test_kristen_tree(self):
+        _generic_test(kristen_tree)
