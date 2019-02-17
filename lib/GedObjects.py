@@ -136,6 +136,17 @@ class Tree:
         except KeyError:
             raise IndividualNotFoundException
 
+    def siblings_by_age(self) -> List:
+        siblings = []
+        for family in self._families.values():
+            for id in family.children:
+                cur_individual = self.get_indi(id)
+                if cur_individual.birthday is not None and cur_individual.alive:
+                    siblings.append(cur_individual)
+
+        siblings.sort(key=lambda s: s.age)
+        return [s.indi_to_list() for s in siblings]
+
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
