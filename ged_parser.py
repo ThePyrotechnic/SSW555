@@ -4,9 +4,20 @@ I pledge my honor that I have abided by the Stevens Honor system
 """
 import argparse
 import logging
+from typing import List
+
+from prettytable import PrettyTable
 
 from lib.GedBuilder import Builder, parse
 from lib.GedObjects import Tree
+
+
+def create_prettytable(l: List, field_names: List[str]):
+    table = PrettyTable()
+    table.field_names = field_names
+    for row in l:
+        table.add_row(row)
+    return table
 
 
 def main(args):
@@ -26,11 +37,21 @@ def main(args):
             if valid:
                 builder.evaluate(tree, level, tag, args)
 
+    indi_table = create_prettytable(
+        tree.individuals(),
+        field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
+    )
+
+    fam_table = create_prettytable(
+        tree.families(),
+        ["ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"]
+    )
+
     print('Individuals')
-    print(tree.create_indi_table())
+    print(indi_table)
     print()
     print('Families')
-    print(tree.create_family_table())
+    print(fam_table)
 
 
 if __name__ == '__main__':
