@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List, Dict
 
 import attr
-from prettytable import PrettyTable
 
 
 class DuplicateIndividualException(Exception):
@@ -137,25 +136,12 @@ class Tree:
         except KeyError:
             raise IndividualNotFoundException
 
-    def create_indi_table(self) -> PrettyTable:
-        """Create a PrettyTable of all of the current Individuals, sorted by ID"""
-        indi_table = PrettyTable()
-        indi_table.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age',
-                                  'Alive', 'Death', 'Child', 'Spouse']
+    def individuals(self) -> List:
+        """Return a list of all of current Individuals in list form, sorted by ID"""
+        individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
+        return [i.indi_to_list() for i in individuals_by_id]
 
-        for indi_id in self._individuals:
-            indi_table.add_row(self._individuals[indi_id].indi_to_list())
-
-        indi_table.sortby = 'ID'
-        return indi_table
-
-    def create_family_table(self) -> PrettyTable:
-        """Create a PrettyTable of all of the current Families, sorted by ID"""
-        fam_table = PrettyTable()
-        fam_table.field_names = ["ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"]
-
-        for fam_id in self._families:
-            fam_table.add_row(self._families[fam_id].fam_to_list(self))
-
-        fam_table.sortby = 'ID'
-        return fam_table
+    def families(self) -> List:
+        """Return a list of all current Families in list form, sorted by ID"""
+        families_by_id = sorted([f for f in self._families.values()], key=lambda f: f.id)
+        return [f.fam_to_list(self) for f in families_by_id]
