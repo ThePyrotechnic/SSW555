@@ -147,6 +147,26 @@ class Tree:
         siblings.sort(key=lambda s: s.age)
         return [s.indi_to_list() for s in siblings]
 
+    # US 1     
+    def dates_check(self) -> bool:
+        """Check that all dates occur before the current day"""
+        bool_result = True
+        current_date = datetime.now()
+        for family in self._families.values():
+            for date in family.married or family.divorced:
+                if date > current_date:
+                    bool_result = False
+        
+        for individ in self._individuals.values():
+            # for date in individ.birthday or individ.death:
+            if individ.birthday > current_date:
+                bool_result = False
+            if individ.death == None:
+                bool_result = True
+            elif individ.death > current_date:
+                bool_result = False        
+        return bool_result
+        
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
