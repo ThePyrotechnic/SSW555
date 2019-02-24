@@ -1,10 +1,10 @@
 import unittest
 
-from lib.test.trees.US16AllSameNames import all_same_names
-from lib.test.trees.US16FatherDiff import father_diff
-from lib.test.trees.US16SonDiff import son_diff
-from lib.test.trees.US16ThreeSonsOneDiff import three_sons_one_diff
-from lib.test.trees.US16TwoAbbFams import two_fams_abb
+from lib.test.old_trees.US16AllSameNames import all_same_names
+from lib.test.old_trees.US16FatherDiff import father_diff
+from lib.test.old_trees.US16SonDiff import son_diff
+from lib.test.old_trees.US16ThreeSonsOneDiff import three_sons_one_diff
+from lib.test.old_trees.US16TwoAbbFams import two_fams_abb
 
 class TestSameMaleLastNames(unittest.TestCase):
 

@@ -1,11 +1,11 @@
 import unittest
 
-from GedcomParser.SSW555.lib.GedObjects import Tree
-from GedcomParser.SSW555.lib.test.trees.AngelicaTree import correct_dates
-from GedcomParser.SSW555.lib.test.trees.AngelicaTree import correct_inds
-from GedcomParser.SSW555.lib.test.trees.AngelicaTree import correct_fams
-from GedcomParser.SSW555.lib.test.trees.AngelicaTree import incorrect_fam
-from GedcomParser.SSW555.lib.test.trees.AngelicaTree import correct_incorrect
+from lib.GedObjects import Tree
+from lib.test.old_trees.AngelicaTree import correct_dates
+from lib.test.old_trees.AngelicaTree import correct_inds
+from lib.test.old_trees.AngelicaTree import correct_fams
+from lib.test.old_trees.AngelicaTree import incorrect_fam
+from lib.test.old_trees.AngelicaTree import correct_incorrect
 
 class TestDatesBeforeCurrent(unittest.TestCase):
     def test_correct_dates(self):

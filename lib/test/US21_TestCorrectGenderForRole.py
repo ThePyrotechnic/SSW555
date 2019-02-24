@@ -1,10 +1,10 @@
 import unittest
 
-from lib.test.trees.US21AllCorrectGender import all_correct_gender
-from lib.test.trees.US21HusbandIncorrect import husband_incorrect
-from lib.test.trees.US21WifeIncorrect import wife_incorrect
-from lib.test.trees.US21HusbAndWifeIncorrect import husb_and_wife_incorrect
-from lib.test.trees.US21TwoHusbAndWifeIncorrect import two_husb_and_wife_incorrect
+from lib.test.old_trees.US21AllCorrectGender import all_correct_gender
+from lib.test.old_trees.US21HusbandIncorrect import husband_incorrect
+from lib.test.old_trees.US21WifeIncorrect import wife_incorrect
+from lib.test.old_trees.US21HusbAndWifeIncorrect import husb_and_wife_incorrect
+from lib.test.old_trees.US21TwoHusbAndWifeIncorrect import two_husb_and_wife_incorrect
 
 
 class TestCorrectGenderForRole(unittest.TestCase):

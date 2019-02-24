@@ -1,9 +1,9 @@
 import unittest
 from datetime import datetime
 
-from GedcomParser.SSW555.lib.GedObjects import Tree
-from GedcomParser.SSW555.lib.GedObjects import Family
-from GedcomParser.SSW555.lib.GedObjects import Individual
+from lib.GedObjects import Tree
+from lib.GedObjects import Family
+from lib.GedObjects import Individual
 
 # from lib.test.trees.US1AllCorrect import correct_dates
 # from lib.test.trees.US1IndAllCorrect import correct_inds
