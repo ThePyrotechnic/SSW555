@@ -146,6 +146,20 @@ class Tree:
 
         siblings.sort(key=lambda s: s.age)
         return [s.indi_to_list() for s in siblings]
+
+    def unique_name_and_birth(self) -> bool:
+        success = True
+        for family in self._families.values():
+            name_and_births = set()
+            for child_id in family.children:
+                child = self.get_indi(child_id)
+                birthday_string = child.birthday.strftime('%Y-%m-%d')
+                if (child.name, birthday_string) in name_and_births:
+                    success = False
+                    print(f'WARNING: FAMILY: {family.id}: Children ')
+                else:
+                    name_and_births.add((child.name, birthday_string))
+        return success
     
     # US16
     def male_last_names(self) -> bool:
