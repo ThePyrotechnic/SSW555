@@ -1,7 +1,7 @@
 import unittest
 
-from lib.test.trees.KristenTree import kristen_tree
-from lib.test.trees.BasicTree import basic_tree
+from lib.test.trees import kristen_tree
+from lib.test.trees import michael_tree
 
 
 def _generic_test(tree):
@@ -17,8 +17,8 @@ def _generic_test(tree):
 
 
 class TestIndividualsById(unittest.TestCase):
-    def test_basic_tree(self):
-        _generic_test(basic_tree)
+    def test_michael_tree(self):
+        _generic_test(michael_tree)
 
     def test_kristen_tree(self):
         _generic_test(kristen_tree)

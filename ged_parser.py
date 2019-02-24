@@ -8,8 +8,7 @@ from typing import List
 
 from prettytable import PrettyTable
 
-from lib.GedBuilder import Builder, parse
-from lib.GedObjects import Tree
+from lib.GedBuilder import Builder
 
 
 def create_prettytable(l: List, field_names: List[str]):
@@ -27,15 +26,7 @@ def main(args):
 
     filename = args.file
 
-    tree = Tree()
-    builder = Builder()
-    with open(filename) as gedcom_file:
-        for _, line in enumerate(gedcom_file):
-            line = line.strip('\n')
-
-            level, tag, args, valid = parse(line)
-            if valid:
-                builder.evaluate(tree, level, tag, args)
+    tree = Builder().build_tree(filename)
 
     indi_table = create_prettytable(
         tree.individuals(),
