@@ -40,6 +40,13 @@ class Builder:
         self._current_indi_data: dict = {}
         self._current_fam_data = {'children': []}
 
+    def build_tree(self, filename: str):
+        tree = Tree()
+        for level, tag, args, valid in _parse_file(filename):
+            if valid:
+                self.evaluate(tree, level, tag, args)
+        return tree
+
     def evaluate(self, tree: Tree, level: int, tag: str, args: str):
         """
         Evaluate a valid line and add information to the tree if necessary
@@ -122,7 +129,14 @@ class Builder:
             pass
 
 
-def parse(line: str) -> Tuple[int, str, str, bool]:
+def _parse_file(filename: str):
+    with open(filename) as gedcom_file:
+        for _, line in enumerate(gedcom_file):
+            line = line.strip('\n')
+            yield(_parse(line))
+
+
+def _parse(line: str) -> Tuple[int, str, str, bool]:
     """
     Check that a string follows the GEDCOM spec
     :param line: The line to check
