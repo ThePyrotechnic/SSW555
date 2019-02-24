@@ -156,3 +156,27 @@ class Tree:
         """Return a list of all current Families in list form, sorted by ID"""
         families_by_id = sorted([f for f in self._families.values()], key=lambda f: f.id)
         return [f.fam_to_list(self) for f in families_by_id]
+    
+    # US 10
+    def marriage_age(self) -> bool:
+        """Verify that all people who are married are at least 14 years of age. 
+        Marriage should be at least 14 years after birth for both spouses (parents must be at least 14 years of age)"""
+        of_age_when_married = True
+        for family in self._families.values():
+            if self.married == True:
+                husband = Tree.get_indi(self.huband_id)
+                wife = Tree.get_indi(self.wife_id)
+                if self.married.strftime('%d-%m-%Y') - husband.birthday < 14:
+                    of_age_when_married = False
+                elif self.married.strftime('%d-%m-%Y') - wife.birthday < 14:
+                    of_age_when_married = False
+            elif len(self.children) > 0:
+                father = Tree.get_indi(self.husband_id)
+                mother = Tree.get_indi(self.wife_id)
+                for child in self.children:
+                    kid = Tree.get_indi(self.children[child])
+                    if kid.birthday - father.birthday < 14:
+                        of_age_when_married = False
+                    elif kid.birthday - mother.birthday < 14:
+                        of_age_when_married = False
+        return of_age_when_married
