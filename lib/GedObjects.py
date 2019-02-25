@@ -118,12 +118,6 @@ class Tree:
             raise DuplicateFamilyException(f'Family ID{family.id} already exists')
         self._families[family.id] = family
 
-    def valid_tree(self) -> bool:
-        """Check that all Family object properties line up with all Individual object properties"""
-        # TODO
-        # Must check that the spouse and child records for each individual line up with all family records
-        raise NotImplemented
-
     def get_indi(self, id: str) -> Individual:
         """
         Get an individual by the specified ID
@@ -146,7 +140,21 @@ class Tree:
 
         siblings.sort(key=lambda s: s.age)
         return [s.indi_to_list() for s in siblings]
-    
+
+    def unique_name_and_birth(self) -> bool:
+        success = True
+        for family in self._families.values():
+            name_and_births = set()
+            for child_id in family.children:
+                child = self.get_indi(child_id)
+                birthday_string = child.birthday.strftime('%Y-%m-%d')
+                if (child.name, birthday_string) in name_and_births:
+                    success = False
+                    print(f'WARNING: FAMILY: {family.id}: Children ')
+                else:
+                    name_and_births.add((child.name, birthday_string))
+        return success
+
     # US16
     def male_last_names(self) -> bool:
         """Check that all males in the same family have the same last name."""
@@ -156,27 +164,33 @@ class Tree:
             husb_first, husb_last = husb_name.split()
             curr_fam = family.id
             for indi_id in self._individuals:  # Iterate over the keys of the dict of individuals
-                if self.get_indi(indi_id).sex =="M" and self.get_indi(indi_id).child == curr_fam:
+                if self.get_indi(indi_id).sex == "M" and self.get_indi(indi_id).child == curr_fam:
                     male_indi_name = self.get_indi(indi_id).name
                     first, last = self.get_indi(indi_id).name.split()
                     if (last != husb_last):
-#                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
+                        #                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
                         print(f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
                         bool_result = False
         return bool_result
-    
-    #US21
+
+    # US21
     def correct_gender_for_role(self) -> bool:
         bool_result = True
+        seen_husbands = set()
+        seen_wives = set()
         for family in self._families.values():
             if self.get_indi(family.husband_id).sex not in ["M", "m"]:
-                print(f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
+                if (family.husband_id not in seen_husbands):
+                    print(f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
+                    seen_husbands.add(family.husband_id)
                 bool_result = False
             if self.get_indi(family.wife_id).sex not in ["F", "f"]:
-                print(f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
+                if (family.wife_id not in seen_wives):
+                    print(f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
+                    seen_wives.add(family.wife_id)
                 bool_result = False
         return bool_result
-    
+
     def dates_check(self):
         bool_result = True
         current_date = datetime.now()
@@ -184,17 +198,16 @@ class Tree:
             if family.married > current_date:
                 bool_result = False
             if family.divorced != None:
-#                 bool_result = True
+                #                 bool_result = True
                 if family.divorced > current_date:
                     bool_result = False
         return bool_result
 
-                    
         for individ in self._individuals.values():
             if individ.birthday > current_date:
                 bool_result = False
             if individ.death != None:
-#                 bool_result = True
+                #                 bool_result = True
                 if individ.death > current_date:
                     bool_result = False
         return bool_result
@@ -208,4 +221,11 @@ class Tree:
         """Return a list of all current Families in list form, sorted by ID"""
         families_by_id = sorted([f for f in self._families.values()], key=lambda f: f.id)
         return [f.fam_to_list(self) for f in families_by_id]
-    
+
+    def validate(self) -> bool:
+        return all(
+            [
+                self.correct_gender_for_role(),
+                self.male_last_names()
+            ]
+        )
