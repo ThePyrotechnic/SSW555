@@ -15,7 +15,10 @@ def create_prettytable(l: List, field_names: List[str]):
     table = PrettyTable()
     table.field_names = field_names
     for row in l:
-        table.add_row(row)
+        if not isinstance(row, list):
+            table.add_row([row])
+        else:
+            table.add_row(row)
     return table
 
 
@@ -48,6 +51,11 @@ def main(args):
         field_names=['Name']
     )
 
+    upcoming_birthdays = create_prettytable(
+        tree.upcoming_birthday(),
+        field_names=['Name', 'Birthday']
+    )
+
     print('Individuals')
     print(indi_table)
     print()
@@ -56,9 +64,13 @@ def main(args):
     print()
     print('Siblings By Age')
     print(siblings_by_age)
-    print("Living Singles Over 30")
+    print()
+    print('Living Singles Over 30')
     print(singles_over_30)
-
+    print()
+    print('Upcoming Birthdays')
+    print(upcoming_birthdays)
+    print()
 
     tree.validate()
 
