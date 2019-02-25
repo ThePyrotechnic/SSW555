@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Dict
 
 import attr
@@ -70,6 +70,14 @@ class Individual:
                 self.death.strftime("%Y-%m-%d") if self.death else 'NA',
                 self.child or 'NA',
                 self.spouse or 'NA']
+        
+    @property
+    def first_name(self):
+        return self.name.split('/')[0].strip()
+    
+    @property
+    def last_name(self):
+        return self.name.split('/')[1].strip()
 
 
 # noinspection PyUnresolvedReferences
@@ -148,11 +156,11 @@ class Tree:
             for child_id in family.children:
                 child = self.get_indi(child_id)
                 birthday_string = child.birthday.strftime('%Y-%m-%d')
-                if (child.name, birthday_string) in name_and_births:
+                if (child.first_name, birthday_string) in name_and_births:
                     success = False
-                    print(f'WARNING: FAMILY: {family.id}: Children ')
+                    print(f'WARNING: FAMILY: {family.id}: Children have the same name and birthday (name: {child.first_name}, birthday: {birthday_string}).')
                 else:
-                    name_and_births.add((child.name, birthday_string))
+                    name_and_births.add((child.first_name, birthday_string))
         return success
 
     # US16
@@ -160,17 +168,16 @@ class Tree:
         """Check that all males in the same family have the same last name."""
         bool_result = True
         for family in self._families.values():
-            husb_name = self.get_indi(family.husband_id).name
-            husb_first, husb_last = husb_name.split()
-            curr_fam = family.id
-            for indi_id in self._individuals:  # Iterate over the keys of the dict of individuals
-                if self.get_indi(indi_id).sex == "M" and self.get_indi(indi_id).child == curr_fam:
-                    male_indi_name = self.get_indi(indi_id).name
-                    first, last = self.get_indi(indi_id).name.split()
-                    if (last != husb_last):
-                        #                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
-                        print(f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
-                        bool_result = False
+            if family.husband_id is not None:
+                husb = self.get_indi(family.husband_id)
+                curr_fam = family.id
+                for indi_id in self._individuals:  # Iterate over the keys of the dict of individuals
+                    if self.get_indi(indi_id).sex == "M" and self.get_indi(indi_id).child == curr_fam:
+                        male_indi = self.get_indi(indi_id)
+                        if (male_indi.last_name != husb.last_name):
+                            #                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
+                            print(f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
+                            bool_result = False
         return bool_result
 
     # US21
@@ -179,12 +186,12 @@ class Tree:
         seen_husbands = set()
         seen_wives = set()
         for family in self._families.values():
-            if self.get_indi(family.husband_id).sex not in ["M", "m"]:
+            if family.husband_id is not None and self.get_indi(family.husband_id).sex not in ["M", "m"]:
                 if (family.husband_id not in seen_husbands):
                     print(f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
                     seen_husbands.add(family.husband_id)
                 bool_result = False
-            if self.get_indi(family.wife_id).sex not in ["F", "f"]:
+            if family.wife_id is not None and self.get_indi(family.wife_id).sex not in ["F", "f"]:
                 if (family.wife_id not in seen_wives):
                     print(f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
                     seen_wives.add(family.wife_id)
@@ -195,22 +202,55 @@ class Tree:
         bool_result = True
         current_date = datetime.now()
         for family in self._families.values():
-            if family.married > current_date:
+            if family.married is not None and family.married > current_date:
                 bool_result = False
-            if family.divorced != None:
-                #                 bool_result = True
-                if family.divorced > current_date:
-                    bool_result = False
-        return bool_result
+                print(f'ERROR: FAMILY: US1: Family {family.id} marriage date is in the future.')
+            if family.divorced is not None and family.divorced > current_date:
+                print(f'ERROR: FAMILY: US1: Family {family.id} divorce date is in the future.')
+                bool_result = False
 
         for individ in self._individuals.values():
-            if individ.birthday > current_date:
+            if individ.birthday is not None and individ.birthday > current_date:
                 bool_result = False
-            if individ.death != None:
-                #                 bool_result = True
-                if individ.death > current_date:
-                    bool_result = False
+                print(f'ERROR: INDIVIDUAL: US1: Individual {individ.id} birthday is in the future.')
+            if individ.death is not None and individ.death > current_date:
+                bool_result = False
+                print(f'ERROR: INDIVIDUAL: US1: Individual {individ.id} death date is in the future.')
         return bool_result
+    
+    # US 10
+
+    def marriage_age(self) -> bool:
+
+        """Verify that all people who are married are at least 14 years of age.
+        
+        Marriage should be at least 14 years after birth for both spouses (parents must be at least 14 years of age)"""
+        
+        of_age_when_married = True
+        
+        for family in self._families.values():
+#             print(family.husband_id)
+            if family.married is not None:
+                husband = self.get_indi(family.husband_id)
+                wife = self.get_indi(family.wife_id)
+                if family.married - husband.birthday < timedelta(days = 5110):
+                    of_age_when_married = False
+                    print(f'WARNING: INDIVIDUAL: US10: Individual {family.husband_id} in family {family.id} is below the minimum marriage age.')
+                if family.married - wife.birthday < timedelta(days = 5110):
+                    of_age_when_married = False
+                    print(f'WARNING: INDIVIDUAL: US10: Individual {family.wife_id} in family {family.id} is below the minimum marriage age.')
+            if len(family.children) > 0:
+                father = self.get_indi(family.husband_id)
+                mother = self.get_indi(family.wife_id)
+                for child in family.children:
+                    kid = self.get_indi(child)
+                    if kid.birthday - father.birthday < timedelta(days = 5110):
+                        of_age_when_married = False
+                        print(f'WARNING: INDIVIDUAL: US1: Individual {family.husband_id} in family {family.id} is below the minimum age to have a child.')
+                    if kid.birthday - mother.birthday < timedelta(days = 5110):
+                        of_age_when_married = False
+                        print(f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
+        return of_age_when_married
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
@@ -226,6 +266,9 @@ class Tree:
         return all(
             [
                 self.correct_gender_for_role(),
-                self.male_last_names()
+                self.male_last_names(),
+                self.unique_name_and_birth(),
+                self.marriage_age(),
+                self.dates_check()
             ]
         )

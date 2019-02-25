@@ -45,6 +45,8 @@ def main(args):
     print(fam_table)
 
 
+    tree.validate()
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('file', help='The GEDCOM file to parse')
