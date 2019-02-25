@@ -42,6 +42,11 @@ def main(args):
         tree.siblings_by_age(),
         field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     )
+    
+    singles_over_30 = create_prettytable(
+        tree.living_single(),
+        field_names=['Name']
+    )
 
     print('Individuals')
     print(indi_table)
@@ -51,6 +56,8 @@ def main(args):
     print()
     print('Siblings By Age')
     print(siblings_by_age)
+    print("Living Singles Over 30")
+    print(singles_over_30)
 
 
     tree.validate()

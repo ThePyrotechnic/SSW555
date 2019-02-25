@@ -249,6 +249,24 @@ class Tree:
                         of_age_when_married = False
                         print(f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
         return of_age_when_married
+    
+    #US31 List all living singles over 30
+    def living_single(self) -> list:
+        singleList = []
+        for individual in self._individuals.values():
+            if individual.age > 30 and individual.spouse is 'NA' and individual.alive:
+                    singleList.append(individual.name)
+        return singleList
+    
+    #US38 list of upcoming birthdays
+    def upcoming_birthday(self) -> list:
+        birthdayList = []
+        for individual in self._individuals.values():
+            if individual.alive and individual.birthday is not None:
+                birthdate = individual.birthday.replace(year = datetime.now().year)
+                if abs((datetime.now() - birthdate).days) <= 30:
+                    birthdayList.append(individual.name)
+        return birthdayList
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""

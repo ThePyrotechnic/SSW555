@@ -73,6 +73,13 @@
 2 DATE 5 APR 1964
 1 FAMC @F3@
 
+0 @I11@ INDI
+1 NAME Miles /Dingleberg/
+1 SEX M
+1 BIRT
+2 DATE 12 AUG 1970
+
+
 0 @F1@ FAM
 1 HUSB @I2@
 1 WIFE @I3@
