@@ -218,25 +218,23 @@ class Tree:
                 print(f'ERROR: INDIVIDUAL: US1: Individual {individ.id} death date is in the future.')
         return bool_result
     
-    # US 10
-
     def marriage_age(self) -> bool:
 
         """Verify that all people who are married are at least 14 years of age.
-        
+
         Marriage should be at least 14 years after birth for both spouses (parents must be at least 14 years of age)"""
-        
+
         of_age_when_married = True
-        
+
         for family in self._families.values():
-#             print(family.husband_id)
+            #             print(family.husband_id)
             if family.married is not None:
                 husband = self.get_indi(family.husband_id)
                 wife = self.get_indi(family.wife_id)
-                if family.married - husband.birthday < timedelta(days = 5110):
+                if family.married - husband.birthday < timedelta(days=5110):
                     of_age_when_married = False
                     print(f'WARNING: INDIVIDUAL: US10: Individual {family.husband_id} in family {family.id} is below the minimum marriage age.')
-                if family.married - wife.birthday < timedelta(days = 5110):
+                if family.married - wife.birthday < timedelta(days=5110):
                     of_age_when_married = False
                     print(f'WARNING: INDIVIDUAL: US10: Individual {family.wife_id} in family {family.id} is below the minimum marriage age.')
             if len(family.children) > 0:
@@ -244,10 +242,10 @@ class Tree:
                 mother = self.get_indi(family.wife_id)
                 for child in family.children:
                     kid = self.get_indi(child)
-                    if kid.birthday - father.birthday < timedelta(days = 5110):
+                    if kid.birthday - father.birthday < timedelta(days=5110):
                         of_age_when_married = False
                         print(f'WARNING: INDIVIDUAL: US1: Individual {family.husband_id} in family {family.id} is below the minimum age to have a child.')
-                    if kid.birthday - mother.birthday < timedelta(days = 5110):
+                    if kid.birthday - mother.birthday < timedelta(days=5110):
                         of_age_when_married = False
                         print(f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
         return of_age_when_married

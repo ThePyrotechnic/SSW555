@@ -35,7 +35,12 @@ def main(args):
 
     fam_table = create_prettytable(
         tree.families(),
-        ["ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"]
+        field_names=["ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"]
+    )
+
+    siblings_by_age = create_prettytable(
+        tree.siblings_by_age(),
+        field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     )
 
     print('Individuals')
@@ -43,6 +48,9 @@ def main(args):
     print()
     print('Families')
     print(fam_table)
+    print()
+    print('Siblings By Age')
+    print(siblings_by_age)
 
 
     tree.validate()
