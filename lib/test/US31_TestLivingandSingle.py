@@ -5,62 +5,62 @@ from lib.GedObjects import Tree, Family, Individual
 
 _individuals1 = [
 #all should work (complete)
-    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death=None, spouse='NA'),
-    Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse='NA'),
-    Individual('3', name = 'Rendy /Day/', birthday = datetime(1965, 7, 10, 0, 0), death=None, spouse='NA'),
-    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death=None, spouse='NA'),
-    Individual('5', name = 'Rundy /Lay/', birthday = datetime(1967, 1, 10, 0, 0), death=None, spouse='NA'),
-    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death=None, spouse='NA'),
-    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death=None, spouse='NA'),
-    Individual('8', name = 'Tendy /May/', birthday = datetime(1970, 4, 10, 0, 0), death=None, spouse='NA')
+    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death=None, spouse=None),
+    Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse=None),
+    Individual('3', name = 'Rendy /Day/', birthday = datetime(1965, 7, 10, 0, 0), death=None, spouse=None),
+    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death=None, spouse=None),
+    Individual('5', name = 'Rundy /Lay/', birthday = datetime(1967, 1, 10, 0, 0), death=None, spouse=None),
+    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death=None, spouse=None),
+    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death=None, spouse=None),
+    Individual('8', name = 'Tendy /May/', birthday = datetime(1970, 4, 10, 0, 0), death=None, spouse=None)
 ]
 
 _individuals2 = [
 #some have spouses (complete)
-    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death=None, spouse='NA'),
+    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death=None, spouse=None),
     Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse='@F4@'),
-    Individual('3', name = 'Rendy /Day/', birthday = datetime(1965, 7, 10, 0, 0), death=None, spouse='NA'),
-    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death=None, spouse='NA'),
+    Individual('3', name = 'Rendy /Day/', birthday = datetime(1965, 7, 10, 0, 0), death=None, spouse=None),
+    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death=None, spouse=None),
     Individual('5', name = 'Rundy /Lay/', birthday = datetime(1967, 1, 10, 0, 0), death=None, spouse='@F5@'),
     Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death=None, spouse='@F7@'),
-    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death=None, spouse='NA'),
+    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death=None, spouse=None),
     Individual('8', name = 'Tendy /May/', birthday = datetime(1970, 4, 10, 0, 0), death=None, spouse='@F9@')
 ]
 
 _individuals3 = [
 #some are under 30 (complete)
-    Individual('1', name = 'Randy /Pay/', birthday = datetime(1993, 5, 10, 0, 0), death=None, spouse='NA'),
-    Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse='NA'),
-    Individual('3', name = 'Rendy /Day/', birthday = datetime(1995, 7, 10, 0, 0), death=None, spouse='NA'),
-    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death=None, spouse='NA'),
-    Individual('5', name = 'Rundy /Lay/', birthday = datetime(1997, 1, 10, 0, 0), death=None, spouse='NA'),
-    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death=None, spouse='NA'),
-    Individual('7', name = 'Tindy /May/', birthday = datetime(1999, 3, 10, 0, 0), death=None, spouse='NA'),
-    Individual('8', name = 'Tendy /May/', birthday = datetime(2005, 4, 10, 0, 0), death=None, spouse='NA')
+    Individual('1', name = 'Randy /Pay/', birthday = datetime(1993, 5, 10, 0, 0), death=None, spouse=None),
+    Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse=None),
+    Individual('3', name = 'Rendy /Day/', birthday = datetime(1995, 7, 10, 0, 0), death=None, spouse=None),
+    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death=None, spouse=None),
+    Individual('5', name = 'Rundy /Lay/', birthday = datetime(1997, 1, 10, 0, 0), death=None, spouse=None),
+    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death=None, spouse=None),
+    Individual('7', name = 'Tindy /May/', birthday = datetime(1999, 3, 10, 0, 0), death=None, spouse=None),
+    Individual('8', name = 'Tendy /May/', birthday = datetime(2005, 4, 10, 0, 0), death=None, spouse=None)
 ]
 
 _individuals4 = [
 #some are dead
-    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death = datetime(1964, 6, 10, 0, 0), spouse='NA'),
-    Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse='NA'),
-    Individual('3', name = 'Rendy /Day/', birthday = datetime(1965, 7, 10, 0, 0), death=None, spouse='NA'),
-    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death = datetime(1967, 1, 10, 0, 0), spouse='NA'),
-    Individual('5', name = 'Rundy /Lay/', birthday = datetime(1967, 1, 10, 0, 0), death=None, spouse='NA'),
-    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death = datetime(1969, 3, 10, 0, 0), spouse='NA'),
-    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death = datetime(1970, 4, 10, 0, 0), spouse='NA'),
-    Individual('8', name = 'Tendy /May/', birthday = datetime(1970, 4, 10, 0, 0), death=None, spouse='NA')
+    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death = datetime(1964, 6, 10, 0, 0), spouse=None),
+    Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse=None),
+    Individual('3', name = 'Rendy /Day/', birthday = datetime(1965, 7, 10, 0, 0), death=None, spouse=None),
+    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death = datetime(1967, 1, 10, 0, 0), spouse=None),
+    Individual('5', name = 'Rundy /Lay/', birthday = datetime(1967, 1, 10, 0, 0), death=None, spouse=None),
+    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death = datetime(1969, 3, 10, 0, 0), spouse=None),
+    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death = datetime(1970, 4, 10, 0, 0), spouse=None),
+    Individual('8', name = 'Tendy /May/', birthday = datetime(1970, 4, 10, 0, 0), death=None, spouse=None)
 ]
 
 _individuals5 = [
 #all should fail
-    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death = datetime(1964, 6, 10, 0, 0), spouse='NA'),
+    Individual('1', name = 'Randy /Pay/', birthday = datetime(1963, 5, 10, 0, 0), death = datetime(1964, 6, 10, 0, 0), spouse=None),
     Individual('2', name = 'Rondy /Pay/', birthday = datetime(1964, 6, 10, 0, 0), death=None, spouse='@F5@'),
-    Individual('3', name = 'Rendy /Day/', birthday = datetime(1997, 1, 10, 0, 0), death=None, spouse='NA'),
-    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death = datetime(1967, 1, 10, 0, 0), spouse='NA'),
+    Individual('3', name = 'Rendy /Day/', birthday = datetime(1997, 1, 10, 0, 0), death=None, spouse=None),
+    Individual('4', name = 'Rindy /Day/', birthday = datetime(1966, 8, 10, 0, 0), death = datetime(1967, 1, 10, 0, 0), spouse=None),
     Individual('5', name = 'Rundy /Lay/', birthday = datetime(1967, 1, 10, 0, 0), death=None, spouse='@F7@'),
-    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death = datetime(1969, 3, 10, 0, 0), spouse='NA'),
-    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death = datetime(1970, 4, 10, 0, 0), spouse='NA'),
-    Individual('8', name = 'Tendy /May/', birthday = datetime(2005, 4, 10, 0, 0), death=None, spouse='NA')
+    Individual('6', name = 'Tandy /Lay/', birthday = datetime(1968, 2, 10, 0, 0), death = datetime(1969, 3, 10, 0, 0), spouse=None),
+    Individual('7', name = 'Tindy /May/', birthday = datetime(1969, 3, 10, 0, 0), death = datetime(1970, 4, 10, 0, 0), spouse=None),
+    Individual('8', name = 'Tendy /May/', birthday = datetime(2005, 4, 10, 0, 0), death=None, spouse=None)
 ]
 
 all_correct_tree = Tree()

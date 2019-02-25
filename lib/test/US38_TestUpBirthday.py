@@ -58,16 +58,17 @@ no_upcoming_tree = Tree()
 class TestUpBirth(unittest.TestCase):
 
     def test_all_correct(self):
-        self.assertEqual(all_upcoming_tree.upcoming_birthday(), ['Randy /Pay/', 'Rondy /Pay/', 'Rendy /Day/', 'Rindy /Day/'])
+        self.assertEqual(all_upcoming_tree.upcoming_birthday(),
+                         [['Randy /Pay/', '28-02-1963'], ['Rondy /Pay/', '10-03-1964'], ['Rendy /Day/', '13-03-1965'],['Rindy /Day/', '14-03-1966']])
 
     def test_some_spouse(self):
-        self.assertEqual(some_upcoming_tree.upcoming_birthday(), ['Rondy /Pay/', 'Rindy /Day/'])
+        self.assertEqual(some_upcoming_tree.upcoming_birthday(), [['Rondy /Pay/', '10-03-1964'], ['Rindy /Day/', '14-03-1966']])
 
     def test_some_under(self):
         self.assertEqual(no_birth_tree.upcoming_birthday(), [])
     
     def test_some_dead(self):
-        self.assertEqual(some_dead_tree.upcoming_birthday(), ['Rondy /Pay/', 'Rendy /Day/'])
+        self.assertEqual(some_dead_tree.upcoming_birthday(), [['Rondy /Pay/', '10-03-1964'], ['Rendy /Day/', '13-03-1965']])
     
     def test_all_fail(self):
         self.assertEqual(no_upcoming_tree.upcoming_birthday(), [])

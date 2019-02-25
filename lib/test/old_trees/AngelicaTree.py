@@ -45,7 +45,7 @@ _families3 = [
     Family('F4', married = datetime(1987, 6, 29, 0, 0), divorced = datetime(2003, 2, 12, 0, 0))
 ] 
 correct_fams = Tree()
-[correct_fams.add_individual(i) for i in _families3]
+[correct_fams.add_family(i) for i in _families3]
 
 """Tree for Test Case 4"""
 _families1 = [
