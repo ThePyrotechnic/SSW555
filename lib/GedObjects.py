@@ -100,7 +100,7 @@ class Family:
 
     def fam_to_list(self, tree) -> list:
         return [self.id,
-                self.married.strftime('%d-%m-%Y') if self.married else 'NA',
+                self.married if self.married else 'NA',
                 self.divorced.strftime('%d-%m-%Y') if self.divorced else 'NA',
                 self.husband_id or 'NA',
                 tree.get_indi(self.husband_id).name if self.husband_id else 'NA',
@@ -254,7 +254,7 @@ class Tree:
     def living_single(self) -> list:
         singleList = []
         for individual in self._individuals.values():
-            if individual.age > 30 and individual.spouse is 'NA' and individual.alive:
+            if individual.age > 30 and individual.spouse is None and individual.alive:
                     singleList.append(individual.name)
         return singleList
     
@@ -263,9 +263,9 @@ class Tree:
         birthdayList = []
         for individual in self._individuals.values():
             if individual.alive and individual.birthday is not None:
-                birthdate = individual.birthday.replace(year = datetime.now().year)
-                if abs((datetime.now() - birthdate).days) <= 30:
-                    birthdayList.append(individual.name)
+                birthdate = individual.birthday.replace(year=datetime.now().year)
+                if 0 < (birthdate - datetime.now()).days <= 30:
+                    birthdayList.append([individual.name, individual.birthday.strftime('%d-%m-%Y')])
         return birthdayList
 
     def individuals(self) -> List:
