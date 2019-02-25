@@ -150,7 +150,7 @@ class Tree:
                 birthday_string = child.birthday.strftime('%Y-%m-%d')
                 if (child.name, birthday_string) in name_and_births:
                     success = False
-                    print(f'WARNING: FAMILY: {family.id}: Children ')
+                    print(f'WARNING: FAMILY: US25: Family {family.id}: Children have the same names and birthday')
                 else:
                     name_and_births.add((child.name, birthday_string))
         return success
