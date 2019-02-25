@@ -1,0 +1,66 @@
+Individuals
++-------+--------------------+--------+------------+-----+-------+------------+-------+--------+
+|   ID  |        Name        | Gender |  Birthday  | Age | Alive |   Death    | Child | Spouse |
++-------+--------------------+--------+------------+-----+-------+------------+-------+--------+
+| @I10@ |   Thomas /Dane/    |   M    | 1945-05-08 |  18 | False | 1964-04-05 |  @F3@ |   NA   |
+| @I11@ | Miles /Dingleberg/ |   M    | 1970-08-12 |  48 |  True |     NA     |   NA  |   NA   |
+|  @I1@ | Michael /Phillips/ |   M    | 1998-03-23 |  20 |  True |     NA     |  @F1@ |   NA   |
+|  @I2@ |   Robert /Manis/   |   F    | 1963-03-02 |  55 |  True |     NA     |   NA  |  @F1@  |
+|  @I3@ | Susan /Farinelli/  |   F    | 1963-02-02 |  56 |  True |     NA     |  @F2@ |  @F1@  |
+|  @I4@ |   Robert /Manis/   |   M    | 1998-03-23 |  20 |  True |     NA     |  @F1@ |   NA   |
+|  @I5@ |     Joe /Doe/      |   M    | 1944-12-12 |  70 | False | 2015-10-08 |   NA  |  @F2@  |
+|  @I6@ |     Jane /Don/     |   M    | 1944-01-28 |  75 |  True |     NA     |   NA  |  @F3@  |
+|  @I7@ |    Jack /Dane/     |   M    | 1945-06-18 |  18 | False | 1964-04-05 |   NA  |  @F3@  |
+|  @I8@ |   Jack /Johnson/   |   M    | 1961-08-02 |  57 |  True |     NA     |  @F3@ |   NA   |
+|  @I9@ |   Thomas /Dane/    |   M    | 1945-05-08 |  18 | False | 1964-04-05 |  @F3@ |   NA   |
++-------+--------------------+--------+------------+-----+-------+------------+-------+--------+
+
+Families
++------+---------------------+------------+------------+----------------+---------+-------------------+---------------------------+
+|  ID  |       Married       |  Divorced  | Husband ID |  Husband Name  | Wife ID |     Wife Name     |          Children         |
++------+---------------------+------------+------------+----------------+---------+-------------------+---------------------------+
+| @F1@ |          NA         |     NA     |    @I2@    | Robert /Manis/ |   @I3@  | Susan /Farinelli/ |      ['@I1@', '@I4@']     |
+| @F2@ | 1956-03-06 00:00:00 |     NA     |    @I5@    |   Joe /Doe/    |   @I6@  |     Jane /Don/    |          ['@I3@']         |
+| @F3@ | 1959-02-28 00:00:00 | 05-04-2030 |    @I7@    |  Jack /Dane/   |   @I6@  |     Jane /Don/    | ['@I8@', '@I9@', '@I10@'] |
++------+---------------------+------------+------------+----------------+---------+-------------------+---------------------------+
+
+Siblings By Age
++------+--------------------+--------+------------+-----+-------+-------+-------+--------+
+|  ID  |        Name        | Gender |  Birthday  | Age | Alive | Death | Child | Spouse |
++------+--------------------+--------+------------+-----+-------+-------+-------+--------+
+| @I1@ | Michael /Phillips/ |   M    | 1998-03-23 |  20 |  True |   NA  |  @F1@ |   NA   |
+| @I4@ |   Robert /Manis/   |   M    | 1998-03-23 |  20 |  True |   NA  |  @F1@ |   NA   |
+| @I3@ | Susan /Farinelli/  |   F    | 1963-02-02 |  56 |  True |   NA  |  @F2@ |  @F1@  |
+| @I8@ |   Jack /Johnson/   |   M    | 1961-08-02 |  57 |  True |   NA  |  @F3@ |   NA   |
++------+--------------------+--------+------------+-----+-------+-------+-------+--------+
+
+Living Singles Over 30
++--------------------+
+|        Name        |
++--------------------+
+|   Jack /Johnson/   |
+| Miles /Dingleberg/ |
++--------------------+
+
+Upcoming Birthdays
++--------------------+------------+
+|        Name        |  Birthday  |
++--------------------+------------+
+| Michael /Phillips/ | 23-03-1998 |
+|   Robert /Manis/   | 02-03-1963 |
+|   Robert /Manis/   | 23-03-1998 |
++--------------------+------------+
+
+WARNING: INDIVIDUAL: US21: Individual @I2@ is the incorrect gender for their role. The individual is a husband and should be a male.
+WARNING: INDIVIDUAL: US21: Individual @I6@ is the incorrect gender for their role. The individual is a wife and should be a female.
+ERROR: FAMILY: US16: Individual @I1@ has a different last name from other males in the same family.
+ERROR: FAMILY: US16: Individual @I8@ has a different last name from other males in the same family.
+WARNING: FAMILY: US25: @F3@: Children have the same name and birthday (name: Thomas, birthday: 1945-05-08).
+WARNING: INDIVIDUAL: US10: Individual @I5@ in family @F2@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US10: Individual @I6@ in family @F2@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US10: Individual @I7@ in family @F3@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US1: Individual @I7@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual @I6@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual @I7@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual @I6@ in family @F3@ is below the minimum age to have a child.
+ERROR: FAMILY: US1: Family @F3@ divorce date is in the future.
