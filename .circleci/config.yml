@@ -38,7 +38,11 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-
+      
+      - run:
+          name: debug
+          command: ls && pwd
+      
       - run:
           name: run tests
           command: |
