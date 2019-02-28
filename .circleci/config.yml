@@ -39,12 +39,16 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
       
+
+      
+      - run:
+          name: activate venv
+          command: . venv/bin/activate
+
       - run:
           name: debug
           command: ls && pwd
-      
+
       - run:
           name: run tests
-          command: |
-            . venv/bin/activate
-            python -m unittest discover -k *Test* -t . -s lib/test
+          command: python -m unittest discover -p *Test*  -t lib/test -s lib/test
