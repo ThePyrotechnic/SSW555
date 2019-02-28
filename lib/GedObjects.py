@@ -70,11 +70,11 @@ class Individual:
                 self.death.strftime("%Y-%m-%d") if self.death else 'NA',
                 self.child or 'NA',
                 self.spouse or 'NA']
-        
+
     @property
     def first_name(self):
         return self.name.split('/')[0].strip()
-    
+
     @property
     def last_name(self):
         return self.name.split('/')[1].strip()
@@ -111,6 +111,9 @@ class Family:
 
 @attr.s
 class Tree:
+    _DAYS_IN_MONTH = 30
+    _DATE_FORMAT = '%d-%m-%Y'
+
     _families: Dict[str, Family] = attr.ib(init=False, factory=dict)
     _individuals: Dict[str, Individual] = attr.ib(init=False, factory=dict)
 
@@ -158,7 +161,8 @@ class Tree:
                 birthday_string = child.birthday.strftime('%Y-%m-%d')
                 if (child.first_name, birthday_string) in name_and_births:
                     success = False
-                    print(f'WARNING: FAMILY: US25: {family.id}: Children have the same name and birthday (name: {child.first_name}, birthday: {birthday_string}).')
+                    print(
+                        f'WARNING: FAMILY: US25: {family.id}: Children have the same name and birthday (name: {child.first_name}, birthday: {birthday_string}).')
                 else:
                     name_and_births.add((child.first_name, birthday_string))
         return success
@@ -176,7 +180,8 @@ class Tree:
                         male_indi = self.get_indi(indi_id)
                         if (male_indi.last_name != husb.last_name):
                             #                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
-                            print(f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
+                            print(
+                                f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
                             bool_result = False
         return bool_result
 
@@ -188,15 +193,32 @@ class Tree:
         for family in self._families.values():
             if family.husband_id is not None and self.get_indi(family.husband_id).sex not in ["M", "m"]:
                 if (family.husband_id not in seen_husbands):
-                    print(f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
+                    print(
+                        f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
                     seen_husbands.add(family.husband_id)
                 bool_result = False
             if family.wife_id is not None and self.get_indi(family.wife_id).sex not in ["F", "f"]:
                 if (family.wife_id not in seen_wives):
-                    print(f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
+                    print(
+                        f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
                     seen_wives.add(family.wife_id)
                 bool_result = False
         return bool_result
+
+    # US24
+    def unique_families_by_spouse(self):
+        seen_parents = set()
+        for family in self._families.values():
+            if None in (family.married, family.husband_id, family.wife_id):
+                continue
+            husband = self.get_indi(family.husband_id)
+            wife = self.get_indi(family.wife_id)
+            marriage_str = family.married.strftime(self._DATE_FORMAT)
+            if (husband.name, wife.name, marriage_str) in seen_parents:
+                print(f'ERROR: FAMILY: US24: {husband.name} and {wife.name} appear married in two families at the same date ({marriage_str}).')
+                return False
+            seen_parents.add((husband.name, wife.name, marriage_str))
+        return True
 
     def dates_check(self):
         bool_result = True
@@ -217,7 +239,7 @@ class Tree:
                 bool_result = False
                 print(f'ERROR: INDIVIDUAL: US1: Individual {individ.id} death date is in the future.')
         return bool_result
-    
+
     def marriage_age(self) -> bool:
 
         """Verify that all people who are married are at least 14 years of age.
@@ -233,10 +255,12 @@ class Tree:
                 wife = self.get_indi(family.wife_id)
                 if family.married - husband.birthday < timedelta(days=5110):
                     of_age_when_married = False
-                    print(f'WARNING: INDIVIDUAL: US10: Individual {family.husband_id} in family {family.id} is below the minimum marriage age.')
+                    print(
+                        f'WARNING: INDIVIDUAL: US10: Individual {family.husband_id} in family {family.id} is below the minimum marriage age.')
                 if family.married - wife.birthday < timedelta(days=5110):
                     of_age_when_married = False
-                    print(f'WARNING: INDIVIDUAL: US10: Individual {family.wife_id} in family {family.id} is below the minimum marriage age.')
+                    print(
+                        f'WARNING: INDIVIDUAL: US10: Individual {family.wife_id} in family {family.id} is below the minimum marriage age.')
             if len(family.children) > 0:
                 father = self.get_indi(family.husband_id)
                 mother = self.get_indi(family.wife_id)
@@ -244,29 +268,45 @@ class Tree:
                     kid = self.get_indi(child)
                     if kid.birthday - father.birthday < timedelta(days=5110):
                         of_age_when_married = False
-                        print(f'WARNING: INDIVIDUAL: US1: Individual {family.husband_id} in family {family.id} is below the minimum age to have a child.')
+                        print(
+                            f'WARNING: INDIVIDUAL: US1: Individual {family.husband_id} in family {family.id} is below the minimum age to have a child.')
                     if kid.birthday - mother.birthday < timedelta(days=5110):
                         of_age_when_married = False
-                        print(f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
+                        print(
+                            f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
         return of_age_when_married
-    
-    #US31 List all living singles over 30
+
+    # US31 List all living singles over 30
     def living_single(self) -> list:
         singleList = []
         for individual in self._individuals.values():
-            if individual.age > 30 and individual.spouse is None and individual.alive:
-                    singleList.append(individual.name)
+            if individual.birthday and individual.age > 30 and individual.spouse is None and individual.alive:
+                singleList.append(individual.name)
         return singleList
-    
-    #US38 list of upcoming birthdays
+
+    # US38 list of upcoming birthdays
     def upcoming_birthday(self) -> list:
         birthdayList = []
         for individual in self._individuals.values():
             if individual.alive and individual.birthday is not None:
                 birthdate = individual.birthday.replace(year=datetime.now().year)
-                if 0 < (birthdate - datetime.now()).days <= 30:
+                today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                if 0 < (birthdate - today).days <= 30:
                     birthdayList.append([individual.name, individual.birthday.strftime('%d-%m-%Y')])
         return birthdayList
+
+    # US13 Sibling Spacing
+    def check_sibling_spacing(self) -> bool:
+        for family in self._families.values():
+            for curr_id in family.children:
+                curr_individual = self.get_indi(curr_id)
+                for other_id in family.children:
+                    other_individual = self.get_indi(other_id)
+                    if timedelta(days=2) <= abs(curr_individual.birthday - other_individual.birthday) <= timedelta(
+                            days=self._DAYS_IN_MONTH * 8):
+                        print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
+                        return False
+        return True
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
@@ -285,6 +325,8 @@ class Tree:
                 self.male_last_names(),
                 self.unique_name_and_birth(),
                 self.marriage_age(),
-                self.dates_check()
+                self.dates_check(),
+                self.check_sibling_spacing(),
+                self.unique_families_by_spouse(),
             ]
         )
