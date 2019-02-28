@@ -290,7 +290,8 @@ class Tree:
         for individual in self._individuals.values():
             if individual.alive and individual.birthday is not None:
                 birthdate = individual.birthday.replace(year=datetime.now().year)
-                if 0 < (birthdate - datetime.now()).days <= 30:
+                today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                if 0 < (birthdate - today).days <= 30:
                     birthdayList.append([individual.name, individual.birthday.strftime('%d-%m-%Y')])
         return birthdayList
 
