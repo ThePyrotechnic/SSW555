@@ -188,7 +188,6 @@ class Tree:
                 if family.divorced > current_date:
                     bool_result = False
         return bool_result
-
                     
         for individ in self._individuals.values():
             if individ.birthday > current_date:
@@ -198,6 +197,15 @@ class Tree:
                 if individ.death > current_date:
                     bool_result = False
         return bool_result
+
+# US4- Marriage Before Divorce
+    def marr_bef_div(self):
+        """Marriage should occur before divorce of spouses, and divorce can only occur after marriage"""
+        right_order = True
+        for family in self._families.values():
+            if family.divorced is not None and family.divorced < family.married:
+                right_order = False
+        return right_order
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
