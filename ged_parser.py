@@ -56,6 +56,11 @@ def main(args):
         field_names=['Name', 'Birthday']
     )
 
+    recent_deaths = create_prettytable(
+        tree.list_recent_deaths(),
+        field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
+    )
+
     print('Individuals')
     print(indi_table)
     print()
@@ -70,6 +75,9 @@ def main(args):
     print()
     print('Upcoming Birthdays')
     print(upcoming_birthdays)
+    print()
+    print('Recent Deaths')
+    print(recent_deaths)
     print()
 
     tree.validate()

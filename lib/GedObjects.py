@@ -308,6 +308,25 @@ class Tree:
                         return False
         return True
 
+    # US36 List Recent Deaths
+    def list_recent_deaths(self) -> List:
+        recent_death_list = []
+        for individual in self._individuals.values():
+            if individual.death is not None:
+                if abs(individual.death - datetime.now()) <= timedelta(days=30):
+                    recent_death_list.append(individual)
+        return [indi.indi_to_list() for indi in recent_death_list]
+
+    def list_recent_deaths2(self) -> List:
+        recent_death_list = []
+        for individual in self._individuals.values():
+            if individual.death is not None:
+                death_date = individual.death.replace(year=datetime.now().year)
+                today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                if 0 < (death_date - today).days <= 30:
+                    recent_death_list.append(individual)
+        return [indi.indi_to_list for indi in recent_death_list]
+
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
@@ -328,5 +347,6 @@ class Tree:
                 self.dates_check(),
                 self.check_sibling_spacing(),
                 self.unique_families_by_spouse(),
+                self.list_recent_deaths(),
             ]
         )

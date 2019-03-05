@@ -191,4 +191,46 @@
 2 DATE 27 FEB 2019
 1 FAMS us36_fam
 
+
+
+
+0 NOTE US_13
+0 us13_fam2 FAM
+1 HUSB us13_fam2_parent1
+1 WIFE us13_fam2_parent2
+1 CHIL us13_fam2_1
+1 CHIL us13__fam2_2
+1 MARR
+2 DATE 20 MAY 1993
+
+0 us13_fam2_1 INDI
+1 NAME Michelle /Tanner/
+1 SEX F
+1 BIRT
+2 DATE 12 JUL 1995
+1 FAMC us13_fam2
+
+0 us13_2 INDI
+1 NAME Stephanie /Tanner/
+1 SEX F
+1 BIRT
+2 DATE 17 DEC 1995
+1 FAMC us13_fam2
+
+0 us13_fam2_parent1 INDI
+1 NAME Danny /Tanner/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1963
+1 FAMS us13_fam2
+
+0 us13_parent2 INDI
+1 NAME Elizabeth /Tang/
+1 SEX F
+1 BIRT
+2 DATE 12 SEP 1967
+1 FAMS us12_fam2
+
+
+
 0 TRLR

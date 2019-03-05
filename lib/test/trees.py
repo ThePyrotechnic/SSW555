@@ -11,3 +11,8 @@ michael_dup_names = Builder().build_tree(os.path.join(GED_DIR, 'michael_dup_name
 sprint_one_tree = Builder().build_tree(os.path.join(GED_DIR, 'SprintOneDemo.ged'))
 
 sprint_two_tree = Builder().build_tree(os.path.join(GED_DIR, 'SprintTwoDemo.ged'))
+
+us13_mult_sets_close_sibs = Builder().build_tree(os.path.join(GED_DIR, 'US13MultSetsCloseSibs.ged'))
+
+us36_some_recent_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US36SomeRecentDeaths.ged'))
+us36_all_recent_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US36AllRecentDeaths.ged'))
