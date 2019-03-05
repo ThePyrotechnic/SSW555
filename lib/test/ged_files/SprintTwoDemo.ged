@@ -150,14 +150,34 @@
 2 DATE 28 FEB 1979
 
 0 us24_parent1 INDI
-1 NAME Robert /Tang/
+1 NAME Robert /US24/
 1 SEX M
 1 BIRT
 2 DATE 2 MAR 1963
 1 FAMS us24_fam
 
 0 us24_parent2 INDI
-1 NAME Marie /Tang/
+1 NAME Marie /US24/
+1 SEX F
+1 BIRT
+2 DATE 14 SEP 1963
+1 FAMS us24_fam
+
+0 us24_fam2 FAM
+1 HUSB us24_parent3
+1 WIFE us24_parent4
+1 MARR
+2 DATE 28 FEB 1979
+
+0 us24_parent3 INDI
+1 NAME Robert /US24/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1963
+1 FAMS us24_fam
+
+0 us24_parent4 INDI
+1 NAME Marie /US24/
 1 SEX F
 1 BIRT
 2 DATE 14 SEP 1963
