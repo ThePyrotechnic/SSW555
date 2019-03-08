@@ -289,6 +289,18 @@ class Tree:
                 born_when_married = False
                 print(f'ERROR: FAMILY: US1: Family {husband.id} marriage date is before birth.')
         return born_when_married
+    
+    def parent_not_spouse(self) -> bool:
+        not_incest = True
+        for family in self._families.values():
+            husband = self.get_indi(family.husband_id)
+            wife = self.get_indi(family.wife_id)
+            if self.married is not None and len(self.children) > 0:
+                for child in children:
+                    if child.id == wife.id or husband.id:
+                        not_incest = False
+                        print(f'ERROR: INDIVIDUAL: US17: Individual {individual.id} parent is married to child.')
+        return not_incest
 
     # US31 List all living singles over 30
     def living_single(self) -> list:

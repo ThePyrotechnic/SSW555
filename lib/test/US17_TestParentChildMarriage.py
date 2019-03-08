@@ -15,9 +15,9 @@ _individuals = [
 ]
 
 _families = [
-    Family('F1', husband_id = '1', wife_id = '2', child_id = '2', married = datetime(day = 1, month = 1 , year = 1948)),
+    Family('F1', husband_id = '1', wife_id = '2', children_id = '2', married = datetime(day = 1, month = 1 , year = 1948)),
     Family('F2', husband_id = '3', wife_id = '4', married = datetime(day = 1, month = 1 , year = 1963)),
-    Family('F3', husband_id = '5', wife_id = '6', child_id = '5', married = datetime(day = 1, month = 1 , year = 1951)),
+    Family('F3', husband_id = '5', wife_id = '6', children_id = '5', married = datetime(day = 1, month = 1 , year = 1951)),
 ]
 
 in_wed = Tree()
