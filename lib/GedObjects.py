@@ -276,6 +276,20 @@ class Tree:
                             f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
         return of_age_when_married
 
+    # US02
+    def birth_pre_marriage(self) -> bool:
+    born_when_married = True
+    for family in self._families.values():
+        husband = self.get_indi(family.husband_id)
+        wife = self.get_indi(family.wife_id)
+        if family.married is not None and wife.birthday < family.married:
+            born_when_married = False
+            print(f'ERROR: FAMILY: US1: Family {wife.id} marriage date is before birth.')
+        if family.married is not None and husband.birthday < family.married:
+            born_when_married = False
+            print(f'ERROR: FAMILY: US1: Family {husband.id} marriage date is before birth.')
+    return born_when_married
+    
     # US31 List all living singles over 30
     def living_single(self) -> list:
         singleList = []
@@ -328,5 +342,6 @@ class Tree:
                 self.dates_check(),
                 self.check_sibling_spacing(),
                 self.unique_families_by_spouse(),
+                self.birth_pre_marriage(),
             ]
         )
