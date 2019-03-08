@@ -8,6 +8,7 @@ from lib.test.trees import us36_some_recent_deaths
 from lib.test.trees import us36_all_recent_deaths
 from lib.GedObjects import Tree, Family, Individual
 from datetime import datetime, timedelta
+import lib.GedConstants as gc
 
 death1 = datetime.today()
 death2 = datetime.today() - timedelta(days=1)
@@ -63,8 +64,8 @@ class TestListRecentDeaths(unittest.TestCase):
 
     def test_all_recent_deaths_tree(self):
         self.assertEqual(all_recent_deaths_tree.list_recent_deaths(), [
-            ['1', 'Randy /Pay/', 'NA', '1998-09-29', 20, False, death1.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
-            ['2', 'Rondy /Pay/', 'NA', '1998-09-29', 20, False, death2.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
-            ['3', 'Rendy /Day/', 'NA', '1998-09-29', 20, False, death3.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
-            ['4', 'Rindy /Day/', 'NA', '1998-09-29', 20, False, death4.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
+            ['1', 'Randy /Pay/', 'NA', '1998-09-29', 20, False, death1.strftime(gc.DATE_FORMAT), 'NA', 'NA'],
+            ['2', 'Rondy /Pay/', 'NA', '1998-09-29', 20, False, death2.strftime(gc.DATE_FORMAT), 'NA', 'NA'],
+            ['3', 'Rendy /Day/', 'NA', '1998-09-29', 20, False, death3.strftime(gc.DATE_FORMAT), 'NA', 'NA'],
+            ['4', 'Rindy /Day/', 'NA', '1998-09-29', 20, False, death4.strftime(gc.DATE_FORMAT), 'NA', 'NA'],
         ])

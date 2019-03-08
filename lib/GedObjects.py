@@ -3,6 +3,7 @@ from typing import List, Dict
 
 import attr
 
+import lib.GedConstants as gc
 
 class DuplicateIndividualException(Exception):
     """A Tree already contains an Individual with the ID of the Individual being added"""
@@ -48,9 +49,9 @@ class Individual:
         if not self.birthday:
             raise AttributeError('Individual has no birthday')
         if self.alive:
-            return int((datetime.now() - self.birthday).days / 365.25)
+            return int((datetime.now() - self.birthday).days / gc.DAYS_IN_YEAR)
         else:
-            return int((self.death - self.birthday).days / 365.25)
+            return int((self.death - self.birthday).days / gc.DAYS_IN_YEAR)
 
     def indi_to_list(self) -> list:
         return [self.id,
@@ -93,7 +94,7 @@ class Family:
     def fam_to_list(self, tree) -> list:
         return [self.id,
                 self.married if self.married else 'NA',
-                self.divorced.strftime(Tree._DATE_FORMAT) if self.divorced else 'NA',
+                self.divorced.strftime(gc.DATE_FORMAT) if self.divorced else 'NA',
                 self.husband_id or 'NA',
                 tree.get_indi(self.husband_id).name if self.husband_id else 'NA',
                 self.wife_id or 'NA',
@@ -103,9 +104,6 @@ class Family:
 
 @attr.s
 class Tree:
-    _DAYS_IN_MONTH = 30
-    _DATE_FORMAT = '%Y-%m-%d'
-
     _families: Dict[str, Family] = attr.ib(init=False, factory=dict)
     _individuals: Dict[str, Individual] = attr.ib(init=False, factory=dict)
 
@@ -150,7 +148,7 @@ class Tree:
             name_and_births = set()
             for child_id in family.children:
                 child = self.get_indi(child_id)
-                birthday_string = child.birthday.strftime(Tree._DATE_FORMAT)
+                birthday_string = child.birthday.strftime(gc.DATE_FORMAT)
                 if (child.first_name, birthday_string) in name_and_births:
                     success = False
                     print(
@@ -206,7 +204,7 @@ class Tree:
                 continue
             husband = self.get_indi(family.husband_id)
             wife = self.get_indi(family.wife_id)
-            marriage_str = family.married.strftime(self._DATE_FORMAT)
+            marriage_str = family.married.strftime(gc.DATE_FORMAT)
             if (husband.name, wife.name, marriage_str) in seen_parents:
                 print(f'ERROR: FAMILY: US24: {husband.name} and {wife.name} appear married in two families at the same date ({marriage_str}).')
                 return False
@@ -285,7 +283,7 @@ class Tree:
                 birthdate = individual.birthday.replace(year=datetime.now().year)
                 today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 if 0 < (birthdate - today).days <= 30:
-                    birthdayList.append([individual.name, individual.birthday.strftime(Tree._DATE_FORMAT)])
+                    birthdayList.append([individual.name, individual.birthday.strftime(gc.DATE_FORMAT)])
         return birthdayList
 
     # US13 Sibling Spacing
@@ -296,7 +294,7 @@ class Tree:
                 for other_id in family.children:
                     other_individual = self.get_indi(other_id)
                     if timedelta(days=2) <= abs(curr_individual.birthday - other_individual.birthday) <= timedelta(
-                            days=self._DAYS_IN_MONTH * 8):
+                            days=gc.DAYS_IN_MONTH * 8):
                         print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
                         return False
         return True
