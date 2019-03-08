@@ -27,4 +27,4 @@ born_wed = Tree()
 
 class Test_Birth_Before_Marriage(unittest.TestCase):
     def test_birth_before_marriage(self):
-        self.assertEqual(born_wed.birth_pre_marriage(), False, True, False)
+        self.assertEqual(born_wed.birth_pre_marriage(), False)
