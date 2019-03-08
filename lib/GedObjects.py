@@ -12,14 +12,6 @@ class DuplicateFamilyException(Exception):
     """A Tree already contains an Family with the ID of the Family being added"""
 
 
-class IndividualNotFoundException(Exception):
-    """No individual with the given ID exists in the current Tree"""
-
-
-class IndividualException(Exception):
-    """There was an error when parsing this individual in the current context"""
-
-
 # noinspection PyUnresolvedReferences
 @attr.s
 class Individual:
@@ -51,10 +43,10 @@ class Individual:
         """
         :return: A timedelta representing the difference between now and the individual's birth date if they are alive,
         or their death date and birth date if they are dead.
-        :raises IndividualException: If this individual has no birthday
+        :raises AttributeError: If this individual has no birthday
         """
         if not self.birthday:
-            raise IndividualException('Individual has no birthday')
+            raise AttributeError('Individual has no birthday')
         if self.alive:
             return int((datetime.now() - self.birthday).days / 365.25)
         else:
@@ -101,7 +93,7 @@ class Family:
     def fam_to_list(self, tree) -> list:
         return [self.id,
                 self.married if self.married else 'NA',
-                self.divorced.strftime('%d-%m-%Y') if self.divorced else 'NA',
+                self.divorced.strftime(Tree._DATE_FORMAT) if self.divorced else 'NA',
                 self.husband_id or 'NA',
                 tree.get_indi(self.husband_id).name if self.husband_id else 'NA',
                 self.wife_id or 'NA',
@@ -112,7 +104,7 @@ class Family:
 @attr.s
 class Tree:
     _DAYS_IN_MONTH = 30
-    _DATE_FORMAT = '%d-%m-%Y'
+    _DATE_FORMAT = '%Y-%m-%d'
 
     _families: Dict[str, Family] = attr.ib(init=False, factory=dict)
     _individuals: Dict[str, Individual] = attr.ib(init=False, factory=dict)
@@ -134,12 +126,12 @@ class Tree:
         Get an individual by the specified ID
         :param id: The ID of the individual to retrieve
         :return: The requested Individual
-        :raises IndividualNotFoundException: If the individual is not in this Tree
+        :raises ValueError: If the individual is not in this Tree
         """
         try:
             return self._individuals[id]
         except KeyError:
-            raise IndividualNotFoundException
+            raise ValueError('Individual not found')
 
     def siblings_by_age(self) -> List:
         siblings = []
@@ -158,7 +150,7 @@ class Tree:
             name_and_births = set()
             for child_id in family.children:
                 child = self.get_indi(child_id)
-                birthday_string = child.birthday.strftime('%Y-%m-%d')
+                birthday_string = child.birthday.strftime(Tree._DATE_FORMAT)
                 if (child.first_name, birthday_string) in name_and_births:
                     success = False
                     print(
@@ -293,7 +285,7 @@ class Tree:
                 birthdate = individual.birthday.replace(year=datetime.now().year)
                 today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 if 0 < (birthdate - today).days <= 30:
-                    birthdayList.append([individual.name, individual.birthday.strftime('%d-%m-%Y')])
+                    birthdayList.append([individual.name, individual.birthday.strftime(Tree._DATE_FORMAT)])
         return birthdayList
 
     # US13 Sibling Spacing

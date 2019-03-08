@@ -10,18 +10,6 @@ class InvalidLineException(Exception):
     """A line in the GEDCOM file is invalid"""
 
 
-class InvalidEntryException(Exception):
-    """A Family or Individual record in the GEDCOM file is incomplete"""
-
-
-class ChildException(Exception):
-    """There was an error adding a child to a Tree"""
-
-
-class SpouseException(Exception):
-    """There was an error adding a spouse to a Tree"""
-
-
 class Builder:
     """Contains stateful logic for building a Tree"""
 
