@@ -6,9 +6,22 @@ from lib.test.trees import sprint_one_tree
 from lib.test.trees import sprint_two_tree
 from lib.test.trees import us36_some_recent_deaths
 from lib.test.trees import us36_all_recent_deaths
+from lib.GedObjects import Tree, Family, Individual
+from datetime import datetime, timedelta
 
+today = datetime.now()
+_recently_dead_individuals = [
+    Individual('1', name='Randy /Pay/', birthday=today - timedelta(days=29200), death=today), # 80 years old
+    Individual('2', name='Rondy /Pay/', birthday=today - timedelta(days=17000), death=today - timedelta(days=1)),
+    Individual('3', name='Rendy /Day/', birthday=today - timedelta(days=30000), death=today - timedelta(days=29)),
+    Individual('4', name='Rindy /Day/', birthday=today - timedelta(days=14700), death=today - timedelta(days=15))
+]
 
-class TestCheckSiblingSpacing(unittest.TestCase):
+all_recent_deaths_tree = Tree()
+
+[all_recent_deaths_tree.add_individual(i) for i in _recently_dead_individuals]
+
+class TestListRecentDeaths(unittest.TestCase):
     def test_michael_tree(self):
         self.assertEqual(michael_tree.list_recent_deaths(), [])
 
@@ -42,3 +55,6 @@ class TestCheckSiblingSpacing(unittest.TestCase):
             ['@I7@', 'Joseph /Dane/', 'M', '1945-06-18', 73, False, '2019-02-16', 'NA', '@F3@'],
             # ['@I8@', 'Jack /Dane/', 'M', '1961-08-02', 57, False, '2019-02-03', '@F3@', 'NA'],
         ])
+
+    def test_all_recent_deaths_tree(self):
+        self.aseertEqual(all_recent_deaths_tree.list_recent_deaths(), )

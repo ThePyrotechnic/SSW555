@@ -194,6 +194,7 @@ class Tree:
             if family.husband_id is not None and self.get_indi(family.husband_id).sex not in ["M", "m"]:
                 if (family.husband_id not in seen_husbands):
                     print(
+                        # test comment
                         f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
                     seen_husbands.add(family.husband_id)
                 bool_result = False
@@ -316,16 +317,6 @@ class Tree:
                 if abs(individual.death - datetime.now()) <= timedelta(days=30):
                     recent_death_list.append(individual)
         return [indi.indi_to_list() for indi in recent_death_list]
-
-    def list_recent_deaths2(self) -> List:
-        recent_death_list = []
-        for individual in self._individuals.values():
-            if individual.death is not None:
-                death_date = individual.death.replace(year=datetime.now().year)
-                today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-                if 0 < (death_date - today).days <= 30:
-                    recent_death_list.append(individual)
-        return [indi.indi_to_list for indi in recent_death_list]
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
