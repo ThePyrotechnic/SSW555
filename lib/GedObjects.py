@@ -298,7 +298,7 @@ class Tree:
             wife = self.get_indi(family.wife_id)
             if family.married is not None and len(family.children) > 0:
                 for child in family.children:
-                    if child.id == wife.id or husband.id:
+                    if child == wife or husband:
                         not_incest = False
                         print(f'ERROR: INDIVIDUAL: US17: Individual {family.id} parent is married to child.')
         return not_incest
