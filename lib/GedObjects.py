@@ -334,6 +334,34 @@ class Tree:
                         print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
                         return False
         return True
+        
+# US4- Marriage Before Divorce
+    def marr_bef_div(self):
+        """Marriage should occur before divorce of spouses, and divorce can only occur after marriage"""
+        right_order = True
+        for family in self._families.values():
+            if family.divorced is not None and family.divorced < family.married:
+                right_order = False
+        return right_order
+
+# US09
+    def birth_bef_death(self) -> bool:
+        """Child should be born before death of mother and before 9 months after death of father"""
+        valid_bday = True
+        for family in self._families.values():
+            if family.children is not None:
+                for child in family.children:
+                    mom = self.get_indi(self.wife_id)
+                    dad = self.get_indi(self.husband_id)
+                    kid = self.get_indi(self.children[child])
+                    if kid.birthday is not None and mom.death is not None and dad.death is not None:
+                        if (kid.birthday - mom.death).days > 1:
+                            valid_bday = False
+                            print(f"US 10 WARNING: INDIVIDUAL {kid} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN AFTER THEIR MOTHER'S DEATH")
+                        if (kid.birthday - dad.death).days > 273:
+                            valid_bday = False
+                            print(f"US 10 WARNING: INDIVIDUAL {kid} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
+        return valid_bday
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
