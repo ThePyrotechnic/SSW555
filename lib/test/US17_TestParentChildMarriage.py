@@ -22,8 +22,8 @@ _families = [
 
 in_wed = Tree()
 
-[born_wed.add_individual(i) for i in _individuals]
-[born_wed.add_family(f) for f in _families]
+[in_wed.add_individual(i) for i in _individuals]
+[in_wed.add_family(f) for f in _families]
 
 class Test_Birth_Before_Marriage(unittest.TestCase):
     def test_birth_before_marriage(self):
