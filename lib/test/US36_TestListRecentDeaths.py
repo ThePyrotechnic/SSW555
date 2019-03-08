@@ -9,17 +9,22 @@ from lib.test.trees import us36_all_recent_deaths
 from lib.GedObjects import Tree, Family, Individual
 from datetime import datetime, timedelta
 
-today = datetime.now()
+death1 = datetime.today()
+death2 = datetime.today() - timedelta(days=1)
+death3 = datetime.today() - timedelta(days=29)
+death4 = datetime.today() - timedelta(days=15)
+
 _recently_dead_individuals = [
-    Individual('1', name='Randy /Pay/', birthday=today - timedelta(days=29200), death=today), # 80 years old
-    Individual('2', name='Rondy /Pay/', birthday=today - timedelta(days=17000), death=today - timedelta(days=1)),
-    Individual('3', name='Rendy /Day/', birthday=today - timedelta(days=30000), death=today - timedelta(days=29)),
-    Individual('4', name='Rindy /Day/', birthday=today - timedelta(days=14700), death=today - timedelta(days=15))
+    Individual('1', name='Randy /Pay/', birthday=datetime(day=29, month=9, year=1998), death=death1),  # 80 years old
+    Individual('2', name='Rondy /Pay/', birthday=datetime(day=29, month=9, year=1998), death=death2),
+    Individual('3', name='Rendy /Day/', birthday=datetime(day=29, month=9, year=1998), death=death3),
+    Individual('4', name='Rindy /Day/', birthday=datetime(day=29, month=9, year=1998), death=death4)
 ]
 
 all_recent_deaths_tree = Tree()
 
 [all_recent_deaths_tree.add_individual(i) for i in _recently_dead_individuals]
+
 
 class TestListRecentDeaths(unittest.TestCase):
     def test_michael_tree(self):
@@ -57,4 +62,9 @@ class TestListRecentDeaths(unittest.TestCase):
         ])
 
     def test_all_recent_deaths_tree(self):
-        self.aseertEqual(all_recent_deaths_tree.list_recent_deaths(), )
+        self.assertEqual(all_recent_deaths_tree.list_recent_deaths(), [
+            ['1', 'Randy /Pay/', 'NA', '1998-09-29', 20, False, death1.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
+            ['2', 'Rondy /Pay/', 'NA', '1998-09-29', 20, False, death2.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
+            ['3', 'Rendy /Day/', 'NA', '1998-09-29', 20, False, death3.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
+            ['4', 'Rindy /Day/', 'NA', '1998-09-29', 20, False, death4.strftime(Tree._DATE_FORMAT), 'NA', 'NA'],
+        ])
