@@ -41,9 +41,5 @@ jobs:
           command: . venv/bin/activate
 
       - run:
-          name: debug
-          command: ls && pwd
-
-      - run:
           name: run tests
           command: python -m unittest discover -p *Test*  -t lib/test -s lib/test
