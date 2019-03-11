@@ -42,8 +42,7 @@ class Individual:
     @property
     def age(self) -> int:
         """
-        :return: A timedelta representing the difference between now and the individual's birth date if they are alive,
-        or their death date and birth date if they are dead.
+        :return: An integer representing this individual's age in years.
         :raises AttributeError: If this individual has no birthday
         """
         if not self.birthday:
@@ -210,6 +209,18 @@ class Tree:
                 return False
             seen_parents.add((husband.name, wife.name, marriage_str))
         return True
+
+    # US33
+    def list_orphans(self):
+        orphans = set()
+        for family in self._families.values():
+            if family.husband_id and family.wife_id and not self.get_indi(family.husband_id).alive and not self.get_indi(family.wife_id).alive:
+                for child_id in family.children:
+                    child = self.get_indi(child_id)
+                    if child.age < 18:
+                        orphans.add(child)
+
+        return [o.indi_to_list() for o in orphans]
 
     def dates_check(self):
         bool_result = True
