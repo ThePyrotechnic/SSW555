@@ -107,19 +107,19 @@
 0 @F4@ FAM
 1 HUSB us13_parent1
 1 WIFE us13_parent2
-1 CHIL us13_1_mult
-1 CHIL us13_2_mult
+1 CHIL us13_1_mult_hw6
+1 CHIL us13_2_mult_hw6
 1 MARR
 2 DATE 28 FEB 1979
 
-0 us13_1_mult INDI
+0 us13_1_mult_hw6 INDI
 1 NAME Albert /Tang/
 1 SEX M
 1 BIRT
 2 DATE 18 APR 1997
 1 FAMC @F4@
 
-0 us13_2_mult INDI
+0 us13_2_mult_hw6 INDI
 1 NAME Lucille /Tang/
 1 SEX F
 1 BIRT
@@ -198,19 +198,19 @@
 0 us13_fam2 FAM
 1 HUSB us13_fam2_parent1
 1 WIFE us13_fam2_parent2
-1 CHIL us13_fam2_1
-1 CHIL us13_fam2_2
+1 CHIL us13_fam2_1_hw6
+1 CHIL us13_fam2_2_hw6
 1 MARR
 2 DATE 20 MAY 1993
 
-0 us13_fam2_1 INDI
+0 us13_fam2_1_hw6 INDI
 1 NAME Michelle /Tanner/
 1 SEX F
 1 BIRT
 2 DATE 12 JUL 1995
 1 FAMC us13_fam2
 
-0 us13_fam2_2 INDI
+0 us13_fam2_2_hw6 INDI
 1 NAME Stephanie /Tanner/
 1 SEX F
 1 BIRT
@@ -231,6 +231,46 @@
 2 DATE 12 SEP 1967
 1 FAMS us13_fam2
 
+
+
+
+
+0 NOTE US_13
+0 us13_hw6 FAM
+1 HUSB us13_hw6_parent1
+1 WIFE us13_hw6_parent2
+1 CHIL us13_hw6_1
+1 CHIL us13_hw6_2
+1 MARR
+2 DATE 20 MAY 1993
+
+0 us13_hw6_1 INDI
+1 NAME Rachel /Ray/
+1 SEX F
+1 BIRT
+2 DATE 14 MAY 1998
+1 FAMC us13_hw6
+
+0 us13_hw6_2 INDI
+1 NAME Annie /Ray/
+1 SEX F
+1 BIRT
+2 DATE 30 MAY 1998
+1 FAMC us13_hw6
+
+0 us13_hw6_parent1 INDI
+1 NAME Jonathan /Ray/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1963
+1 FAMS us13_hw6
+
+0 us13_hw6_parent2 INDI
+1 NAME Julia /Ray/
+1 SEX F
+1 BIRT
+2 DATE 12 SEP 1967
+1 FAMS us13_hw6
 
 
 0 TRLR

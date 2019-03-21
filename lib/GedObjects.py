@@ -168,7 +168,7 @@ class Tree:
                 for indi_id in self._individuals:  # Iterate over the keys of the dict of individuals
                     if self.get_indi(indi_id).sex == "M" and self.get_indi(indi_id).child == curr_fam:
                         male_indi = self.get_indi(indi_id)
-                        if (male_indi.last_name != husb.last_name):
+                        if male_indi.last_name != husb.last_name:
                             #                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
                             print(
                                 f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
@@ -178,21 +178,17 @@ class Tree:
     # US21
     def correct_gender_for_role(self) -> bool:
         bool_result = True
-        seen_husbands = set()
-        seen_wives = set()
+        seen_people = set()
         for family in self._families.values():
-            if family.husband_id is not None and self.get_indi(family.husband_id).sex not in ["M", "m"]:
-                if (family.husband_id not in seen_husbands):
-                    print(
-                        # test comment
-                        f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
-                    seen_husbands.add(family.husband_id)
+            if (family.husband_id is not None) and (self.get_indi(family.husband_id).sex not in ["M", "m"]) and (family.husband_id not in seen_people):
+                print(
+                    f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
+                seen_people.add(family.husband_id)
                 bool_result = False
-            if family.wife_id is not None and self.get_indi(family.wife_id).sex not in ["F", "f"]:
-                if (family.wife_id not in seen_wives):
-                    print(
-                        f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
-                    seen_wives.add(family.wife_id)
+            if (family.wife_id is not None) and (self.get_indi(family.wife_id).sex not in ["F", "f"]) and (family.wife_id not in seen_people):
+                print(
+                    f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
+                seen_people.add(family.wife_id)
                 bool_result = False
         return bool_result
 
@@ -298,18 +294,25 @@ class Tree:
                     birthdayList.append([individual.name, individual.birthday.strftime(gc.DATE_FORMAT)])
         return birthdayList
 
+    def dates_within(self, date1, date2, limit, units):
+        conversion = {'days': 1, 'months': 30.4, 'years': 365.25}
+        return (abs((date1-date2).days) / conversion[units]) <= limit
+
     # US13 Sibling Spacing
     def check_sibling_spacing(self) -> bool:
+        bool_result = True
+        errors_printed_pairs = []
         for family in self._families.values():
             for curr_id in family.children:
                 curr_individual = self.get_indi(curr_id)
                 for other_id in family.children:
                     other_individual = self.get_indi(other_id)
-                    if timedelta(days=2) <= abs(curr_individual.birthday - other_individual.birthday) <= timedelta(
-                            days=gc.DAYS_IN_MONTH * 8):
+                    bool_result = bool_result and (self.dates_within(curr_individual.birthday, other_individual.birthday, 2, 'days')\
+                        or not (self.dates_within(curr_individual.birthday, other_individual.birthday, 8, 'months')))
+                    if bool_result is False and ((curr_id, other_id) not in errors_printed_pairs) and ((other_id, curr_id) not in errors_printed_pairs) and (curr_id != other_id):
                         print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
-                        return False
-        return True
+                        errors_printed_pairs += [(curr_id, other_id)]
+        return bool_result
 
     # US36 List Recent Deaths
     def list_recent_deaths(self) -> List:
