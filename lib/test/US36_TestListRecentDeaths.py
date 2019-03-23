@@ -52,8 +52,8 @@ class TestListRecentDeaths(unittest.TestCase):
 
     def test_sprint_two_tree(self):
         self.assertEqual(sprint_two_tree.list_recent_deaths(), [
-            ['us36_parent1', 'Homer /Simpson/', 'M', '1965-11-30', 53, False, '2019-02-24', 'NA', 'us36_fam'],
-            ['us36_parent2', 'Marge /Simpson/', 'F', '1967-08-13', 51, False, '2019-02-27', 'NA', 'us36_fam']
+            ['us36_parent1', 'Homer /Simpson/', 'M', '1965-11-30', 53, False, '2019-03-20', 'NA', 'us36_fam'],
+            ['us36_parent2', 'Marge /Simpson/', 'F', '1967-08-13', 51, False, '2019-03-21', 'NA', 'us36_fam']
         ])
 
     def test_all_recent_deaths_tree(self):
