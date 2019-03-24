@@ -307,9 +307,9 @@ class Tree:
                 curr_individual = self.get_indi(curr_id)
                 for other_id in family.children:
                     other_individual = self.get_indi(other_id)
-                    bool_result = bool_result and (self.dates_within(curr_individual.birthday, other_individual.birthday, 2, 'days')\
-                        or not (self.dates_within(curr_individual.birthday, other_individual.birthday, 8, 'months')))
-                    if bool_result is False and ((curr_id, other_id) not in errors_printed_pairs) and ((other_id, curr_id) not in errors_printed_pairs) and (curr_id != other_id):
+                    bool_result = bool_result and ((self.dates_within(curr_individual.birthday, other_individual.birthday, 2, 'days')\
+                        or not (self.dates_within(curr_individual.birthday, other_individual.birthday, 8, 'months'))))
+                    if bool_result is False and (((curr_id, other_id) not in errors_printed_pairs) and ((other_id, curr_id) not in errors_printed_pairs) and (curr_id != other_id)):
                         print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
                         errors_printed_pairs += [(curr_id, other_id)]
         return bool_result
@@ -322,6 +322,38 @@ class Tree:
                 if abs(individual.death - datetime.now()) <= timedelta(days=30):
                     recent_death_list.append(individual)
         return [indi.indi_to_list() for indi in recent_death_list]
+
+    #US17
+    def parent_not_spouse(self) -> bool:
+        not_incest = True
+        for family in self._families.values():
+            husband = self.get_indi(family.husband_id)
+            wife = self.get_indi(family.wife_id)
+            if family.married is not None and len(family.children) > 0:
+                for child in family.children:
+                    # if child == wife or husband:
+                    child_indi = self.get_indi(child)
+                    if child_indi.id == husband.id or child_indi.id == wife.id:
+                        not_incest = not_incest and False
+                        if child_indi.id == husband.id:
+                            print(f'ERROR: INDIVIDUAL: US17: Individual {husband.id} parent is married to her child.')
+                        else:
+                            print(f'ERROR: INDIVIDUAL: US17: Individual {wife.id} parent is married to his child.')
+        return not_incest
+
+    # US02
+    def birth_pre_marriage(self) -> bool:
+        born_when_married = True
+        for family in self._families.values():
+            husband = self.get_indi(family.husband_id)
+            wife = self.get_indi(family.wife_id)
+            if family.married is not None and wife.birthday > family.married:
+                born_when_married = born_when_married and False
+                print(f'ERROR: FAMILY: US02: Family {wife.id} marriage date is before birth.')
+            if family.married is not None and husband.birthday > family.married:
+                born_when_married = born_when_married and False
+                print(f'ERROR: FAMILY: US02: Family {husband.id} marriage date is before birth.')
+        return born_when_married
 
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
@@ -344,5 +376,7 @@ class Tree:
                 self.check_sibling_spacing(),
                 self.unique_families_by_spouse(),
                 self.list_recent_deaths(),
+                self.parent_not_spouse(),
+                self.birth_pre_marriage(),
             ]
         )
