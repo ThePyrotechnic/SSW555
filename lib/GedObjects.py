@@ -3,6 +3,7 @@ from typing import List, Dict
 
 import attr
 
+import lib.GedConstants as gc
 
 class DuplicateIndividualException(Exception):
     """A Tree already contains an Individual with the ID of the Individual being added"""
@@ -10,14 +11,6 @@ class DuplicateIndividualException(Exception):
 
 class DuplicateFamilyException(Exception):
     """A Tree already contains an Family with the ID of the Family being added"""
-
-
-class IndividualNotFoundException(Exception):
-    """No individual with the given ID exists in the current Tree"""
-
-
-class IndividualException(Exception):
-    """There was an error when parsing this individual in the current context"""
 
 
 # noinspection PyUnresolvedReferences
@@ -49,16 +42,15 @@ class Individual:
     @property
     def age(self) -> int:
         """
-        :return: A timedelta representing the difference between now and the individual's birth date if they are alive,
-        or their death date and birth date if they are dead.
-        :raises IndividualException: If this individual has no birthday
+        :return: An integer representing this individual's age in years.
+        :raises AttributeError: If this individual has no birthday
         """
         if not self.birthday:
-            raise IndividualException('Individual has no birthday')
+            raise AttributeError('Individual has no birthday')
         if self.alive:
-            return int((datetime.now() - self.birthday).days / 365.25)
+            return int((datetime.now() - self.birthday).days / gc.DAYS_IN_YEAR)
         else:
-            return int((self.death - self.birthday).days / 365.25)
+            return int((self.death - self.birthday).days / gc.DAYS_IN_YEAR)
 
     def indi_to_list(self) -> list:
         return [self.id,
@@ -101,7 +93,7 @@ class Family:
     def fam_to_list(self, tree) -> list:
         return [self.id,
                 self.married if self.married else 'NA',
-                self.divorced.strftime('%d-%m-%Y') if self.divorced else 'NA',
+                self.divorced.strftime(gc.DATE_FORMAT) if self.divorced else 'NA',
                 self.husband_id or 'NA',
                 tree.get_indi(self.husband_id).name if self.husband_id else 'NA',
                 self.wife_id or 'NA',
@@ -111,9 +103,6 @@ class Family:
 
 @attr.s
 class Tree:
-    _DAYS_IN_MONTH = 30
-    _DATE_FORMAT = '%d-%m-%Y'
-
     _families: Dict[str, Family] = attr.ib(init=False, factory=dict)
     _individuals: Dict[str, Individual] = attr.ib(init=False, factory=dict)
 
@@ -134,12 +123,12 @@ class Tree:
         Get an individual by the specified ID
         :param id: The ID of the individual to retrieve
         :return: The requested Individual
-        :raises IndividualNotFoundException: If the individual is not in this Tree
+        :raises ValueError: If the individual is not in this Tree
         """
         try:
             return self._individuals[id]
         except KeyError:
-            raise IndividualNotFoundException
+            raise ValueError('Individual not found')
 
     def siblings_by_age(self) -> List:
         siblings = []
@@ -152,13 +141,14 @@ class Tree:
         siblings.sort(key=lambda s: s.age)
         return [s.indi_to_list() for s in siblings]
 
+    # US25
     def unique_name_and_birth(self) -> bool:
         success = True
         for family in self._families.values():
             name_and_births = set()
             for child_id in family.children:
                 child = self.get_indi(child_id)
-                birthday_string = child.birthday.strftime('%Y-%m-%d')
+                birthday_string = child.birthday.strftime(gc.DATE_FORMAT)
                 if (child.first_name, birthday_string) in name_and_births:
                     success = False
                     print(
@@ -178,7 +168,7 @@ class Tree:
                 for indi_id in self._individuals:  # Iterate over the keys of the dict of individuals
                     if self.get_indi(indi_id).sex == "M" and self.get_indi(indi_id).child == curr_fam:
                         male_indi = self.get_indi(indi_id)
-                        if (male_indi.last_name != husb.last_name):
+                        if male_indi.last_name != husb.last_name:
                             #                         print(f'ERROR: FAMILY: US16: Individual {family.husband_id} and Individual {indi_id} are males in the same family with different last names.')
                             print(
                                 f'ERROR: FAMILY: US16: Individual {indi_id} has a different last name from other males in the same family.')
@@ -188,20 +178,17 @@ class Tree:
     # US21
     def correct_gender_for_role(self) -> bool:
         bool_result = True
-        seen_husbands = set()
-        seen_wives = set()
+        seen_people = set()
         for family in self._families.values():
-            if family.husband_id is not None and self.get_indi(family.husband_id).sex not in ["M", "m"]:
-                if (family.husband_id not in seen_husbands):
-                    print(
-                        f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
-                    seen_husbands.add(family.husband_id)
+            if (family.husband_id is not None) and (self.get_indi(family.husband_id).sex not in ["M", "m"]) and (family.husband_id not in seen_people):
+                print(
+                    f'WARNING: INDIVIDUAL: US21: Individual {family.husband_id} is the incorrect gender for their role. The individual is a husband and should be a male.')
+                seen_people.add(family.husband_id)
                 bool_result = False
-            if family.wife_id is not None and self.get_indi(family.wife_id).sex not in ["F", "f"]:
-                if (family.wife_id not in seen_wives):
-                    print(
-                        f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
-                    seen_wives.add(family.wife_id)
+            if (family.wife_id is not None) and (self.get_indi(family.wife_id).sex not in ["F", "f"]) and (family.wife_id not in seen_people):
+                print(
+                    f'WARNING: INDIVIDUAL: US21: Individual {family.wife_id} is the incorrect gender for their role. The individual is a wife and should be a female.')
+                seen_people.add(family.wife_id)
                 bool_result = False
         return bool_result
 
@@ -213,14 +200,26 @@ class Tree:
                 continue
             husband = self.get_indi(family.husband_id)
             wife = self.get_indi(family.wife_id)
-            marriage_str = family.married.strftime(self._DATE_FORMAT)
+            marriage_str = family.married.strftime(gc.DATE_FORMAT)
             if (husband.name, wife.name, marriage_str) in seen_parents:
                 print(f'ERROR: FAMILY: US24: {husband.name} and {wife.name} appear married in two families at the same date ({marriage_str}).')
                 return False
             seen_parents.add((husband.name, wife.name, marriage_str))
         return True
 
-    def dates_check(self):
+    # US33
+    def list_orphans(self):
+        orphans = list()
+        for family in self._families.values():
+            if family.husband_id and family.wife_id and not self.get_indi(family.husband_id).alive and not self.get_indi(family.wife_id).alive:
+                for child_id in family.children:
+                    child = self.get_indi(child_id)
+                    if child.age and child.age < 18 and child not in orphans:
+                        orphans.append(child)
+
+        return [o.indi_to_list() for o in orphans]
+
+    def all_dates_before_today(self):
         bool_result = True
         current_date = datetime.now()
         for family in self._families.values():
@@ -248,16 +247,18 @@ class Tree:
 
         of_age_when_married = True
 
+        fourteen_years = gc.DAYS_IN_YEAR * 14
+
         for family in self._families.values():
             #             print(family.husband_id)
             if family.married is not None:
                 husband = self.get_indi(family.husband_id)
                 wife = self.get_indi(family.wife_id)
-                if family.married - husband.birthday < timedelta(days=5110):
+                if family.married - husband.birthday < timedelta(days=fourteen_years):
                     of_age_when_married = False
                     print(
                         f'WARNING: INDIVIDUAL: US10: Individual {family.husband_id} in family {family.id} is below the minimum marriage age.')
-                if family.married - wife.birthday < timedelta(days=5110):
+                if family.married - wife.birthday < timedelta(days=fourteen_years):
                     of_age_when_married = False
                     print(
                         f'WARNING: INDIVIDUAL: US10: Individual {family.wife_id} in family {family.id} is below the minimum marriage age.')
@@ -266,15 +267,17 @@ class Tree:
                 mother = self.get_indi(family.wife_id)
                 for child in family.children:
                     kid = self.get_indi(child)
-                    if kid.birthday - father.birthday < timedelta(days=5110):
+                    if kid.birthday - father.birthday < timedelta(days=fourteen_years):
                         of_age_when_married = False
                         print(
                             f'WARNING: INDIVIDUAL: US1: Individual {family.husband_id} in family {family.id} is below the minimum age to have a child.')
-                    if kid.birthday - mother.birthday < timedelta(days=5110):
+                    if kid.birthday - mother.birthday < timedelta(days=fourteen_years):
                         of_age_when_married = False
                         print(
                             f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
         return of_age_when_married
+
+    # US31 List all living singles over 30
 
     # US02
     def birth_pre_marriage(self) -> bool:
@@ -289,7 +292,7 @@ class Tree:
                 born_when_married = False
                 print(f'ERROR: FAMILY: US1: Family {husband.id} marriage date is before birth.')
         return born_when_married
-    
+
     #US17
     def parent_not_spouse(self) -> bool:
         not_incest = True
@@ -319,48 +322,102 @@ class Tree:
                 birthdate = individual.birthday.replace(year=datetime.now().year)
                 today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 if 0 < (birthdate - today).days <= 30:
-                    birthdayList.append([individual.name, individual.birthday.strftime('%d-%m-%Y')])
+                    birthdayList.append([individual.name, individual.birthday.strftime(gc.DATE_FORMAT)])
         return birthdayList
+
+    def dates_within(self, date1, date2, limit, units):
+        conversion = {'days': 1, 'months': 30.4, 'years': 365.25}
+        return (abs((date1-date2).days) / conversion[units]) <= limit
 
     # US13 Sibling Spacing
     def check_sibling_spacing(self) -> bool:
+        bool_result = True
+        errors_printed_pairs = []
         for family in self._families.values():
             for curr_id in family.children:
                 curr_individual = self.get_indi(curr_id)
                 for other_id in family.children:
                     other_individual = self.get_indi(other_id)
-                    if timedelta(days=2) <= abs(curr_individual.birthday - other_individual.birthday) <= timedelta(
-                            days=self._DAYS_IN_MONTH * 8):
+                    bool_result = bool_result and ((self.dates_within(curr_individual.birthday, other_individual.birthday, 2, 'days')\
+                        or not (self.dates_within(curr_individual.birthday, other_individual.birthday, 8, 'months'))))
+                    if bool_result is False and (((curr_id, other_id) not in errors_printed_pairs) and ((other_id, curr_id) not in errors_printed_pairs) and (curr_id != other_id)):
                         print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
-                        return False
-        return True
-        
-# US4- Marriage Before Divorce
+                        errors_printed_pairs += [(curr_id, other_id)]
+        return bool_result
+
+    # US36 List Recent Deaths
+    def list_recent_deaths(self) -> List:
+        recent_death_list = []
+        for individual in self._individuals.values():
+            if individual.death is not None:
+                if abs(individual.death - datetime.now()) <= timedelta(days=30):
+                    recent_death_list.append(individual)
+        return [indi.indi_to_list() for indi in recent_death_list]
+
+    #US17
+    def parent_not_spouse(self) -> bool:
+        not_incest = True
+        for family in self._families.values():
+            husband = self.get_indi(family.husband_id)
+            wife = self.get_indi(family.wife_id)
+            if family.married is not None and len(family.children) > 0:
+                for child in family.children:
+                    # if child == wife or husband:
+                    child_indi = self.get_indi(child)
+                    if child_indi.id == husband.id or child_indi.id == wife.id:
+                        not_incest = not_incest and False
+                        if child_indi.id == husband.id:
+                            print(f'ERROR: INDIVIDUAL: US17: Individual {husband.id} parent is married to her child.')
+                        else:
+                            print(f'ERROR: INDIVIDUAL: US17: Individual {wife.id} parent is married to his child.')
+        return not_incest
+
+    # US02
+    def birth_pre_marriage(self) -> bool:
+        born_when_married = True
+        for family in self._families.values():
+            husband = self.get_indi(family.husband_id)
+            wife = self.get_indi(family.wife_id)
+            if family.married is not None and wife.birthday > family.married:
+                born_when_married = born_when_married and False
+                print(f'ERROR: FAMILY: US02: Individual {wife.id} marriage date is before birth.')
+            if family.married is not None and husband.birthday > family.married:
+                born_when_married = born_when_married and False
+                print(f'ERROR: FAMILY: US02: Individual {husband.id} marriage date is before birth.')
+        return born_when_married
+
+    # US4- Marriage Before Divorce
     def marr_bef_div(self):
         """Marriage should occur before divorce of spouses, and divorce can only occur after marriage"""
         right_order = True
         for family in self._families.values():
-            if family.divorced is not None and family.divorced < family.married:
-                right_order = False
+            if family.divorced and (family.married is None):
+                right_order = right_order and False
+                print(f"WARNING: US04: FAMILY {family.id}: DIVORCE OCCURS WITHOUT MARRIAGE.")
+            elif family.divorced is not None and family.divorced < family.married:
+                right_order = right_order and False
+                print(f"WARNING: US04: FAMILY {family.id}: DIVORCE OCCURS BEFORE MARRIAGE.")
         return right_order
 
-# US09
+    # US09
     def birth_bef_death(self) -> bool:
         """Child should be born before death of mother and before 9 months after death of father"""
         valid_bday = True
         for family in self._families.values():
             if family.children is not None:
                 for child in family.children:
-                    mom = self.get_indi(self.wife_id)
-                    dad = self.get_indi(self.husband_id)
-                    kid = self.get_indi(self.children[child])
-                    if kid.birthday is not None and mom.death is not None and dad.death is not None:
-                        if (kid.birthday - mom.death).days > 1:
-                            valid_bday = False
-                            print(f"US 10 WARNING: INDIVIDUAL {kid} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN AFTER THEIR MOTHER'S DEATH")
+                    mom = self.get_indi(family.wife_id)
+                    dad = self.get_indi(family.husband_id)
+                    kid = self.get_indi(child)
+                    if kid.birthday is not None and mom.death is not None:
+                        # if (kid.birthday - mom.death).days > 1:
+                        if kid.birthday > mom.death:
+                            valid_bday = valid_bday and False
+                            print(f"WARNING: US 09 : INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN AFTER THEIR MOTHER'S DEATH")
+                    if kid.birthday is not None and dad.death is not None:
                         if (kid.birthday - dad.death).days > 273:
-                            valid_bday = False
-                            print(f"US 10 WARNING: INDIVIDUAL {kid} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
+                            valid_bday = valid_bday and False
+                            print(f"WARNING: US 09: INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
         return valid_bday
 
     def individuals(self) -> List:
@@ -380,9 +437,13 @@ class Tree:
                 self.male_last_names(),
                 self.unique_name_and_birth(),
                 self.marriage_age(),
-                self.dates_check(),
+                self.all_dates_before_today(),
                 self.check_sibling_spacing(),
                 self.unique_families_by_spouse(),
+                self.list_recent_deaths(),
+                self.parent_not_spouse(),
                 self.birth_pre_marriage(),
+                self.marr_bef_div(),
+                self.birth_bef_death(),
             ]
         )
