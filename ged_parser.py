@@ -61,6 +61,11 @@ def main(args):
         field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     )
 
+    orphans = create_prettytable(
+        tree.list_orphans(),
+        field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
+    )
+
     print('Individuals')
     print(indi_table)
     print()
@@ -79,8 +84,11 @@ def main(args):
     print('Recent Deaths')
     print(recent_deaths)
     print()
+    print('Orphans')
+    print(orphans)
 
     tree.validate()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
