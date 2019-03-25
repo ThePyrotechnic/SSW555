@@ -48,9 +48,9 @@ no_marrs_to_children = Tree()
 [no_marrs_to_children.add_family(f) for f in _families2]
 
 class TestParentNotSpouse(unittest.TestCase):
-    def test_some_marriages_to_cildren(self):
+    def test_some_marriages_to_children(self):
         self.assertFalse(in_wed.parent_not_spouse())
 
-    def test_no_marriages_to_cildren(self):
+    def test_no_marriages_to_children(self):
         self.assertTrue(no_marrs_to_children.parent_not_spouse())
 
