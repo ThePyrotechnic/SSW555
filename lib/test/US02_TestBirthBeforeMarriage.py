@@ -15,15 +15,15 @@ _individuals = [
 ]
 
 _families = [
-    Family('F1', husband_id = '1', wife_id = '2', children = '2', married = datetime(day = 1, month = 1 , year = 1948)),
+    Family('F1', husband_id = '1', wife_id = '2', married = datetime(day = 1, month = 1 , year = 1948)),
     Family('F2', husband_id = '3', wife_id = '4', married = datetime(day = 1, month = 1 , year = 1963)),
-    Family('F3', husband_id = '5', wife_id = '6', children = '5', married = datetime(day = 1, month = 1 , year = 1951)),
+    Family('F3', husband_id = '5', wife_id = '6', married = datetime(day = 1, month = 1 , year = 1951)),
 ]
 
-in_wed = Tree()
+born_wed = Tree()
 
-[in_wed.add_individual(i) for i in _individuals]
-[in_wed.add_family(f) for f in _families]
+[born_wed.add_individual(i) for i in _individuals]
+[born_wed.add_family(f) for f in _families]
 
 
 _individuals2 = [
@@ -37,20 +37,19 @@ _individuals2 = [
 ]
 
 _families2 = [
-    Family('F1', husband_id = 'a', wife_id = 'b', children = 'c', married = datetime(day = 1, month = 1 , year = 1948)),
+    Family('F1', husband_id = 'a', wife_id = 'b', married = datetime(day = 1, month = 1 , year = 1970)),
     Family('F2', husband_id = 'c', wife_id = 'd', married = datetime(day = 1, month = 1 , year = 1963)),
-    Family('F3', husband_id = 'e', wife_id = 'f', children = 'a', married = datetime(day = 1, month = 1 , year = 1951)),
+    Family('F3', husband_id = 'e', wife_id = 'f', married = datetime(day = 1, month = 1 , year = 1981)),
 ]
 
-no_marrs_to_children = Tree()
+valid_dates = Tree()
 
-[no_marrs_to_children.add_individual(i) for i in _individuals2]
-[no_marrs_to_children.add_family(f) for f in _families2]
+[valid_dates.add_individual(i) for i in _individuals2]
+[valid_dates.add_family(f) for f in _families2]
 
-class TestParentNotSpouse(unittest.TestCase):
-    def test_some_marriages_to_children(self):
-        self.assertFalse(in_wed.parent_not_spouse())
+class Test_Birth_Before_Marriage(unittest.TestCase):
+    def test_invalid_dates(self):
+        self.assertFalse(born_wed.birth_pre_marriage())
 
-    def test_no_marriages_to_children(self):
-        self.assertTrue(no_marrs_to_children.parent_not_spouse())
-
+    def test_valid_dates(self):
+        self.assertTrue(valid_dates.birth_pre_marriage())

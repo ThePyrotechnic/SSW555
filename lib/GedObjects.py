@@ -349,10 +349,10 @@ class Tree:
             wife = self.get_indi(family.wife_id)
             if family.married is not None and wife.birthday > family.married:
                 born_when_married = born_when_married and False
-                print(f'ERROR: FAMILY: US02: Family {wife.id} marriage date is before birth.')
+                print(f'ERROR: FAMILY: US02: Individual {wife.id} marriage date is before birth.')
             if family.married is not None and husband.birthday > family.married:
                 born_when_married = born_when_married and False
-                print(f'ERROR: FAMILY: US02: Family {husband.id} marriage date is before birth.')
+                print(f'ERROR: FAMILY: US02: Individual {husband.id} marriage date is before birth.')
         return born_when_married
 
     # US4- Marriage Before Divorce
