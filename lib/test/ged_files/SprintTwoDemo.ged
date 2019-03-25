@@ -327,8 +327,8 @@
 
 0 NOTE US_04
 0 @F_04@ FAM
-1 HUSB us04_parent1
-1 WIFE us04_parent2
+1 HUSB us04_1
+1 WIFE us04_2
 1 MARR
 2 DATE 28 FEB 2006
 1 DIV
@@ -339,7 +339,7 @@
 1 NAME Peter /Griffin/
 1 SEX M
 1 BIRT
-2 DATE 02 APR 1977
+2 DATE 2 APR 1977
 1 FAMS @F_04@
 
 0 us04_2 INDI
@@ -351,27 +351,37 @@
 
 
 
+
+
 0 NOTE US_09
 0 @F_09@ FAM
 1 HUSB us09_person1
 1 WIFE us09_person2
+1 CHIL us09_person3
 1 MARR
 2 DATE 28 JUL 2017
 
-0 us09_1 INDI
+0 us09_person1 INDI
 1 NAME Jim /Halpert/
 1 SEX M
 1 BIRT
 2 DATE 19 OCT 1987
-1 DEAT 
-2 DATE 19 OCT 1985
 1 FAMS @F_09@
 
-0 us09_2 INDI
+0 us09_person2 INDI
 1 NAME Pam /Halpert/
 1 SEX F
 1 BIRT
 2 DATE 17 MAR 1989
+1 DEAT
+2 DATE 19 MAR 2018
 1 FAMS @F_09@
+
+0 us09_person3 INDI
+1 NAME Charlotte /Halpert/
+1 SEX F
+1 BIRT
+2 DATE 20 MAR 2018
+1 FAMC @F_09@
 
 0 TRLR

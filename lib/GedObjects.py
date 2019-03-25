@@ -355,6 +355,37 @@ class Tree:
                 print(f'ERROR: FAMILY: US02: Family {husband.id} marriage date is before birth.')
         return born_when_married
 
+    # US4- Marriage Before Divorce
+    def marr_bef_div(self):
+        """Marriage should occur before divorce of spouses, and divorce can only occur after marriage"""
+        right_order = True
+        for family in self._families.values():
+            if family.divorced is not None and family.divorced < family.married:
+                right_order = right_order and False
+                print(f"WARNING: US04: FAMILY {family.id}: DIVORCE OCCURS BEFORE MARRIAGE.")
+        return right_order
+
+    # US09
+    def birth_bef_death(self) -> bool:
+        """Child should be born before death of mother and before 9 months after death of father"""
+        valid_bday = True
+        for family in self._families.values():
+            if family.children is not None:
+                for child in family.children:
+                    mom = self.get_indi(family.wife_id)
+                    dad = self.get_indi(family.husband_id)
+                    kid = self.get_indi(child)
+                    if kid.birthday is not None and mom.death is not None:
+                        # if (kid.birthday - mom.death).days > 1:
+                        if kid.birthday > mom.death:
+                            valid_bday = valid_bday and False
+                            print(f"WARNING: US 09 : INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN AFTER THEIR MOTHER'S DEATH")
+                    if kid.birthday is not None and dad.death is not None:
+                        if (kid.birthday - dad.death).days > 273:
+                            valid_bday = valid_bday and False
+                            print(f"WARNING: US 09: INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
+        return valid_bday
+
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
@@ -378,5 +409,7 @@ class Tree:
                 self.list_recent_deaths(),
                 self.parent_not_spouse(),
                 self.birth_pre_marriage(),
+                self.marr_bef_div(),
+                self.birth_bef_death(),
             ]
         )
