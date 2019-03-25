@@ -21,3 +21,7 @@ us36_all_recent_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US36AllRece
 us04_marr_is_before_div = Builder().build_tree(os.path.join(GED_DIR, 'US04MarrIsBeforeDiv.ged'))
 us04_marr_not_before_div = Builder().build_tree(os.path.join(GED_DIR, 'US04MarrNotBeforeDiv.ged'))
 us04_div_without_marriage = Builder().build_tree(os.path.join(GED_DIR, 'US04DivWithoutMarriage.ged'))
+
+us09_birt_bef_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US09AllRightFam.ged'))
+us09_birt_after_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US09WrongFam.ged'))
+
