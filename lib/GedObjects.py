@@ -360,7 +360,10 @@ class Tree:
         """Marriage should occur before divorce of spouses, and divorce can only occur after marriage"""
         right_order = True
         for family in self._families.values():
-            if family.divorced is not None and family.divorced < family.married:
+            if family.divorced and (family.married is None):
+                right_order = right_order and False
+                print(f"WARNING: US04: FAMILY {family.id}: DIVORCE OCCURS WITHOUT MARRIAGE.")
+            elif family.divorced is not None and family.divorced < family.married:
                 right_order = right_order and False
                 print(f"WARNING: US04: FAMILY {family.id}: DIVORCE OCCURS BEFORE MARRIAGE.")
         return right_order
