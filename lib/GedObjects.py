@@ -148,7 +148,9 @@ class Tree:
             name_and_births = set()
             for child_id in family.children:
                 child = self.get_indi(child_id)
-                birthday_string = child.birthday.strftime(gc.DATE_FORMAT)
+                # Added this if statement to make compatible w test data for US15
+                if child.birthday:
+                    birthday_string = child.birthday.strftime(gc.DATE_FORMAT)
                 if (child.first_name, birthday_string) in name_and_births:
                     success = False
                     print(
@@ -307,6 +309,7 @@ class Tree:
                 curr_individual = self.get_indi(curr_id)
                 for other_id in family.children:
                     other_individual = self.get_indi(other_id)
+                    # boolean_result = boolean_result and (curr_individual.birthday - other_individual.birthday <= 2) or (curr_individual.birthday - other_individual.birthday >)
                     bool_result = bool_result and ((self.dates_within(curr_individual.birthday, other_individual.birthday, 2, 'days')\
                         or not (self.dates_within(curr_individual.birthday, other_individual.birthday, 8, 'months'))))
                     if bool_result is False and (((curr_id, other_id) not in errors_printed_pairs) and ((other_id, curr_id) not in errors_printed_pairs) and (curr_id != other_id)):
@@ -389,6 +392,59 @@ class Tree:
                             print(f"WARNING: US 09: INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
         return valid_bday
 
+    #US33
+    def list_orphans(self) -> List:
+        orphan_list = []
+        for family in self._families.values():
+            if not family.children:
+                continue
+            else:
+                curr_husband = self.get_indi(family.husband_id)
+                curr_wife = self.get_indi(family.wife_id)
+                for curr_id in family.children:
+                    curr_individual = self.get_indi(curr_id)
+                    if curr_individual.age < 18 and curr_husband.death and curr_wife.death:
+                        orphan_list.append(curr_individual)
+        return orphan_list
+
+    #US15
+    def fewer_than_fifteen_siblings(self) -> bool:
+        okay_num_of_siblings = True
+        for family in self._families.values():
+            sibling_count = 0
+            # okay_num_of_siblings = True
+            if family.children is not None:
+                for child in family.children:
+                    sibling_count += 1
+                if sibling_count >= 15:
+                    okay_num_of_siblings = False and okay_num_of_siblings
+                    print(f"WARNING: US 15: Family {family.id} has 15 or more children")
+        return okay_num_of_siblings
+
+    #US23
+    def unique_stuff(self) -> bool:
+        all_unique_name_birth_pairs = True
+        duplicate_groups = []
+        for current_indi in self._individuals.values():
+            duplicates = []
+            for other_indi in self._individuals.values():
+                if other_indi.id != current_indi.id and other_indi.name == current_indi.name and other_indi.birthday == current_indi.birthday:
+                    all_unique_name_birth_pairs = False and all_unique_name_birth_pairs
+                    duplicates.append(other_indi)
+            if duplicates:
+                total_list = [current_indi.id] + [curr.id for curr in duplicates]
+                havent_printed_yet = True
+                for group in duplicate_groups:
+                    if all(elem in total_list for elem in group):
+                        havent_printed_yet = False
+                        break
+                if havent_printed_yet:
+                    print(f"WARNING: US 23: INDIVIDUALS {[current_indi.id] + [current.id for current in duplicates]} have the same name and birthday.")
+                    duplicate_groups.append(total_list)
+        return all_unique_name_birth_pairs
+
+
+
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
@@ -414,5 +470,8 @@ class Tree:
                 self.birth_pre_marriage(),
                 self.marr_bef_div(),
                 self.birth_bef_death(),
+                self.list_orphans(),
+                self.fewer_than_fifteen_siblings(),
+                self.unique_stuff(),
             ]
         )
