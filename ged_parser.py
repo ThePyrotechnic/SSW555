@@ -66,6 +66,11 @@ def main(args):
         field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     )
 
+    deceased = create_prettytable(
+        tree.list_deceased(),
+        field_names=['Name']
+    )
+
     print('Individuals')
     print(indi_table)
     print()
@@ -86,6 +91,9 @@ def main(args):
     print()
     print('Orphans')
     print(orphans)
+    print()
+    print('Deceased')
+    print(deceased)
 
     tree.validate()
 

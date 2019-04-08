@@ -278,8 +278,6 @@ class Tree:
                             f'WARNING: INDIVIDUAL: US1: Individual {family.wife_id} in family {family.id} is below the minimum age to have a child.')
         return of_age_when_married
 
-    # US31 List all living singles over 30
-
     # US02
     def birth_pre_marriage(self) -> bool:
         born_when_married = True
@@ -323,6 +321,14 @@ class Tree:
             if individual.birthday and individual.age > 30 and individual.spouse is None and individual.alive:
                 singleList.append(individual.name)
         return singleList
+
+    #US29
+    def list_deceased(self) -> list:
+        obituary = []
+        for individual in self._individuals.values():
+            if not individual.alive:
+                obituary.append(individual.name)
+        return obituary
 
     # US38 list of upcoming birthdays
     def upcoming_birthday(self) -> list:
@@ -424,6 +430,22 @@ class Tree:
                             print(f"WARNING: US 09: INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
         return valid_bday
 
+    #US12
+    def par_not_old(self) -> bool:
+        parents_not_old = True
+        for family in self._families.values():
+            father = self.get_indi(family.husband_id)
+            mother = self.get_indi(family.wife_id)
+            for child in family.children:
+                child = self.get_indi(child)
+                if mother.age >= 60 + child.age:
+                    parents_not_old = False
+                    print("US12, mother in {family.id} too old")
+                elif father.age >= 80 + child.age:
+                    print("US12, father in {family.id} too old")
+                    parents_not_old = False
+        return parents_not_old
+
     #US15
     def fewer_than_fifteen_siblings(self) -> bool:
         okay_num_of_siblings = True
@@ -498,5 +520,6 @@ class Tree:
                 self.unique_name_birthday_pairs(),
                 self.birth_before_death(),
                 self.siblings_not_married(),
+                self.par_not_old(),
             ]
         )
