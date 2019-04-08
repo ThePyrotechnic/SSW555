@@ -12,5 +12,5 @@ class TestBirthBeforeDeath(unittest.TestCase):
     def test_kristen_tree(self):
         self.assertTrue(kristen_tree.birth_before_death())
 
-    def test_siblings_married(self):
+    def test_birth_before_death(self):
         self.assertFalse(us03_death_before_birth.birth_before_death())
