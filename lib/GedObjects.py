@@ -469,9 +469,9 @@ class Tree:
                 child = self.get_indi(child)
                 if mother.age >= 60 + child.age:
                     parents_not_old = False
-                    print("US12, mother in {family.id} too old")
+                    print(f"WARNING: INDIVIDUAL: US12: mother in {family.id} too old")
                 elif father.age >= 80 + child.age:
-                    print("US12, father in {family.id} too old")
+                    print(f"WARNING: INDIVIDUAL: US12: father in {family.id} too old")
                     parents_not_old = False
         return parents_not_old
 
