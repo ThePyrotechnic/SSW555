@@ -240,12 +240,10 @@ class Tree:
                 print(f'ERROR: INDIVIDUAL: US1: Individual {individ.id} death date is in the future.')
         return bool_result
 
+#  US 10
     def marriage_age(self) -> bool:
-
         """Verify that all people who are married are at least 14 years of age.
-
         Marriage should be at least 14 years after birth for both spouses (parents must be at least 14 years of age)"""
-
         of_age_when_married = True
 
         fourteen_years = gc.DAYS_IN_YEAR * 14
@@ -430,6 +428,38 @@ class Tree:
                             print(f"WARNING: US 09: INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
         return valid_bday
 
+    #US 32
+    def multiple_births(self):
+        """List all multiple births in a GEDCOM file"""
+        multi_birth_list = []
+        for family in self._families.values():
+            i = 0
+            while i < len(family.children)-1 and len(family.children) >= 2:
+                kid1 = self.get_indi(family.children[i])
+                kid2 = self.get_indi(family.children[i+1])
+                if kid1.birthday == kid2.birthday:
+                    multi_birth_list.append([kid1.name, kid1.birthday.strftime('%d-%m-%Y')])
+                    multi_birth_list.append([kid2.name, kid2.birthday.strftime('%d-%m-%Y')])
+                i += 1
+        print(multi_birth_list)
+        return multi_birth_list
+
+    #US 06
+    def div_bef_deat(self):
+        """Divorce can only occur before the death of both spouses"""
+        possible = True
+        for family in self._families.values():
+            if family.divorced is not None:
+                spouse1 = self.get_indi(family.husband_id)
+                spouse2 = self.get_indi(family.wife_id)
+                if spouse1.death is not None and spouse1.death < family.divorced:
+                    print(f'WARNING: INDIVIDUAL: US6: Individual {spouse1.id} died before divorce. ')
+                    possible = possible and False
+                if spouse2.death is not None and spouse2.death < family.divorced:
+                    print(f'WARNING: INDIVIDUAL: US6: Individual {spouse2.id} died before divorce. ')
+                    possible = possible and False
+        return possible
+
     #US12
     def par_not_old(self) -> bool:
         parents_not_old = True
@@ -521,5 +551,6 @@ class Tree:
                 self.birth_before_death(),
                 self.siblings_not_married(),
                 self.par_not_old(),
+                self.div_bef_deat(),
             ]
         )

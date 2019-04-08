@@ -71,6 +71,11 @@ def main(args):
         field_names=['Name']
     )
 
+    multi_births = create_prettytable(
+        tree.multiple_births(),
+        field_names=["Name", "Birthday"]
+    )
+
     print('Individuals')
     print(indi_table)
     print()
@@ -94,6 +99,9 @@ def main(args):
     print()
     print('Deceased')
     print(deceased)
+    print('Multiple Births')
+    print(multi_births)
+    print()
 
     tree.validate()
 

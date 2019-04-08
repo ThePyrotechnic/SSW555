@@ -36,3 +36,5 @@ us18_siblings_married = Builder().build_tree(os.path.join(GED_DIR, 'US18Siblings
 us18_siblings_not_married = Builder().build_tree(os.path.join(GED_DIR, 'US18SiblingsNotMarried.ged'))
 
 us03_death_before_birth = Builder().build_tree(os.path.join(GED_DIR, 'US03DeathBeforeBirth.ged'))
+
+us06_div_bef_death = Builder().build_tree(os.path.join(GED_DIR, 'help.ged'))
