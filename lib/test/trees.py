@@ -25,3 +25,14 @@ us04_div_without_marriage = Builder().build_tree(os.path.join(GED_DIR, 'US04DivW
 us09_birt_bef_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US09AllRightFam.ged'))
 us09_birt_after_deaths = Builder().build_tree(os.path.join(GED_DIR, 'US09WrongFam.ged'))
 
+us15_more_than_fifteen_siblings = Builder().build_tree(os.path.join(GED_DIR, 'US15MoreThanFifteenSiblings.ged'))
+us15_exactly_fifteen_siblings = Builder().build_tree(os.path.join(GED_DIR, 'US15ExactlyFifteenSiblings.ged'))
+us15_many_more_than_fifteen_siblings = Builder().build_tree(os.path.join(GED_DIR, 'US15ManyMoreThanFifteenSiblings.ged'))
+
+us23_two_individuals_with_same_name_and_birth_date = Builder().build_tree(os.path.join(GED_DIR, 'US23TwoIndividualsWithSameNameAndBirthDate.ged'))
+us23_four_individuals_with_same_name_and_birth_date = Builder().build_tree(os.path.join(GED_DIR, 'US23FourIndividualsWithSameNameAndBirthDate.ged'))
+
+us18_siblings_married = Builder().build_tree(os.path.join(GED_DIR, 'US18SiblingsMarried.ged'))
+us18_siblings_not_married = Builder().build_tree(os.path.join(GED_DIR, 'US18SiblingsNotMarried.ged'))
+
+us03_death_before_birth = Builder().build_tree(os.path.join(GED_DIR, 'US03DeathBeforeBirth.ged'))

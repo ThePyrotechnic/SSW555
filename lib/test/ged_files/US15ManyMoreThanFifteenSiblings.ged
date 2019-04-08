@@ -1,0 +1,246 @@
+0 NOTE Michael Manis
+0 HEAD
+0 @I1@ INDI
+1 NAME Michael /Manis/
+1 SEX M
+1 BIRT
+2 DATE 23 MAR 1998
+1 FAMC @F1@
+0 @I2@ INDI
+1 NAME Robert /Manis/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1963
+1 FAMS @F1@
+0 @I3@ INDI
+1 NAME Susan /Farinelli/
+1 SEX F
+1 BIRT
+2 DATE 2 FEB 1963
+1 FAMS @F1@
+1 FAMC @F2@
+0 @I4@ INDI
+1 NAME Robert /Manis/
+1 SEX M
+1 BIRT
+2 DATE 23 MAR 1998
+1 FAMC @F1@
+0 @I5@ INDI
+1 NAME Joe /Doe/
+1 SEX M
+1 BIRT
+2 DATE 12 DEC 1944
+1 DEAT
+2 DATE 8 OCT 2015
+1 FAMS @F2@
+
+0 @I6@ INDI
+1 NAME Jane /Don/
+1 SEX F
+1 BIRT
+2 DATE 28 JAN 1944
+1 FAMS @F2@
+1 FAMS @F3_M@
+
+0 @I7@ INDI
+1 NAME Nathan /Cook/
+1 SEX M
+1 BIRT
+2 DATE 18 JUN 1930
+1 FAMS @F3_M@
+
+0 @I8@ INDI
+1 NAME Yuri /Cook/
+1 SEX M
+1 BIRT
+2 DATE 2 AUG 1959
+1 FAMC @F3_M@
+
+
+0 us15_sibling2 INDI
+1 NAME Max /Cook/
+1 SEX M
+1 BIRT
+2 DATE 2 AUG 1961
+1 FAMC @F3_M@
+
+0 us15_sibling3 INDI
+1 NAME Annie /Cook/
+1 SEX F
+1 BIRT
+2 DATE 14 AUG 1963
+1 FAMC @F3_M@
+
+0 us15_sibling4 INDI
+1 NAME Joe /Cook/
+1 SEX M
+1 BIRT
+2 DATE 14 September 1964
+1 FAMC @F3_M@
+
+0 us15_sibling5 INDI
+1 NAME Kevin /Cook/
+1 SEX M
+1 BIRT
+2 DATE 14 September 1959
+1 FAMC @F3_M@
+
+
+
+
+
+0 us15_sibling6 INDI
+1 NAME Alex /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 JAN 1966
+1 FAMC @F3_M@
+
+0 us15_sibling7 INDI
+1 NAME Maria /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 JAN 1966
+1 FAMC @F3_M@
+
+0 us15_sibling8 INDI
+1 NAME John /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 JAN 1966
+1 FAMC @F3_M@
+
+0 us15_sibling9 INDI
+1 NAME Peter /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 JAN 1966
+1 FAMC @F3_M@
+
+0 us15_sibling10 INDI
+1 NAME Stephanie /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1966
+1 FAMC @F3_M@
+
+
+
+
+0 us15_sibling11 INDI
+1 NAME Jamie /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1967
+1 FAMC @F3_M@
+
+0 us15_sibling12 INDI
+1 NAME Lauren /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1968
+1 FAMC @F3_M@
+
+0 us15_sibling13 INDI
+1 NAME Oscar /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 NOV 1969
+1 FAMC @F3_M@
+
+0 us15_sibling14 INDI
+1 NAME Henry /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 NOV 1970
+1 FAMC @F3_M@
+
+0 us15_sibling15 INDI
+1 NAME Rachel /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1971
+1 FAMC @F3_M@
+
+
+
+
+0 us15_sibling16 INDI
+1 NAME Noelle /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1972
+1 FAMC @F3_M@
+
+0 us15_sibling17 INDI
+1 NAME Romeo /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 NOV 1972
+1 FAMC @F3_M@
+
+0 us15_sibling18 INDI
+1 NAME Leo /Cook/
+1 SEX M
+1 BIRT
+2 DATE 20 NOV 1973
+1 FAMC @F3_M@
+
+0 us15_sibling19 INDI
+1 NAME Gabby /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1974
+1 FAMC @F3_M@
+
+0 us15_sibling20 INDI
+1 NAME Serena /Cook/
+1 SEX F
+1 BIRT
+2 DATE 20 NOV 1975
+1 FAMC @F3_M@
+
+
+
+
+0 @F1@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 CHIL @I1@
+1 CHIL @I4@
+0 @F2@ FAM
+1 HUSB @I5@
+1 WIFE @I6@
+1 CHIL @I3@
+1 MARR
+2 DATE 6 MAR 1966
+2 PLAC New Jersey
+
+
+0 @F3_M@ FAM
+1 HUSB @I7@
+1 WIFE @I6@
+1 CHIL @I8@
+1 CHIL us15_sibling2
+1 CHIL us15_sibling3
+1 CHIL us15_sibling4
+1 CHIL us15_sibling5
+1 CHIL us15_sibling6
+1 CHIL us15_sibling7
+1 CHIL us15_sibling8
+1 CHIL us15_sibling9
+1 CHIL us15_sibling10
+1 CHIL us15_sibling11
+1 CHIL us15_sibling12
+1 CHIL us15_sibling13
+1 CHIL us15_sibling14
+1 CHIL us15_sibling15
+1 CHIL us15_sibling16
+1 CHIL us15_sibling17
+1 CHIL us15_sibling18
+1 CHIL us15_sibling19
+1 CHIL us15_sibling20
+
+1 MARR
+2 DATE 28 FEB 1957
+0 TRLR

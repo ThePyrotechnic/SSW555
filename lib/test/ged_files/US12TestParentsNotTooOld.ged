@@ -1,0 +1,38 @@
+0 NOTE Michael Manis
+0 HEAD
+
+0 us12_child1 INDI
+1 NAME Michael /Manis/
+1 SEX M
+1 BIRT
+2 DATE 23 MAR 1998
+1 FAMC F12
+
+0 us12_husband INDI
+1 NAME Robert /Manis/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1890
+1 FAMS F12
+
+0 us12_wife INDI
+1 NAME Susan /Farinelli/
+1 SEX F
+1 BIRT
+2 DATE 2 FEB 1863
+1 FAMS F12
+
+0 us12_child2 INDI
+1 NAME Robert /Manis/
+1 SEX M
+1 BIRT
+2 DATE 23 MAR 1998
+1 FAMC F12
+
+0 F12 FAM
+1 HUSB us12_husband
+1 WIFE us12_wife
+1 CHIL us12_child1
+1 CHIL us12_child2
+
+0 TRLR

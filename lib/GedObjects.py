@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from itertools import combinations
 from typing import List, Dict
 
 import attr
@@ -142,7 +143,7 @@ class Tree:
         return [s.indi_to_list() for s in siblings]
 
     # US25
-    def unique_name_and_birth(self) -> bool:
+    def unique_children(self) -> bool:
         success = True
         for family in self._families.values():
             name_and_births = set()
@@ -293,6 +294,15 @@ class Tree:
                 print(f'ERROR: FAMILY: US1: Family {husband.id} marriage date is before birth.')
         return born_when_married
 
+    # US18
+    def siblings_not_married(self) -> bool:
+        result = True
+        for fam_a, fam_b in combinations(self._families.values(), 2):
+            if fam_a.husband_id in fam_b.children and fam_a.wife_id in fam_b.children:
+                print(f'WARNING: FAMILY: US18: Family {fam_a.id} parents are siblings in {fam_b.id}.')
+                result = False
+        return result
+
     #US17
     def parent_not_spouse(self) -> bool:
         not_incest = True
@@ -331,19 +341,13 @@ class Tree:
 
     # US13 Sibling Spacing
     def check_sibling_spacing(self) -> bool:
-        bool_result = True
-        errors_printed_pairs = []
+        result = True
         for family in self._families.values():
-            for curr_id in family.children:
-                curr_individual = self.get_indi(curr_id)
-                for other_id in family.children:
-                    other_individual = self.get_indi(other_id)
-                    bool_result = bool_result and ((self.dates_within(curr_individual.birthday, other_individual.birthday, 2, 'days')\
-                        or not (self.dates_within(curr_individual.birthday, other_individual.birthday, 8, 'months'))))
-                    if bool_result is False and (((curr_id, other_id) not in errors_printed_pairs) and ((other_id, curr_id) not in errors_printed_pairs) and (curr_id != other_id)):
-                        print(f'WARNING: INDIVIDUAL: US13: Individual {curr_id} and Individual {other_id} were born too close to one another. ')
-                        errors_printed_pairs += [(curr_id, other_id)]
-        return bool_result
+            for indi_a, indi_b in combinations(map(self.get_indi, family.children), 2):
+                if self.dates_within(indi_a.birthday, indi_b.birthday, 8, 'months') and not self.dates_within(indi_a.birthday, indi_b.birthday, 2, 'days'):
+                    print(f'WARNING: INDIVIDUAL: US13: Individual {indi_a.id} and Individual {indi_b.id} were born too close to one another. ')
+                    result = False
+        return result
 
     # US36 List Recent Deaths
     def list_recent_deaths(self) -> List:
@@ -400,7 +404,7 @@ class Tree:
         return right_order
 
     # US09
-    def birth_bef_death(self) -> bool:
+    def birth_before_parents_death(self) -> bool:
         """Child should be born before death of mother and before 9 months after death of father"""
         valid_bday = True
         for family in self._families.values():
@@ -420,6 +424,51 @@ class Tree:
                             print(f"WARNING: US 09: INDIVIDUAL {kid.id} HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN MORE THAN 9 MONTHS AFTER THEIR FATHER'S DEATH")
         return valid_bday
 
+    #US15
+    def fewer_than_fifteen_siblings(self) -> bool:
+        okay_num_of_siblings = True
+        for family in self._families.values():
+            sibling_count = 0
+            if family.children is not None:
+                for child in family.children:
+                    sibling_count += 1
+                if sibling_count >= 15:
+                    okay_num_of_siblings = False and okay_num_of_siblings
+                    print(f"WARNING: FAMILY: US 15: Family {family.id} has 15 or more children.")
+        return okay_num_of_siblings
+
+    #US23
+    def unique_name_birthday_pairs(self) -> bool:
+        all_unique_name_birth_pairs = True
+        duplicate_groups = []
+        for current_indi in self._individuals.values():
+            duplicates = []
+            for other_indi in self._individuals.values():
+                if other_indi.id != current_indi.id and other_indi.name == current_indi.name and other_indi.birthday == current_indi.birthday:
+                    all_unique_name_birth_pairs = False and all_unique_name_birth_pairs
+                    duplicates.append(other_indi)
+            if duplicates:
+                total_list = [current_indi.id] + [curr.id for curr in duplicates]
+                havent_printed_yet = True
+                for group in duplicate_groups:
+                    if all(elem in total_list for elem in group):
+                        havent_printed_yet = False
+                        break
+                if havent_printed_yet:
+                    print(f"WARNING: INDIVIDUAL: US 23: INDIVIDUALS {[current_indi.id] + [current.id for current in duplicates]} have the same name and birthday.")
+                    duplicate_groups.append(total_list)
+        return all_unique_name_birth_pairs
+
+    #US03
+    def birth_before_death(self) -> bool:
+        valid = True
+        for current_indi in self._individuals.values():
+            if current_indi.birthday is not None and current_indi.death is not None:
+                if current_indi.death < current_indi.birthday:
+                    valid = False
+                    print(f"WARNING: US 03: INDIVIDUAL {current_indi.id} died before they were born.")
+        return valid
+
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
@@ -435,7 +484,7 @@ class Tree:
             [
                 self.correct_gender_for_role(),
                 self.male_last_names(),
-                self.unique_name_and_birth(),
+                self.unique_children(),
                 self.marriage_age(),
                 self.all_dates_before_today(),
                 self.check_sibling_spacing(),
@@ -444,6 +493,10 @@ class Tree:
                 self.parent_not_spouse(),
                 self.birth_pre_marriage(),
                 self.marr_bef_div(),
-                self.birth_bef_death(),
+                self.birth_before_parents_death(),
+                self.fewer_than_fifteen_siblings(),
+                self.unique_name_birthday_pairs(),
+                self.birth_before_death(),
+                self.siblings_not_married(),
             ]
         )
