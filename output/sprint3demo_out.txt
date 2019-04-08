@@ -1,0 +1,321 @@
++----------------+---------------------+--------+------------+-----+-------+------------+-----------+-----------+
+|       ID       |         Name        | Gender |  Birthday  | Age | Alive |   Death    |   Child   |   Spouse  |
++----------------+---------------------+--------+------------+-----+-------+------------+-----------+-----------+
+|     @I10@      |    Thomas /Dane/    |   M    | 1945-05-08 |  18 | False | 1964-04-05 |    @F3@   |     NA    |
+|     @I11@      |  Miles /Dingleberg/ |   M    |     NA     |  NA |  True |     NA     |     NA    |     NA    |
+|      @I1@      |  Michael /Phillips/ |   M    | 1998-03-23 |  21 |  True |     NA     |    @F1@   |     NA    |
+|      @I2@      |    Robert /Manis/   |   F    | 1963-03-02 |  56 |  True |     NA     |     NA    |    @F1@   |
+|      @I3@      |  Susan /Farinelli/  |   F    | 1963-02-02 |  56 |  True |     NA     |    @F2@   |    @F1@   |
+|      @I4@      |    Robert /Manis/   |   M    | 1998-03-23 |  21 |  True |     NA     |    @F1@   |     NA    |
+|      @I5@      |      Joe /Doe/      |   M    | 1944-12-12 |  70 | False | 2015-10-08 |     NA    |    @F2@   |
+|      @I6@      |      Jane /Don/     |   M    | 1944-01-28 |  75 |  True |     NA     |     NA    |    @F3@   |
+|      @I7@      |     Jack /Dane/     |   M    | 1945-06-18 |  18 | False | 1964-04-05 |     NA    |    @F3@   |
+|      @I8@      |    Jack /Johnson/   |   M    | 1961-08-02 |  57 |  True |     NA     |    @F3@   |     NA    |
+|      @I9@      |    Thomas /Dane/    |   M    | 1945-05-08 |  18 | False | 1964-04-05 |    @F3@   |     NA    |
+|     us02_1     |      Peter /Lu/     |   M    | 2000-04-18 |  18 |  True |     NA     |   @F_02@  |     NA    |
+|     us02_2     |      Ellen /Lu/     |   F    | 2000-11-17 |  18 |  True |     NA     |   @F_02@  |     NA    |
+|  us02_parent1  |     Michael /Lu/    |   M    | 1980-03-02 |  39 |  True |     NA     |     NA    |   @F_02@  |
+|  us02_parent2  |      Rosie /Lu/     |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    |   @F_02@  |
+|     us03_1     |   Michael /Manis/   |   M    | 1998-03-23 |  0  | False | 1998-03-22 |     NA    |     NA    |
+|     us03_2     |    Robert /Manis/   |   M    | 1960-03-02 |  80 | False | 2040-09-22 |     NA    |     NA    |
+|   us03_wife    |  Susan /Farinelli/  |   F    | 1863-02-02 | 156 |  True |     NA     |     NA    |     NA    |
+|     us04_1     |   Peter /Griffin/   |   M    | 1977-04-02 |  42 |  True |     NA     |     NA    |   @F_04@  |
+|     us04_2     |    Lois /Griffin/   |   F    | 1979-03-17 |  40 |  True |     NA     |     NA    |   @F_04@  |
+|  us09_person1  |    Jim /Halpert/    |   M    | 1987-10-19 |  31 |  True |     NA     |     NA    |   @F_09@  |
+|  us09_person2  |    Pam /Halpert/    |   F    | 1989-03-17 |  29 | False | 2018-03-19 |     NA    |   @F_09@  |
+|  us09_person3  | Charlotte /Halpert/ |   F    | 2018-03-20 |  1  |  True |     NA     |     NA    |     NA    |
+|  us12_child1   |   Michael /Manis/   |   M    | 1998-03-23 |  21 |  True |     NA     |    F12    |     NA    |
+|  us12_child2   |    Robert /Manis/   |   M    | 1998-03-23 |  21 |  True |     NA     |    F12    |     NA    |
+|  us12_husband  |    Robert /Manis/   |   M    | 1890-03-02 | 129 |  True |     NA     |     NA    |    F12    |
+|   us12_wife    |  Susan /Farinelli/  |   F    | 1863-02-02 | 156 |  True |     NA     |     NA    |    F12    |
+|     us13_1     |    Albert /Tang/    |   M    | 1997-04-18 |  21 |  True |     NA     |    @F4@   |     NA    |
+|    us13_1_2    |     Kyle /Brown/    |   M    | 1985-07-12 |  33 |  True |     NA     |   @F4_2@  |     NA    |
+|     us13_2     |    Lucille /Tang/   |   F    | 1997-11-17 |  21 |  True |     NA     |    @F4@   |     NA    |
+|    us13_2_2    |     Mia /Brown/     |   F    | 1985-10-14 |  33 |  True |     NA     |   @F4_2@  |     NA    |
+| us13_2_parent1 |    Larry /Brown/    |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    |   @F4_2@  |
+| us13_2_parent2 |    Lauren /Brown/   |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    |   @F4_2@  |
+|  us13_parent1  |    Robert /Tang/    |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    |    @F4@   |
+|  us13_parent2  |   Elizabeth /Tang/  |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    |    @F4@   |
+|  us15_parent1  |     Michael /Lu/    |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    |    F15    |
+|  us15_parent2  |      Rosie /Lu/     |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    |    F15    |
+|   us15_sib1    |      Peter /Lu/     |   M    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib10   |     Joseph /Lu/     |   M    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib11   |     Edward /Lu/     |   M    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib12   |      April /Lu/     |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib13   |       May /Lu/      |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib14   |     Hellen /Lu/     |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib15   |     Thomas /Lu/     |   M    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib2    |      Ellen /Lu/     |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib3    |       Jen /Lu/      |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib4    |     Nicole /Lu/     |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib5    |     Gerard /Lu/     |   M    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib6    |      Suong /Lu/     |   M    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib7    |      Laura /Lu/     |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib8    |     Janelle /Lu/    |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|   us15_sib9    |    Victoria /Lu/    |   F    | 1980-04-18 |  38 |  True |     NA     |    F15    |     NA    |
+|     us17_1     |     Liam /Jones/    |   M    | 1997-04-18 |  21 |  True |     NA     |   @F_17@  |     NA    |
+|     us17_2     |     Gina /Jones/    |   F    | 1997-05-18 |  21 |  True |     NA     |   @F_17@  |     NA    |
+|  us17_parent1  |   William /Jones/   |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    |   @F_17@  |
+|     us18_1     |     Michael /Lu/    |   M    | 1963-03-02 |  56 |  True |     NA     | US18_FAM2 | US18_FAM1 |
+|     us18_2     |      Rosie /Lu/     |   F    | 1963-09-14 |  55 |  True |     NA     | US18_FAM2 | US18_FAM1 |
+|     us18_3     |     Michael /Lu/    |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    | US18_FAM2 |
+|     us18_4     |      Rosie /Lu/     |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    | US18_FAM2 |
+|  us24_parent1  |    Robert /US24/    |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    |  us24_fam |
+|  us24_parent2  |     Marie /US24/    |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    |  us24_fam |
+|  us24_parent3  |    Robert /US24/    |   M    | 1963-03-02 |  56 |  True |     NA     |     NA    |  us24_fam |
+|  us24_parent4  |     Marie /US24/    |   F    | 1963-09-14 |  55 |  True |     NA     |     NA    |  us24_fam |
+|   us32_kid1    |    Zack /Martin/    |   M    | 1991-10-08 |  27 |  True |     NA     |   us32a   |     NA    |
+|  us32_spouse1  |    Kurt /Martin/    |   M    | 1967-08-21 |  51 |  True |     NA     |     NA    |   us32a   |
+|  us32_spouse2  |    Carey /Martin/   |   F    | 1970-06-04 |  48 |  True |     NA     |     NA    |   us32a   |
+|  us33_orphan   |    orphan /US33/    |   M    | 2018-01-01 |  1  |  True |     NA     |  us33_fam |     NA    |
+|  us33_parent1  |    Robert /US33/    |   M    | 1980-03-02 |  37 | False | 2018-03-02 |     NA    |  us33_fam |
+|  us33_parent2  |     Marie /US33/    |   F    | 1980-09-14 |  37 | False | 2018-09-14 |     NA    |  us33_fam |
+|  us36_parent1  |   Homer /Simpson/   |   M    | 1965-11-30 |  53 | False | 2019-03-20 |     NA    |  us36_fam |
+|  us36_parent2  |   Marge /Simpson/   |   F    | 1967-08-13 |  51 | False | 2019-03-21 |     NA    |  us36_fam |
+|     us6_1      |     Jeremy /Boi/    |   M    | 1998-04-18 |  20 |  True |     NA     |    @F1@   |     NA    |
+|     us6_2      |     Sharon /Boi/    |   F    | 2000-12-17 |  18 |  True |     NA     |    @F1@   |     NA    |
+|  us6_parent1   |      Bad /Boi/      |   M    | 1956-03-21 |  45 | False | 2001-09-11 |     NA    |    @F1@   |
+|  us6_parent2   |     Billie /Boi/    |   F    | 1959-07-13 |  59 |  True |     NA     |     NA    |    @F1@   |
+|  us6_spouse1   |     Garg /Gorl/     |   M    | 1940-08-21 |  66 | False | 2006-12-25 |     NA    |  us6_fam  |
+|  us6_spouse2   |    Grunge /Gorl/    |   F    | 1943-02-14 |  63 | False | 2006-12-25 |     NA    |  us6_fam  |
++----------------+---------------------+--------+------------+-----+-------+------------+-----------+-----------+
+
+Families
++-----------+---------------------+------------+----------------+-----------------+----------------+-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|     ID    |       Married       |  Divorced  |   Husband ID   |   Husband Name  |    Wife ID     |     Wife Name     |                                                                                                  Children                                                                                                 |
++-----------+---------------------+------------+----------------+-----------------+----------------+-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|    @F1@   |          NA         |     NA     |      @I2@      |  Robert /Manis/ |      @I3@      | Susan /Farinelli/ |                                                                                              ['@I1@', '@I4@']                                                                                             |
+|    @F2@   | 1956-03-06 00:00:00 |     NA     |      @I5@      |    Joe /Doe/    |      @I6@      |     Jane /Don/    |                                                                                                  ['@I3@']                                                                                                 |
+|    @F3@   | 1959-02-28 00:00:00 | 2030-04-05 |      @I7@      |   Jack /Dane/   |      @I6@      |     Jane /Don/    |                                                                                         ['@I8@', '@I9@', '@I10@']                                                                                         |
+|    @F4@   | 1979-02-28 00:00:00 |     NA     |  us13_parent1  |  Robert /Tang/  |  us13_parent2  |  Elizabeth /Tang/ |                                                                                            ['us13_1', 'us13_2']                                                                                           |
+|   @F4_2@  | 1978-02-28 00:00:00 |     NA     | us13_2_parent1 |  Larry /Brown/  | us13_2_parent2 |   Lauren /Brown/  |                                                                                          ['us13_1_2', 'us13_2_2']                                                                                         |
+|   @F_02@  | 1979-02-28 00:00:00 |     NA     |  us02_parent1  |   Michael /Lu/  |  us02_parent2  |     Rosie /Lu/    |                                                                                            ['us02_1', 'us02_2']                                                                                           |
+|   @F_04@  | 2006-02-28 00:00:00 | 2006-02-20 |     us04_1     | Peter /Griffin/ |     us04_2     |   Lois /Griffin/  |                                                                                                     NA                                                                                                    |
+|   @F_09@  | 2017-07-28 00:00:00 |     NA     |  us09_person1  |  Jim /Halpert/  |  us09_person2  |   Pam /Halpert/   |                                                                                              ['us09_person3']                                                                                             |
+|   @F_17@  | 1979-02-28 00:00:00 |     NA     |  us17_parent1  | William /Jones/ |     us17_1     |    Liam /Jones/   |                                                                                            ['us17_1', 'us17_2']                                                                                           |
+|    F12    |          NA         |     NA     |  us12_husband  |  Robert /Manis/ |   us12_wife    | Susan /Farinelli/ |                                                                                       ['us12_child1', 'us12_child2']                                                                                      |
+|    F15    | 1979-02-28 00:00:00 |     NA     |  us15_parent1  |   Michael /Lu/  |  us15_parent2  |     Rosie /Lu/    | ['us15_sib1', 'us15_sib2', 'us15_sib3', 'us15_sib4', 'us15_sib5', 'us15_sib6', 'us15_sib7', 'us15_sib8', 'us15_sib9', 'us15_sib10', 'us15_sib11', 'us15_sib12', 'us15_sib13', 'us15_sib14', 'us15_sib15'] |
+| US18_FAM1 | 1979-02-28 00:00:00 |     NA     |     us18_1     |   Michael /Lu/  |     us18_2     |     Rosie /Lu/    |                                                                                                     NA                                                                                                    |
+| US18_FAM2 | 1979-02-28 00:00:00 |     NA     |     us18_3     |   Michael /Lu/  |     us18_4     |     Rosie /Lu/    |                                                                                            ['us18_1', 'us18_2']                                                                                           |
+|  us24_fam | 1979-02-28 00:00:00 |     NA     |  us24_parent1  |  Robert /US24/  |  us24_parent2  |    Marie /US24/   |                                                                                                     NA                                                                                                    |
+| us24_fam2 | 1979-02-28 00:00:00 |     NA     |  us24_parent3  |  Robert /US24/  |  us24_parent4  |    Marie /US24/   |                                                                                                     NA                                                                                                    |
+|   us32a   | 1990-02-14 00:00:00 |     NA     |  us32_spouse1  |  Kurt /Martin/  |  us32_spouse2  |   Carey /Martin/  |                                                                                                     NA                                                                                                    |
+|  us33_fam | 2000-02-28 00:00:00 |     NA     |  us33_parent1  |  Robert /US33/  |  us33_parent2  |    Marie /US33/   |                                                                                              ['us33_orphan']                                                                                              |
+|  us36_fam | 1990-05-14 00:00:00 |     NA     |  us36_parent1  | Homer /Simpson/ |  us36_parent2  |  Marge /Simpson/  |                                                                                                     NA                                                                                                    |
+|  us6_fam  | 1979-02-28 00:00:00 | 2017-11-09 |  us6_spouse1   |   Garg /Gorl/   |  us6_spouse2   |   Grunge /Gorl/   |                                                                                                     NA                                                                                                    |
++-----------+---------------------+------------+----------------+-----------------+----------------+-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Siblings By Age
++--------------+---------------------+--------+------------+-----+-------+-------+-----------+-----------+
+|      ID      |         Name        | Gender |  Birthday  | Age | Alive | Death |   Child   |   Spouse  |
++--------------+---------------------+--------+------------+-----+-------+-------+-----------+-----------+
+| us33_orphan  |    orphan /US33/    |   M    | 2018-01-01 |  1  |  True |   NA  |  us33_fam |     NA    |
+| us09_person3 | Charlotte /Halpert/ |   F    | 2018-03-20 |  1  |  True |   NA  |     NA    |     NA    |
+|    us02_1    |      Peter /Lu/     |   M    | 2000-04-18 |  18 |  True |   NA  |   @F_02@  |     NA    |
+|    us02_2    |      Ellen /Lu/     |   F    | 2000-11-17 |  18 |  True |   NA  |   @F_02@  |     NA    |
+|     @I1@     |  Michael /Phillips/ |   M    | 1998-03-23 |  21 |  True |   NA  |    @F1@   |     NA    |
+|     @I4@     |    Robert /Manis/   |   M    | 1998-03-23 |  21 |  True |   NA  |    @F1@   |     NA    |
+|    us13_1    |    Albert /Tang/    |   M    | 1997-04-18 |  21 |  True |   NA  |    @F4@   |     NA    |
+|    us13_2    |    Lucille /Tang/   |   F    | 1997-11-17 |  21 |  True |   NA  |    @F4@   |     NA    |
+|    us17_1    |     Liam /Jones/    |   M    | 1997-04-18 |  21 |  True |   NA  |   @F_17@  |     NA    |
+|    us17_2    |     Gina /Jones/    |   F    | 1997-05-18 |  21 |  True |   NA  |   @F_17@  |     NA    |
+| us12_child1  |   Michael /Manis/   |   M    | 1998-03-23 |  21 |  True |   NA  |    F12    |     NA    |
+| us12_child2  |    Robert /Manis/   |   M    | 1998-03-23 |  21 |  True |   NA  |    F12    |     NA    |
+|   us13_1_2   |     Kyle /Brown/    |   M    | 1985-07-12 |  33 |  True |   NA  |   @F4_2@  |     NA    |
+|   us13_2_2   |     Mia /Brown/     |   F    | 1985-10-14 |  33 |  True |   NA  |   @F4_2@  |     NA    |
+|  us15_sib1   |      Peter /Lu/     |   M    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib2   |      Ellen /Lu/     |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib3   |       Jen /Lu/      |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib4   |     Nicole /Lu/     |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib5   |     Gerard /Lu/     |   M    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib6   |      Suong /Lu/     |   M    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib7   |      Laura /Lu/     |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib8   |     Janelle /Lu/    |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib9   |    Victoria /Lu/    |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib10  |     Joseph /Lu/     |   M    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib11  |     Edward /Lu/     |   M    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib12  |      April /Lu/     |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib13  |       May /Lu/      |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib14  |     Hellen /Lu/     |   F    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|  us15_sib15  |     Thomas /Lu/     |   M    | 1980-04-18 |  38 |  True |   NA  |    F15    |     NA    |
+|    us18_2    |      Rosie /Lu/     |   F    | 1963-09-14 |  55 |  True |   NA  | US18_FAM2 | US18_FAM1 |
+|     @I3@     |  Susan /Farinelli/  |   F    | 1963-02-02 |  56 |  True |   NA  |    @F2@   |    @F1@   |
+|    us18_1    |     Michael /Lu/    |   M    | 1963-03-02 |  56 |  True |   NA  | US18_FAM2 | US18_FAM1 |
+|     @I8@     |    Jack /Johnson/   |   M    | 1961-08-02 |  57 |  True |   NA  |    @F3@   |     NA    |
++--------------+---------------------+--------+------------+-----+-------+-------+-----------+-----------+
+
+Living Singles Over 30
++-------------------+
+|        Name       |
++-------------------+
+|   Jack /Johnson/  |
+|    Kyle /Brown/   |
+|    Mia /Brown/    |
+|     Peter /Lu/    |
+|     Ellen /Lu/    |
+|      Jen /Lu/     |
+|    Nicole /Lu/    |
+|    Gerard /Lu/    |
+|     Suong /Lu/    |
+|     Laura /Lu/    |
+|    Janelle /Lu/   |
+|   Victoria /Lu/   |
+|    Joseph /Lu/    |
+|    Edward /Lu/    |
+|     April /Lu/    |
+|      May /Lu/     |
+|    Hellen /Lu/    |
+|    Thomas /Lu/    |
+| Susan /Farinelli/ |
++-------------------+
+
+Upcoming Birthdays
++---------------+------------+
+|      Name     |  Birthday  |
++---------------+------------+
+| Albert /Tang/ | 1997-04-18 |
+|  Liam /Jones/ | 1997-04-18 |
+|   Peter /Lu/  | 2000-04-18 |
+|   Peter /Lu/  | 1980-04-18 |
+|   Ellen /Lu/  | 1980-04-18 |
+|    Jen /Lu/   | 1980-04-18 |
+|  Nicole /Lu/  | 1980-04-18 |
+|  Gerard /Lu/  | 1980-04-18 |
+|   Suong /Lu/  | 1980-04-18 |
+|   Laura /Lu/  | 1980-04-18 |
+|  Janelle /Lu/ | 1980-04-18 |
+| Victoria /Lu/ | 1980-04-18 |
+|  Joseph /Lu/  | 1980-04-18 |
+|  Edward /Lu/  | 1980-04-18 |
+|   April /Lu/  | 1980-04-18 |
+|    May /Lu/   | 1980-04-18 |
+|  Hellen /Lu/  | 1980-04-18 |
+|  Thomas /Lu/  | 1980-04-18 |
+|  Jeremy /Boi/ | 1998-04-18 |
++---------------+------------+
+
+Recent Deaths
++--------------+-----------------+--------+------------+-----+-------+------------+-------+----------+
+|      ID      |       Name      | Gender |  Birthday  | Age | Alive |   Death    | Child |  Spouse  |
++--------------+-----------------+--------+------------+-----+-------+------------+-------+----------+
+| us36_parent1 | Homer /Simpson/ |   M    | 1965-11-30 |  53 | False | 2019-03-20 |   NA  | us36_fam |
+| us36_parent2 | Marge /Simpson/ |   F    | 1967-08-13 |  51 | False | 2019-03-21 |   NA  | us36_fam |
++--------------+-----------------+--------+------------+-----+-------+------------+-------+----------+
+
+Orphans
++-------------+---------------+--------+------------+-----+-------+-------+----------+--------+
+|      ID     |      Name     | Gender |  Birthday  | Age | Alive | Death |  Child   | Spouse |
++-------------+---------------+--------+------------+-----+-------+-------+----------+--------+
+| us33_orphan | orphan /US33/ |   M    | 2018-01-01 |  1  |  True |   NA  | us33_fam |   NA   |
++-------------+---------------+--------+------------+-----+-------+-------+----------+--------+
+
+Deceased
++-----------------+
+|       Name      |
++-----------------+
+|    Joe /Doe/    |
+|   Jack /Dane/   |
+|  Thomas /Dane/  |
+|  Thomas /Dane/  |
+|  Robert /US33/  |
+|   Marie /US33/  |
+| Homer /Simpson/ |
+| Marge /Simpson/ |
+|  Pam /Halpert/  |
+|    Bad /Boi/    |
+|   Garg /Gorl/   |
+|  Grunge /Gorl/  |
+| Michael /Manis/ |
+|  Robert /Manis/ |
++-----------------+
+Multiple Births
++--------------------+------------+
+|        Name        |  Birthday  |
++--------------------+------------+
+| Michael /Phillips/ | 23-03-1998 |
+|   Robert /Manis/   | 23-03-1998 |
+|   Thomas /Dane/    | 08-05-1945 |
+|   Thomas /Dane/    | 08-05-1945 |
+|     Peter /Lu/     | 18-04-1980 |
+|     Ellen /Lu/     | 18-04-1980 |
+|     Ellen /Lu/     | 18-04-1980 |
+|      Jen /Lu/      | 18-04-1980 |
+|      Jen /Lu/      | 18-04-1980 |
+|    Nicole /Lu/     | 18-04-1980 |
+|    Nicole /Lu/     | 18-04-1980 |
+|    Gerard /Lu/     | 18-04-1980 |
+|    Gerard /Lu/     | 18-04-1980 |
+|     Suong /Lu/     | 18-04-1980 |
+|     Suong /Lu/     | 18-04-1980 |
+|     Laura /Lu/     | 18-04-1980 |
+|     Laura /Lu/     | 18-04-1980 |
+|    Janelle /Lu/    | 18-04-1980 |
+|    Janelle /Lu/    | 18-04-1980 |
+|   Victoria /Lu/    | 18-04-1980 |
+|   Victoria /Lu/    | 18-04-1980 |
+|    Joseph /Lu/     | 18-04-1980 |
+|    Joseph /Lu/     | 18-04-1980 |
+|    Edward /Lu/     | 18-04-1980 |
+|    Edward /Lu/     | 18-04-1980 |
+|     April /Lu/     | 18-04-1980 |
+|     April /Lu/     | 18-04-1980 |
+|      May /Lu/      | 18-04-1980 |
+|      May /Lu/      | 18-04-1980 |
+|    Hellen /Lu/     | 18-04-1980 |
+|    Hellen /Lu/     | 18-04-1980 |
+|    Thomas /Lu/     | 18-04-1980 |
+|  Michael /Manis/   | 23-03-1998 |
+|   Robert /Manis/   | 23-03-1998 |
++--------------------+------------+
+
+WARNING: INDIVIDUAL: US21: Individual @I2@ is the incorrect gender for their role. The individual is a husband and should be a male.
+WARNING: INDIVIDUAL: US21: Individual @I6@ is the incorrect gender for their role. The individual is a wife and should be a female.
+WARNING: INDIVIDUAL: US21: Individual us17_1 is the incorrect gender for their role. The individual is a wife and should be a female.
+ERROR: FAMILY: US16: Individual @I1@ has a different last name from other males in the same family.
+ERROR: FAMILY: US16: Individual us6_1 has a different last name from other males in the same family.
+ERROR: FAMILY: US16: Individual @I8@ has a different last name from other males in the same family.
+WARNING: FAMILY: US25: @F3@: Children have the same name and birthday (name: Thomas, birthday: 1945-05-08).
+WARNING: INDIVIDUAL: US10: Individual @I5@ in family @F2@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US10: Individual @I6@ in family @F2@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US10: Individual @I7@ in family @F3@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US1: Individual @I7@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual @I6@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual @I7@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual @I6@ in family @F3@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US10: Individual us17_1 in family @F_17@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US1: Individual us17_1 in family @F_17@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual us17_1 in family @F_17@ is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US10: Individual us02_parent1 in family @F_02@ is below the minimum marriage age.
+WARNING: INDIVIDUAL: US1: Individual us18_3 in family US18_FAM2 is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual us18_4 in family US18_FAM2 is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual us18_3 in family US18_FAM2 is below the minimum age to have a child.
+WARNING: INDIVIDUAL: US1: Individual us18_4 in family US18_FAM2 is below the minimum age to have a child.
+ERROR: FAMILY: US1: Family @F3@ divorce date is in the future.
+ERROR: INDIVIDUAL: US1: Individual us03_2 death date is in the future.
+WARNING: INDIVIDUAL: US13: Individual us13_1 and Individual us13_2 were born too close to one another.
+WARNING: INDIVIDUAL: US13: Individual us13_1_2 and Individual us13_2_2 were born too close to one another.
+WARNING: INDIVIDUAL: US13: Individual us17_1 and Individual us17_2 were born too close to one another.
+WARNING: INDIVIDUAL: US13: Individual us02_1 and Individual us02_2 were born too close to one another.
+WARNING: INDIVIDUAL: US13: Individual us18_1 and Individual us18_2 were born too close to one another.
+ERROR: FAMILY: US24: Robert /US24/ and Marie /US24/ appear married in two families at the same date (1979-02-28).
+ERROR: INDIVIDUAL: US17: Individual us17_1 parent is married to his child.
+ERROR: FAMILY: US02: Individual us17_1 marriage date is before birth.
+ERROR: FAMILY: US02: Individual us02_parent1 marriage date is before birth.
+WARNING: US04: FAMILY @F_04@: DIVORCE OCCURS BEFORE MARRIAGE.
+WARNING: US 09 : INDIVIDUAL us09_person3 HAS AN INVALID BIRTHDAY BECAUSE THEY WERE BORN AFTER THEIR MOTHER'S DEATH
+WARNING: FAMILY: US 15: Family F15 has 15 or more children.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['@I4@', 'us12_child2'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['@I9@', '@I10@'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us24_parent1', 'us24_parent3'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us24_parent2', 'us24_parent4'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us02_parent2', 'us15_parent2', 'us18_2', 'us18_4'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us15_parent1', 'us18_1', 'us18_3'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us12_child1', 'us03_1'] have the same name and birthday.
+WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us12_wife', 'us03_wife'] have the same name and birthday.
+WARNING: US 03: INDIVIDUAL us03_1 died before they were born.
+WARNING: FAMILY: US18: Family US18_FAM1 parents are siblings in US18_FAM2.
+US12, mother in {family.id} too old
+US12, mother in {family.id} too old
+WARNING: INDIVIDUAL: US6: Individual @I7@ died before divorce.
+WARNING: INDIVIDUAL: US6: Individual us6_spouse1 died before divorce.
+WARNING: INDIVIDUAL: US6: Individual us6_spouse2 died before divorce.
