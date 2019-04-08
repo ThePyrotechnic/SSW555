@@ -1,3 +1,4 @@
+Individuals
 +----------------+---------------------+--------+------------+-----+-------+------------+-----------+-----------+
 |       ID       |         Name        | Gender |  Birthday  | Age | Alive |   Death    |   Child   |   Spouse  |
 +----------------+---------------------+--------+------------+-----+-------+------------+-----------+-----------+
@@ -314,8 +315,8 @@ WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us12_child1', 'us03_1'] have the same 
 WARNING: INDIVIDUAL: US 23: INDIVIDUALS ['us12_wife', 'us03_wife'] have the same name and birthday.
 WARNING: US 03: INDIVIDUAL us03_1 died before they were born.
 WARNING: FAMILY: US18: Family US18_FAM1 parents are siblings in US18_FAM2.
-US12, mother in {family.id} too old
-US12, mother in {family.id} too old
+WARNING: INDIVIDUAL: US12: mother in F12 too old
+WARNING: INDIVIDUAL: US12: mother in F12 too old
 WARNING: INDIVIDUAL: US6: Individual @I7@ died before divorce.
 WARNING: INDIVIDUAL: US6: Individual us6_spouse1 died before divorce.
 WARNING: INDIVIDUAL: US6: Individual us6_spouse2 died before divorce.
