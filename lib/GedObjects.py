@@ -441,7 +441,6 @@ class Tree:
                     multi_birth_list.append([kid1.name, kid1.birthday.strftime('%d-%m-%Y')])
                     multi_birth_list.append([kid2.name, kid2.birthday.strftime('%d-%m-%Y')])
                 i += 1
-        print(multi_birth_list)
         return multi_birth_list
 
     #US 06
