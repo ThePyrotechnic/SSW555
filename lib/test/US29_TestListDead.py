@@ -29,7 +29,7 @@ some_dead_tree = Tree()
 class TestLivingandSinglListDead(unittest.TestCase):
 
     def test_all_alive(self):
-        self.assertEqual(all_alive_tree.list_deceased(), [])
+        self.assertEqual([res[0] for res in all_alive_tree.list_deceased()], [])
 
     def test_some_dead(self):
-        self.assertEqual(some_dead_tree.list_deceased(), ['Randy /Pay/', 'Rindy /Day/'])
+        self.assertEqual([res[0] for res in some_dead_tree.list_deceased()], ['Randy /Pay/', 'Rindy /Day/'])

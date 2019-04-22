@@ -48,12 +48,12 @@ def main(args):
     
     singles_over_30 = create_prettytable(
         tree.living_single(),
-        field_names=['Name']
+        field_names=['Name', 'Age']
     )
 
     upcoming_birthdays = create_prettytable(
         tree.upcoming_birthday(),
-        field_names=['Name', 'Birthday']
+        field_names=['Name', 'Birthday', 'Age']
     )
 
     recent_deaths = create_prettytable(
@@ -68,12 +68,17 @@ def main(args):
 
     deceased = create_prettytable(
         tree.list_deceased(),
-        field_names=['Name']
+        field_names=['Name', 'Age']
     )
 
     multi_births = create_prettytable(
         tree.multiple_births(),
-        field_names=["Name", "Birthday"]
+        field_names=["Name", "Birthday", "Age"]
+    )
+
+    recent_births = create_prettytable(
+        tree.list_recent_births(),
+        field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     )
 
     print('Individuals')
@@ -101,6 +106,9 @@ def main(args):
     print(deceased)
     print('Multiple Births')
     print(multi_births)
+    print()
+    print('Recent Births')
+    print(recent_births)
     print()
 
     tree.validate()

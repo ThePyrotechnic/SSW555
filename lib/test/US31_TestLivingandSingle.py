@@ -78,16 +78,16 @@ all_fail_tree = Tree()
 class TestLivingandSingle(unittest.TestCase):
 
     def test_all_correct(self):
-        self.assertEqual(all_correct_tree.living_single(), ['Randy /Pay/', 'Rondy /Pay/', 'Rendy /Day/', 'Rindy /Day/', 'Rundy /Lay/', 'Tandy /Lay/', 'Tindy /May/', 'Tendy /May/'])
+        self.assertEqual([res[0] for res in all_correct_tree.living_single()], ['Randy /Pay/', 'Rondy /Pay/', 'Rendy /Day/', 'Rindy /Day/', 'Rundy /Lay/', 'Tandy /Lay/', 'Tindy /May/', 'Tendy /May/'])
 
     def test_some_spouse(self):
-        self.assertEqual(some_spouse_tree.living_single(), ['Randy /Pay/', 'Rendy /Day/', 'Rindy /Day/', 'Tindy /May/'])
+        self.assertEqual([res[0] for res in some_spouse_tree.living_single()], ['Randy /Pay/', 'Rendy /Day/', 'Rindy /Day/', 'Tindy /May/'])
 
     def test_some_under(self):
-        self.assertEqual(some_under_tree.living_single(), ['Rondy /Pay/', 'Rindy /Day/', 'Tandy /Lay/'])
+        self.assertEqual([res[0] for res in some_under_tree.living_single()], ['Rondy /Pay/', 'Rindy /Day/', 'Tandy /Lay/'])
     
     def test_some_dead(self):
-        self.assertEqual(some_dead_tree.living_single(), ['Rondy /Pay/', 'Rendy /Day/', 'Rundy /Lay/', 'Tendy /May/'])
+        self.assertEqual([res[0] for res in some_dead_tree.living_single()], ['Rondy /Pay/', 'Rendy /Day/', 'Rundy /Lay/', 'Tendy /May/'])
     
     def test_all_fail(self):
-        self.assertEqual(all_fail_tree.living_single(), [])
+        self.assertEqual([res[0] for res in all_fail_tree.living_single()], [])

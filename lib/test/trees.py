@@ -38,3 +38,12 @@ us18_siblings_not_married = Builder().build_tree(os.path.join(GED_DIR, 'US18Sibl
 us03_death_before_birth = Builder().build_tree(os.path.join(GED_DIR, 'US03DeathBeforeBirth.ged'))
 
 us06_div_bef_death = Builder().build_tree(os.path.join(GED_DIR, 'help.ged'))
+
+us08_all_valid_birth_dates = Builder().build_tree(os.path.join(GED_DIR, 'US08AllValidBirthDates.ged'))
+us08_some_children_born_before_marriage = Builder().build_tree(os.path.join(GED_DIR, 'US08SomeChildrenBornBeforeMarriage.ged'))
+us08_some_children_born_more_than_nine_months_after_divorce = Builder().build_tree(os.path.join(GED_DIR, 'US08SomeChildrenBornMoreThanNineMonthsAfterDivorce.ged'))
+us08_some_children_bef_marr_and_after_div = Builder().build_tree(os.path.join(GED_DIR, 'US08SomeBirthsBefMarrAndSomeAfterDiv.ged'))
+us08_all_children_have_invalid_birth_dates = Builder().build_tree(os.path.join(GED_DIR, 'US08AllChildrenHaveInvalidBirthDates.ged'))
+
+us05_marriage_before_death = Builder().build_tree(os.path.join(GED_DIR, 'US05MarriageBeforeDeath.ged'))
+us05_death_before_marriage = Builder().build_tree(os.path.join(GED_DIR, 'US05DeathBeforeMarriage.ged'))

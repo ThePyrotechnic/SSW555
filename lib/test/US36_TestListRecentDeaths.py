@@ -47,15 +47,6 @@ class TestListRecentDeaths(unittest.TestCase):
     def test_kristen_tree(self):
         self.assertEqual(kristen_tree.list_recent_deaths(), [])
 
-    def test_sprint_one_tree(self):
-        self.assertEqual(sprint_one_tree.list_recent_deaths(), [])
-
-    def test_sprint_two_tree(self):
-        self.assertEqual(sprint_two_tree.list_recent_deaths(), [
-            ['us36_parent1', 'Homer /Simpson/', 'M', '1965-11-30', 53, False, '2019-03-20', 'NA', 'us36_fam'],
-            ['us36_parent2', 'Marge /Simpson/', 'F', '1967-08-13', 51, False, '2019-03-21', 'NA', 'us36_fam']
-        ])
-
     def test_all_recent_deaths_tree(self):
         self.assertEqual(all_recent_deaths_tree.list_recent_deaths(), [
             ['1', 'Randy /Pay/', 'NA', '1998-09-29', 20, False, death1.strftime(gc.DATE_FORMAT), 'NA', 'NA'],

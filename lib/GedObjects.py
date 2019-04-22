@@ -317,7 +317,7 @@ class Tree:
         singleList = []
         for individual in self._individuals.values():
             if individual.birthday and individual.age > 30 and individual.spouse is None and individual.alive:
-                singleList.append(individual.name)
+                singleList.append([individual.name, individual.age])
         return singleList
 
     #US29
@@ -325,7 +325,7 @@ class Tree:
         obituary = []
         for individual in self._individuals.values():
             if not individual.alive:
-                obituary.append(individual.name)
+                obituary.append([individual.name, individual.age])
         return obituary
 
     # US38 list of upcoming birthdays
@@ -336,7 +336,7 @@ class Tree:
                 birthdate = individual.birthday.replace(year=datetime.now().year)
                 today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 if 0 < (birthdate - today).days <= 30:
-                    birthdayList.append([individual.name, individual.birthday.strftime(gc.DATE_FORMAT)])
+                    birthdayList.append([individual.name, individual.birthday.strftime(gc.DATE_FORMAT), individual.age])
         return birthdayList
 
     def dates_within(self, date1, date2, limit, units):
@@ -438,10 +438,27 @@ class Tree:
                 kid1 = self.get_indi(family.children[i])
                 kid2 = self.get_indi(family.children[i+1])
                 if kid1.birthday == kid2.birthday:
-                    multi_birth_list.append([kid1.name, kid1.birthday.strftime('%d-%m-%Y')])
-                    multi_birth_list.append([kid2.name, kid2.birthday.strftime('%d-%m-%Y')])
+                    multi_birth_list.append([kid1.name, kid1.birthday.strftime('%d-%m-%Y'), kid1.age])
+                    multi_birth_list.append([kid2.name, kid2.birthday.strftime('%d-%m-%Y'), kid2.age])
                 i += 1
         return multi_birth_list
+
+    # US 05
+    def marriage_before_death(self):
+        valid = True
+        for family in self._families.values():
+            if family.married:
+                if family.husband_id:
+                    husband = self.get_indi(family.husband_id)
+                    if husband.death and husband.death < family.married:
+                        print(f'ERROR: FAMILY: US05: Family {family.id}: Husband death occurs before marriage date')
+                        valid = False
+                if family.wife_id:
+                    wife = self.get_indi(family.wife_id)
+                    if wife.death and wife.death < family.married:
+                        print(f'ERROR: FAMILY: US05: Family {family.id}: Wife death occurs before marriage date')
+                        valid = False
+        return valid
 
     #US 06
     def div_bef_deat(self):
@@ -520,6 +537,31 @@ class Tree:
                     print(f"WARNING: US 03: INDIVIDUAL {current_indi.id} died before they were born.")
         return valid
 
+    #US35
+    def list_recent_births(self) ->List:
+        recent_birth_list = []
+        for individual in self._individuals.values():
+            if individual.birthday is not None:
+                if abs(individual.birthday - datetime.now()) <= timedelta(days=30):
+                    recent_birth_list.append(individual)
+        return [indi.indi_to_list() for indi in recent_birth_list]
+
+    #US08
+    def birth_occurs_at_valid_date(self) -> bool:
+        valid_birthday = True
+        for family in self._families.values():
+            for id in family.children:
+                curr_child = self.get_indi(id)
+                if family.divorced is not None:
+                    if curr_child.birthday - family.divorced > timedelta(9 * gc.DAYS_IN_MONTH):
+                        valid_birthday = False
+                        print(f"WARNING: US 08: INDIVIDUAL {curr_child.id} was born more than 9 months after parents' divorce.")
+                if family.married is not None:
+                    if curr_child.birthday < family.married:
+                        valid_birthday = False
+                        print(f"WARNING: US 08: INDIVIDUAL {curr_child.id} was born before parents' marriage.")
+        return valid_birthday
+
     def individuals(self) -> List:
         """Return a list of all of current Individuals in list form, sorted by ID"""
         individuals_by_id = sorted(self._individuals.values(), key=lambda i: i.id)
@@ -551,5 +593,7 @@ class Tree:
                 self.siblings_not_married(),
                 self.par_not_old(),
                 self.div_bef_deat(),
+                self.birth_occurs_at_valid_date(),
+                self.marriage_before_death(),
             ]
         )

@@ -1,0 +1,77 @@
+0 HEAD
+
+0 us08_indi1_all_invalid INDI
+1 NAME Michael /Manis/
+1 SEX M
+1 BIRT
+2 DATE 10 JAN 1997
+1 FAMC us08_fam1
+
+0 us08_indi2_all_invalid INDI
+1 NAME Robert /Manis/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1963
+1 FAMS us08_fam1
+
+0 us08_indi3_all_invalid INDI
+1 NAME Susan /Farinelli/
+1 SEX F
+1 BIRT
+2 DATE 2 FEB 1963
+1 FAMS us08_fam1
+1 FAMC us08_fam2
+
+0 us08_indi6_all_invalid INDI
+1 NAME Karen /Farinelli/
+1 SEX F
+1 BIRT
+2 DATE 2 FEB 1966
+1 FAMC us08_fam2
+
+0 us08_indi4_all_invalid INDI
+1 NAME Robert /Manis/
+1 SEX M
+1 BIRT
+2 DATE 23 MAR 1998
+1 FAMC us08_fam1
+
+0 us08_indi5_all_invalid INDI
+1 NAME Joe /Doe/
+1 SEX M
+1 BIRT
+2 DATE 12 DEC 1944
+1 DEAT
+2 DATE 8 OCT 2015
+1 FAMS us08_fam2
+
+0 @I6@ INDI
+1 NAME Jane /Don/
+1 SEX F
+1 BIRT
+2 DATE 28 JAN 1944
+1 FAMS us08_fam2
+
+
+0 us08_fam1 FAM
+1 HUSB us08_indi2_all_invalid
+1 WIFE us08_indi3_all_invalid
+1 CHIL us08_indi1_all_invalid
+1 CHIL us08_indi4_all_invalid
+1 MARR
+2 DATE 20 JAN 1997
+1 DIV
+2 DATE 5 FEB 1997
+
+0 us08_fam2 FAM
+1 HUSB us08_indi5_all_invalid
+1 WIFE @I6@
+1 CHIL us08_indi3_all_invalid
+1 CHIL us08_indi6_all_invalid
+1 MARR
+2 DATE 6 MAR 1964
+2 PLAC New Jersey
+1 DIV
+2 DATE 20 MAR 1963
+
+0 TRLR

@@ -61,22 +61,22 @@ no_upcoming_tree = Tree()
 
 class TestUpBirth(unittest.TestCase):
     def test_all_correct(self):
-        self.assertEqual(all_upcoming_tree.upcoming_birthday(),
+        self.assertEqual([res[:-1] for res in all_upcoming_tree.upcoming_birthday()],
                          [['Randy /Pay/', (today + timedelta(days=1)).strftime(gc.DATE_FORMAT)],
                           ['Rondy /Pay/', (today + timedelta(days=2)).strftime(gc.DATE_FORMAT)],
                           ['Rendy /Day/', (today + timedelta(days=3)).strftime(gc.DATE_FORMAT)],
                           ['Rindy /Day/', (today + timedelta(days=4)).strftime(gc.DATE_FORMAT)]])
 
     def test_some_spouse(self):
-        self.assertEqual(some_upcoming_tree.upcoming_birthday(),
+        self.assertEqual([res[:-1] for res in some_upcoming_tree.upcoming_birthday()],
                          [['Rondy /Pay/', (today + timedelta(days=2)).strftime(gc.DATE_FORMAT)],
                           ['Rindy /Day/', (today + timedelta(days=3)).strftime(gc.DATE_FORMAT)]])
 
     def test_some_under(self):
-        self.assertEqual(no_birth_tree.upcoming_birthday(), [])
+        self.assertEqual([res[:-1] for res in no_birth_tree.upcoming_birthday()], [])
 
     def test_some_dead(self):
-        self.assertEqual(some_dead_tree.upcoming_birthday(),
+        self.assertEqual([res[:-1] for res in some_dead_tree.upcoming_birthday()],
                          [['Rondy /Pay/', (today + timedelta(days=2)).strftime(gc.DATE_FORMAT)],
                           ['Rendy /Day/', (today + timedelta(days=4)).strftime(gc.DATE_FORMAT)]])
 
