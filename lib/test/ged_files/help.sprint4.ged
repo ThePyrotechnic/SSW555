@@ -1,0 +1,91 @@
+0 NOTE Angelica Torres
+
+0 HEAD
+
+0 NOTE US_34
+0 @F1@ FAM
+1 HUSB us34_parent1
+1 WIFE us34_parent2
+1 CHIL us34_1
+1 MARR
+2 DATE 28 FEB 1985
+
+0 us34_1 INDI
+1 NAME Snek /Python/
+1 SEX M
+1 BIRT
+2 DATE 18 APR 1987
+1 FAMC @F1@
+
+0 us34_parent1 INDI
+1 NAME Slither /Python/
+1 SEX M
+1 BIRT
+2 DATE 21 MAR 1950
+1 FAMS @F1@
+
+0 us34_parent2 INDI
+1 NAME Pie /Python/
+1 SEX F
+1 BIRT
+2 DATE 13 JUL 1968
+1 FAMS @F1@
+
+
+0 us34_fam FAM
+1 HUSB us34_spouse1
+1 WIFE us34_spouse2
+1 MARR
+2 DATE 23 FEB 1979
+1 DIV
+2 DATE 9 NOV 2017
+
+0 us34_spouse1 INDI
+1 NAME Jake /Java/
+1 SEX M
+1 BIRT
+2 DATE 21 AUG 1962
+1 DEAT
+2 DATE 25 DEC 2006
+1 FAMS us6_fam
+
+0 us34_spouse2 INDI
+1 NAME Julie /Java/
+1 SEX F
+1 BIRT
+2 DATE 14 FEB 1940
+1 DEAT
+2 DATE 25 DEC 2006
+1 FAMS us34_fam
+
+0 NOTE US30
+0 us30a FAM
+1 HUSB us30_spouse1
+1 WIFE us30_spouse2
+1 MARR
+2 DATE 14 FEB 1990
+
+0 us30_spouse1 INDI
+1 NAME Red /Ruby/
+1 SEX M
+1 BIRT
+2 DATE 21 AUG 1967
+1 DEAT
+2 DATE 30 APR 2010
+1 FAMS us30a
+
+0 us30_spouse2 INDI
+1 NAME Regina /Ruby/
+1 SEX F
+1 BIRT
+2 DATE 4 JUN 1970
+1 FAMS us30a
+
+0 us30_kid1 INDI
+1 NAME Rex /Ruby/
+1 SEX M
+1 BIRT
+2 DATE 8 OCT 1991
+1 FAMC us30a
+
+0 TRLR

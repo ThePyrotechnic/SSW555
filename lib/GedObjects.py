@@ -476,6 +476,30 @@ class Tree:
                     possible = possible and False
         return possible
 
+    #US 34
+    def list_large_age_difference(self):
+        """List all couples who were married when the older spouse was more than twice as old as the younger spouse"""
+        big_age_diff = []
+        for family in self._families.values():
+            spouse1 = self.get_indi(family.husband_id)
+            spouse2 = self.get_indi(family.wife_id)
+            if family.married is not None and spouse1.birthday is not None and spouse2.birthday is not None:
+                s1_marriage_age = family.married - spouse1.birthday
+                s2_marriage_age = family.married - spouse2.birthday
+                if s1_marriage_age >= 2*s2_marriage_age or s2_marriage_age >= 2*s1_marriage_age:
+                    big_age_diff.append([spouse1.name, spouse1.birthday.strftime('%d-%m-%Y'), family.married.strftime('%d-%m-%Y'), spouse1.age])
+                    big_age_diff.append([spouse2.name, spouse2.birthday.strftime('%d-%m-%Y'), family.married.strftime('%d-%m-%Y'), spouse2.age])
+        return big_age_diff
+
+    #US 30
+    def list_living_married(self):
+        """List all living married people in a GEDCOM file"""
+        living_and_married = []
+        for individual in self._individuals.values():
+            if individual.spouse is not None and individual.alive:
+                living_and_married.append([individual.name, individual.age])
+        return living_and_married
+
     #US12
     def par_not_old(self) -> bool:
         parents_not_old = True

@@ -47,3 +47,5 @@ us08_all_children_have_invalid_birth_dates = Builder().build_tree(os.path.join(G
 
 us05_marriage_before_death = Builder().build_tree(os.path.join(GED_DIR, 'US05MarriageBeforeDeath.ged'))
 us05_death_before_marriage = Builder().build_tree(os.path.join(GED_DIR, 'US05DeathBeforeMarriage.ged'))
+
+us30_us34_tree = Builder().build_tree(os.path.join(GED_DIR,'help.sprint4.ged'))

@@ -81,6 +81,16 @@ def main(args):
         field_names=['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     )
 
+    large_age_difference = create_prettytable(
+        tree.list_large_age_difference(),
+        field_names=["Name", "Birthday", "Marriage Date", "Age"]
+    )
+
+    living_married = create_prettytable(
+        tree.list_living_married(),
+        field_names=['Name', 'Age']
+    )
+
     print('Individuals')
     print(indi_table)
     print()
@@ -109,6 +119,12 @@ def main(args):
     print()
     print('Recent Births')
     print(recent_births)
+    print()
+    print('Large Age Difference')
+    print(large_age_difference)
+    print()
+    print('Living and Married')
+    print(living_married)
     print()
 
     tree.validate()
