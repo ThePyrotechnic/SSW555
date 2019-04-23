@@ -250,7 +250,7 @@ class Tree:
 
         for family in self._families.values():
             #             print(family.husband_id)
-            if family.married is not None:
+            if family.married and family.husband_id and family.wife_id:
                 husband = self.get_indi(family.husband_id)
                 wife = self.get_indi(family.wife_id)
                 if family.married - husband.birthday < timedelta(days=fourteen_years):
@@ -261,7 +261,7 @@ class Tree:
                     of_age_when_married = False
                     print(
                         f'WARNING: INDIVIDUAL: US10: Individual {family.wife_id} in family {family.id} is below the minimum marriage age.')
-            if len(family.children) > 0:
+            if len(family.children) > 0 and family.husband_id and family.wife_id:
                 father = self.get_indi(family.husband_id)
                 mother = self.get_indi(family.wife_id)
                 for child in family.children:
@@ -339,32 +339,34 @@ class Tree:
     def parent_not_spouse(self) -> bool:
         not_incest = True
         for family in self._families.values():
-            husband = self.get_indi(family.husband_id)
-            wife = self.get_indi(family.wife_id)
-            if family.married is not None and len(family.children) > 0:
-                for child in family.children:
-                    # if child == wife or husband:
-                    child_indi = self.get_indi(child)
-                    if child_indi.id == husband.id or child_indi.id == wife.id:
-                        not_incest = not_incest and False
-                        if child_indi.id == husband.id:
-                            print(f'ERROR: INDIVIDUAL: US17: Individual {husband.id} parent is married to her child.')
-                        else:
-                            print(f'ERROR: INDIVIDUAL: US17: Individual {wife.id} parent is married to his child.')
+            if family.husband_id and family.wife_id:
+                husband = self.get_indi(family.husband_id)
+                wife = self.get_indi(family.wife_id)
+                if family.married is not None and len(family.children) > 0:
+                    for child in family.children:
+                        # if child == wife or husband:
+                        child_indi = self.get_indi(child)
+                        if child_indi.id == husband.id or child_indi.id == wife.id:
+                            not_incest = not_incest and False
+                            if child_indi.id == husband.id:
+                                print(f'ERROR: INDIVIDUAL: US17: Individual {husband.id} parent is married to her child.')
+                            else:
+                                print(f'ERROR: INDIVIDUAL: US17: Individual {wife.id} parent is married to his child.')
         return not_incest
 
     # US02
     def birth_pre_marriage(self) -> bool:
         born_when_married = True
         for family in self._families.values():
-            husband = self.get_indi(family.husband_id)
-            wife = self.get_indi(family.wife_id)
-            if family.married is not None and wife.birthday > family.married:
-                born_when_married = born_when_married and False
-                print(f'ERROR: FAMILY: US02: Individual {wife.id} marriage date is before birth.')
-            if family.married is not None and husband.birthday > family.married:
-                born_when_married = born_when_married and False
-                print(f'ERROR: FAMILY: US02: Individual {husband.id} marriage date is before birth.')
+            if family.husband_id and family.wife_id:
+                husband = self.get_indi(family.husband_id)
+                wife = self.get_indi(family.wife_id)
+                if family.married is not None and wife.birthday > family.married:
+                    born_when_married = born_when_married and False
+                    print(f'ERROR: FAMILY: US02: Individual {wife.id} marriage date is before birth.')
+                if family.married is not None and husband.birthday > family.married:
+                    born_when_married = born_when_married and False
+                    print(f'ERROR: FAMILY: US02: Individual {husband.id} marriage date is before birth.')
         return born_when_married
 
     # US4- Marriage Before Divorce
@@ -385,7 +387,7 @@ class Tree:
         """Child should be born before death of mother and before 9 months after death of father"""
         valid_bday = True
         for family in self._families.values():
-            if family.children is not None:
+            if family.children is not None and family.husband_id and family.wife_id:
                 for child in family.children:
                     mom = self.get_indi(family.wife_id)
                     dad = self.get_indi(family.husband_id)
@@ -454,14 +456,15 @@ class Tree:
         """List all couples who were married when the older spouse was more than twice as old as the younger spouse"""
         big_age_diff = []
         for family in self._families.values():
-            spouse1 = self.get_indi(family.husband_id)
-            spouse2 = self.get_indi(family.wife_id)
-            if family.married is not None and spouse1.birthday is not None and spouse2.birthday is not None:
-                s1_marriage_age = family.married - spouse1.birthday
-                s2_marriage_age = family.married - spouse2.birthday
-                if s1_marriage_age >= 2*s2_marriage_age or s2_marriage_age >= 2*s1_marriage_age:
-                    big_age_diff.append([spouse1.name, spouse1.birthday.strftime('%d-%m-%Y'), family.married.strftime('%d-%m-%Y'), spouse1.age])
-                    big_age_diff.append([spouse2.name, spouse2.birthday.strftime('%d-%m-%Y'), family.married.strftime('%d-%m-%Y'), spouse2.age])
+            if family.husband_id and family.wife_id:
+                spouse1 = self.get_indi(family.husband_id)
+                spouse2 = self.get_indi(family.wife_id)
+                if family.married is not None and spouse1.birthday is not None and spouse2.birthday is not None:
+                    s1_marriage_age = family.married - spouse1.birthday
+                    s2_marriage_age = family.married - spouse2.birthday
+                    if s1_marriage_age >= 2*s2_marriage_age or s2_marriage_age >= 2*s1_marriage_age:
+                        big_age_diff.append([spouse1.name, spouse1.birthday.strftime('%d-%m-%Y'), family.married.strftime('%d-%m-%Y'), spouse1.age])
+                        big_age_diff.append([spouse2.name, spouse2.birthday.strftime('%d-%m-%Y'), family.married.strftime('%d-%m-%Y'), spouse2.age])
         return big_age_diff
 
     #US 30
@@ -477,16 +480,17 @@ class Tree:
     def par_not_old(self) -> bool:
         parents_not_old = True
         for family in self._families.values():
-            father = self.get_indi(family.husband_id)
-            mother = self.get_indi(family.wife_id)
-            for child in family.children:
-                child = self.get_indi(child)
-                if mother.age >= 60 + child.age:
-                    parents_not_old = False
-                    print(f"WARNING: INDIVIDUAL: US12: mother in {family.id} too old")
-                elif father.age >= 80 + child.age:
-                    print(f"WARNING: INDIVIDUAL: US12: father in {family.id} too old")
-                    parents_not_old = False
+            if family.husband_id and family.wife_id:
+                father = self.get_indi(family.husband_id)
+                mother = self.get_indi(family.wife_id)
+                for child in family.children:
+                    child = self.get_indi(child)
+                    if mother.age >= 60 + child.age:
+                        parents_not_old = False
+                        print(f"WARNING: INDIVIDUAL: US12: mother in {family.id} too old")
+                    elif father.age >= 80 + child.age:
+                        print(f"WARNING: INDIVIDUAL: US12: father in {family.id} too old")
+                        parents_not_old = False
         return parents_not_old
 
     #US15
