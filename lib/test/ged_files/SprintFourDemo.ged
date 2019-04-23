@@ -990,5 +990,50 @@
 1 MARR
 2 DATE 23 MAR 2004
 
+0 NOTE US14
+
+0 us14_child1 INDI
+1 NAME Monty /Python/
+1 BIRT
+2 DATE 23 MAR 1999
+1 FAMC us14_fam
+
+0 us14_child2 INDI
+1 NAME Ronty /Python/
+1 BIRT
+2 DATE 23 MAR 1999
+1 FAMC us14_fam
+
+0 us14_child3 INDI
+1 NAME Tonty /Python/
+1 BIRT
+2 DATE 23 MAR 1999
+1 FAMC us14_fam
+
+0 us14_child4 INDI
+1 NAME Fonty /Python/
+1 BIRT
+2 DATE 23 MAR 1999
+1 FAMC us14_fam
+
+0 us14_child5 INDI
+1 NAME Lonty /Python/
+1 BIRT
+2 DATE 23 MAR 1999
+1 FAMC us14_fam
+
+0 us14_child6 INDI
+1 NAME Zonty /Python/
+1 BIRT
+2 DATE 23 MAR 1999
+1 FAMC us14_fam
+
+0 us14_fam FAM
+1 CHIL us14_child1
+1 CHIL us14_child2
+1 CHIL us14_child3
+1 CHIL us14_child4
+1 CHIL us14_child5
+1 CHIL us14_child6
 
 0 TRLR

@@ -325,6 +325,17 @@ class Tree:
                     print(f'WARNING: INDIVIDUAL: US13: Individual {indi_a.id} and Individual {indi_b.id} were born too close to one another. ')
                     result = False
         return result
+    
+    #US14 no more than 5 siblings should be born at the same time
+    def no_sextuplets(self):
+        okay_twin = True
+        for family in self._families.values():
+            if len(family.children) >= 6:
+                for indi_a, indi_b, indi_c, indi_d, indi_e, indi_f in combinations(map(self.get_indi, family.children), 6):
+                        if indi_a.birthday == indi_b.birthday == indi_c.birthday == indi_d.birthday == indi_e.birthday == indi_f.birthday:
+                                okay_twin = False
+                                print(f'US14: too many children born on the same day in family: {family.id} ')
+        return okay_twin
 
     # US36 List Recent Deaths
     def list_recent_deaths(self) -> List:
@@ -596,5 +607,6 @@ class Tree:
                 self.div_bef_deat(),
                 self.birth_occurs_at_valid_date(),
                 self.marriage_before_death(),
+                self.no_sextuplets(),
             ]
         )
