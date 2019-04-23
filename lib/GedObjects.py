@@ -594,7 +594,6 @@ class Tree:
                 self.all_dates_before_today(),
                 self.check_sibling_spacing(),
                 self.unique_families_by_spouse(),
-                self.list_recent_deaths(),
                 self.parent_not_spouse(),
                 self.birth_pre_marriage(),
                 self.marr_bef_div(),
